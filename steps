@@ -1,0 +1,43 @@
+// this -> new -> Object properties -> prototype inheritance -> arrow fn -> consructor -> call, apply, bind
+
+// * closure -> scoping -> iife -> firstorder fn -> callback passing
+
+// * settimeout -> promise -> async calls -> event loop
+
+// function currying -> es6 functions polyfill
+
+// debounce -> throttling 
+
+// event delegation -> event bubbling -> event capturing
+
+// painting in browser
+
+// implement caching in js -> implement own http methods -> implement own state management in js
+
+// design patterns
+
+// system design
+
+// some js interview questions
+
+// react basics -> implement useState -> custom hooks -> lifecycle hooks -> performance
+
+// debounce -> throttling 
+// event delegation -> event bubbling -> event capturing
+// function currying -> es6 functions polyfill
+// closure -> scoping -> iife -> firstorder fn -> callback passing
+// this -> new -> Object properties -> prototype inheritance -> arrow fn -> consructor -> call, apply, bind
+// settimeout -> promise -> async calls -> event loop
+
+// ====================================================================
+// ====================================================================
+
+
+// create own react app
+// every night dedicate 2 hr on react internals
+
+// morning start 5 code and end evening by 5 code
+// async based problems
+// system design 2 per week, design pattern 1 per week
+// performance learning
+// other js cores

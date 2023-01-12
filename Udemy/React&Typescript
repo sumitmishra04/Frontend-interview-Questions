@@ -1,0 +1,5 @@
+npx create-react-app <appname> --template typescript
+ReactDom.render(<App/> , document.qs('#root'))
+type of onChange = React.ChangeEvent<HTMLInputElement>
+const ref = useRef<HTMLInputElement>(); <input ref={ref} />
+redux install in the new project: npm install --save-exact react-redux redux @types/react-redux redux-thunk@2.3.0 axios@0.21.1

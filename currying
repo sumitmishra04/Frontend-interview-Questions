@@ -1,0 +1,25 @@
+Interview questions on 
+https://medium.com/@pranjali.roy/currying-interview-questions-2a6823867551
+
+function sum(value) {
+  let sum = value
+  return function sumNext(newVal) {
+    if(arguments.length > 0) {
+      sum += newVal 
+      return sumNext
+    }
+    return sum
+  }
+}
+console.log(sum(1)(2)(3)())
+
+function sum(args) {
+  let sum = 0
+  for(let i =0; i< arguments.length; i++) {
+    sum= sum+arguments[i]
+  }
+  return sum
+}
+
+console.log(sum(1,2))
+console.log(sum(1,2,3))

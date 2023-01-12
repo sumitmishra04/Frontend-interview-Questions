@@ -1,0 +1,6 @@
+Objects created using Object.create(null) does not inherit fron Object,
+hence hasOwnProperty is inaccebile
+
+let foo = Object.create(null);
+foo.prop = 'exists';
+foo.hasOwnProperty("prop");  // Uncaught TypeError: foo.hasOwnProperty is not a function

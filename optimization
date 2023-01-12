@@ -1,0 +1,56 @@
+lazy loading
+loading js async
+content visibility
+serving critical css
+resource hints
+caching using service worker, cdn
+csr, ssr
+compression techniques
+layout shifts and repainting
+
+
+1. loading js async
+https://flaviocopes.com/javascript-async-defer/
+
+normal flow: encounter script tag, download and execute and then move on to the next parsing state
+async flow: encounter script tag, download in parallel along with parsing, 
+            once download completes halts parsing and execute and then move on
+defer flow: parsing and downloading happens parallely but execution starts after parsing is completed
+The defer attribute is ignored if the script tag has no src.
+Deferred scripts keep their relative order, just like regular scripts.
+async: They don’t wait for each other. Whatever loads first – runs first:
+In practice, defer is used for scripts that need the whole DOM and/or their relative execution order is important.
+
+And async is used for independent scripts, like counters or ads. And their relative execution order does not matter.
+If a script tag has both attributes, the async attribute takes precedence.
+DOMContentLoaded event means HTML document has been completely loaded and parsed. For defer script, it may create/delete DOM elements, so DOMContentLoaded event is only triggered after all defer scripts execution complete, to make sure a final DOM tree is ready after all possible DOM updates are done by defer scripts.
+These attributes only make sense when using the script in the head portion of the page, and they are useless if you put the script in the body footer like we saw above.
+async blocks the parsing of the page while defer does not.
+
+
+2. lazy loading
+<img loading="eager|lazy" fetchpriority="low">
+eager:
+lazy: 
+fetchpriority: 
+intersectionObserver: use autocomplete
+content-visibility: auto
+load low priority css like print css lazily
+resource hinting: 
+rel: preload
+rel: prefetch
+rel: preconnect
+
+3. service worker / interceptors
+use: for offline capability or caching
+it works as a proxy server between browser and the internet
+sw interacts with index db, cache but not with dom
+
+4. compression
+gzip
+brotli better
+
+5. layout shifts and repaints(render cycle)
+cssom
+layout painting composting
+frame rate 16.67ms

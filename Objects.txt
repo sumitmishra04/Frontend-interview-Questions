@@ -1,0 +1,94 @@
+Best way to determine this:
+https://codeburst.io/the-simple-rules-to-this-in-javascript-35d97f31bde3
+
+Best explanation on new:
+https://codeburst.io/javascripts-new-keyword-explained-as-simply-as-possible-fec0d87b2741
+
+Best explanation on Inheritance
+https://codeburst.io/master-javascript-prototypes-inheritance-d0a9a5a75c4e
+
+Understand constructor
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/constructor
+
+
+Understand relation among: __proto__, Constructor & prototype
+
+Every object in js be number, fn, array, obj, etc has __proto__ property. This __proto__ points to its blueprint which is the 
+that object's creator's prototype(<object_type>.prototype). prototype itself is an object and acts as a blueprint 
+from which __proto__ is created.
+When we look for properties and methods, we look up in the __proto__ too if its is not natively 
+found in tht objects defintion using hasOwnProprety.
+
+Prototype is a blueprint for __proto__ and __proto__ points to its creator. Every object has __proto__ to look upto 
+for properties and methods if it is not found natively.
+
+The prototype property is only present for functions and is a property that’s set only if you’re using the ‘new’ keyword 
+when creating objects with this (constructor) function. As just mentioned, this means that it will only be available 
+via the constructor of the object that’s created using the ‘new’ keyword.
+
+var a = [1,2]
+now a as an array Object must have __proto__. Since this is an array type, its __proto__ must be created from Array's blueprint.
+Now Array is a function. Hence it must have prototype property. so Array used this prototype property 
+to assign to __proto__ of every array object ever created. 
+Hence as said, a.__proto__ === Array.prototype(basically its creator or blueprint).
+
+similarly. Array.__proto__ === Function.prototype (as Array is nothing but a function and its blueprint should come from Function )
+also [any object].constructor equals its creator's name or it's blueprint owner bascially of function type.
+eg: 1
+[].constructor === Array
+Array.__proto__ === Function.protoype
+Array.constructor === Function
+eg: 2
+function anc () {
+    this.name = 1
+}
+
+var t = new anc()
+t.constructor === anc
+t.__proto__ === anc.prototype
+t.constructor.__proto__ === Function.prototype
+
+eg: 3
+var a = {}
+a.constructor === Object
+
+Remember a constructor function protoype is constructor itself
+anc.prototype = {constructor: f anc()}
+
+When u create an object without using new
+
+function personFn(name, age) {
+    var personObj = {};
+    personObj.name = name;
+    personObj.age = age;
+    
+    return personObj;
+}
+var alex = personFn('Alex', 30);
+alex.__proto__ === personFn.prototype // false
+
+
+Inheritance chain
+function Details (d){
+    this.detail = d
+}
+var obj = new Details('hello there')
+obj.detail = 'hello there'
+Details.prototype.age = 11
+obj.__proto__ === Details.prototype
+obj.__proto__.age = 11
+obj.age = 11
+obj hasownproprty does not have age
+hence it looks up in it's __proto__
+__proto__ has age and is returned
+__proto__ has age coz it recieved this value from Details.protoype
+
+
+function Parent() { /* … */ }
+Parent.prototype.parentMethod = function parentMethod() {}
+
+function Child() {
+  Parent.call(this); // Make sure everything is initialized properly
+}
+// Pointing the [[Prototype]] of Child.prototype to Parent.prototype
+Child.prototype = Object.create(Parent.prototype);

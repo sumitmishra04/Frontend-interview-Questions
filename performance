@@ -1,0 +1,7 @@
+1. event delegation
+Memory footprint goes down because only one single handler is needed on the parent element, 
+rather than having to attach event handlers on each descendant.
+
+There is no need to unbind the handler from elements that are removed and to bind the event for new elements.
+
+https://www.sitepoint.com/10-ways-minimize-reflows-improve-performance/

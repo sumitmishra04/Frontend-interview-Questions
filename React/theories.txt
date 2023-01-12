@@ -1,0 +1,98 @@
+Link: https://www.youtube.com/watch?v=X51YdL20ubs
+
+VIRTUAL DOM
+------------
+if dom has
+<ul class="list"><li class="li1">1</li><li class="li2">2</li> </ul>
+then vdom will have
+{
+    type: 'ul',
+    props: {
+        class: 'list'
+    },
+    children: [
+        {
+            type: 'li',
+            props: {
+                class: 'li1'
+            },
+            children: [1]
+        } ,
+        {
+            type: 'li',
+            props: {
+                class: 'li2'
+            },
+            children: [2]
+        }   
+    ]
+}
+
+DIFFING
+------------
+It is the process of identifying DOM elements that have changed between 2 render cycles
+
+A) Ways in which DIFFING can happen:
+1. New node added at end 
+2. New node added in between
+3. Delete node
+4. Replace node
+5. Update node
+
+B) Different Element types diff must support
+1. Native DOM elements like p, div, span, etc
+2. Function components
+3. Stateful components 
+
+Case A1: Diff when append node at the end
+------------------------------------------
+Old dom/vdom structure
+ul > [li1, li2]
+New VDOM
+ul > [li1, li2, li3(new)]
+Hence new dom/vdom:
+ul > [li1, li2, li3]
+
+children in both is compared by their index and since first 2 nodes are not changed dom isnt updated yet.
+Its whn the third n new node is encountered in the second VDOM thats whn the old dom is updated and appeneded with this new node
+
+Case A2: Diff when append node in between
+------------------------------------------
+Old dom/vdom structure
+ul > [li1, li3]
+New VDOM
+ul > [li1, li2(new), li3]
+Hence new dom/vdom:
+ul > [li1, li2, li3]
+
+li1 is not changed
+li3 is replaced by li2(new)
+li3 is appended as a new node 
+
+
+Case A3: Delete node without key
+------------------------------------------
+Old dom/vdom structure
+ul > [li1, li2(X), li3]
+New VDOM: (delete li2)
+ul > [li1, li3]
+Hence new dom/vdom:
+ul > [li1, li3]
+
+li1 is not changed
+li2(X) is replaced by li3
+the last redundant li3 in old dom is then discarded as there are no other dom elements remaining in new dom
+
+Q) why react enforces unqiue keys for siblings in an array of dom elements?
+From the case A3 we understood that li2(X) is only replaced by li3. and the extra li3 is still lying in old dom. So componentwillunmount 
+of li3 will be fired which is wrong. Hence with unique keys it can correctly fire li2 unmount
+
+
+Design Pattern used: Revealing module pattern (RMP)
+
+
+REACT DOC: RECONCILLIATION
+Q1. what is the use of key?
+Ans: The developer can hint at which child elements may be stable across different renders with a key prop.
+
+Q2. 
