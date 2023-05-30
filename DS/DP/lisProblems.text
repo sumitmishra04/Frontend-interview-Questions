@@ -1,0 +1,57 @@
+https://www.youtube.com/watch?v=tyB0ztf0DNY&list=PLgUwDviBIf0qUlt5H_kiKYaNSqJ81PMMY&index=2
+
+Certainly! Here are 50 problems related to the longest common subsequence pattern:
+
+1. Longest Common Subsequence (LCS): Find the length of the longest common subsequence between two strings.
+
+2. Print Longest Common Subsequence: Print the longest common subsequence between two strings.
+
+3. Shortest Common Supersequence: Find the length of the shortest common supersequence of two strings. A supersequence is a string that contains both input strings as subsequences.
+
+4. Print Shortest Common Supersequence: Print the shortest common supersequence of two strings.
+
+5. Minimum Deletions and Insertions to Transform a String: Given two strings, find the minimum number of deletions and insertions required to transform one string into another.
+
+6. Longest Repeated Subsequence: Find the length of the longest subsequence that appears more than once in a string.
+
+7. Longest Increasing Subsequence: Find the length of the longest increasing subsequence in an array.
+
+8. Longest Palindromic Subsequence: Find the length of the longest palindromic subsequence in a string.
+
+9. Edit Distance: Find the minimum number of operations (insertions, deletions, and substitutions) required to transform one string into another.
+
+10. Longest Common Substring: Find the length of the longest common substring between two strings.
+
+11. Print Longest Common Substring: Print the longest common substring between two strings.
+
+12. Longest Increasing Subsequence in a 2D Matrix: Find the length of the longest increasing subsequence in a 2D matrix, considering only adjacent cells (up, down, left, right).
+
+13. Longest Common Subsequence of Three Strings: Find the length of the longest common subsequence among three strings.
+
+14. Shortest Common Supersequence of Three Strings: Find the length of the shortest common supersequence among three strings.
+
+15. Longest Palindromic Substring: Find the length of the longest palindromic substring in a string.
+
+16. Print Longest Palindromic Substring: Print the longest palindromic substring in a string.
+
+17. Longest Zigzag Subsequence: Find the length of the longest zigzag subsequence in an array. A zigzag subsequence alternates between increasing and decreasing elements.
+
+18. Longest Bitonic Subsequence: Find the length of the longest bitonic subsequence in an array. A bitonic subsequence is a sequence that first increases and then decreases.
+
+19. Longest Increasing Subsequence with Even-Odd Indexes: Find the length of the longest increasing subsequence where the indexes of the elements alternate between even and odd.
+
+20. Longest Common Increasing Subsequence: Given two arrays, find the length of the longest common increasing subsequence.
+
+21. Number of Longest Increasing Subsequences: Find the number of longest increasing subsequences in an array.
+
+22. Longest Common Subsequence with K Differences: Find the length of the longest common subsequence between two strings with at most K differences.
+
+23. Longest Palindrome Subsequence: Find the length of the longest palindrome subsequence in a string.
+
+24. Longest Common Subsequence of Two Binary Strings: Find the length of the longest common subsequence between two binary strings.
+
+25. Longest Common Subsequence with Sum Constraint: Given two arrays and a sum constraint, find the length of the longest common subsequence where the sum of elements is less than or equal to the given constraint.
+
+26. Longest Common Increasing Subsequence with Sum Constraint: Given two arrays and a sum constraint, find the length of the longest common increasing subsequence where the sum of elements is less than or equal to the given constraint.
+
+27. Longest Alternating Subsequence: Find the length of the longest
