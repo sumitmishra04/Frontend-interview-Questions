@@ -1,0 +1,170 @@
+https://ibb.co/mHG49pp
+https://codesandbox.io/s/awesome-alex-jspdmy?file=/src/styles.css:0-836
+/**
+1. Entering the name of crypto currency in search should populate results in the list.
+2. The list item should show the name and percent change of an asset.
+3. Search API: https://www.coinbase.com/api/v2/assets/search?query=&limit=10
+ 
+4. API response type
+{
+    data: [
+        { id: string, name: string, percent_change: number }
+    ]
+}
+ 
+5. “+” should appear before change if change is positive, “-” if change is negative
+6. Change should not appear if it is 0 (stable coin)
+7. Handle the loading state for showing loader in search input while data is coming from API.
+ */
+
+
+ import "./styles.css";
+import { useEffect, useState } from "react";
+import Loader from "./loader.svg";
+/**
+1. Entering the name of crypto currency in search should populate results in the list.
+2. The list item should show the name and percent change of an asset.
+3. Search API: https://www.coinbase.com/api/v2/assets/search?query=&limit=10
+ 
+4. API response type
+{
+    data: [
+        { id: string, name: string, percent_change: number }
+    ]
+}
+ 
+5. “+” should appear before change if change is positive, “-” if change is negative
+6. Change should not appear if it is 0 (stable coin)
+7. Handle the loading state for showing loader in search input while data is coming from API.
+ */
+
+export default function App() {
+  const [data, setData] = useState([]);
+  const [query, setQuery] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    fetchData(query);
+  }, []);
+
+  return (
+    <div className="App">
+      <div className="input-container">
+        <input className="input" value={query} onChange={handleOnChange} />
+        {loading && <img src={Loader} className="loader" alt="loader" />}
+      </div>
+      <div className="list">
+        {data.map(({ name, percent_change }) => {
+          return (
+            <div className="item">
+              <span>{name}</span>
+              <span style={{ color: getColor(percent_change) }}>
+                {formatPercentChange(percent_change)}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+
+  async function fetchData(query) {
+    const endPoint = getEndPoint(query);
+    setLoading(true);
+    try {
+      const res = await fetch(endPoint);
+      let { data } = await res.json();
+      data = data.map(({ name, percent_change }) => ({ name, percent_change }));
+      setData(data);
+    } catch (err) {
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function getEndPoint(query) {
+    return `https://www.coinbase.com/api/v2/assets/search?query=${query}&limit=10`;
+  }
+
+  function handleOnChange({ target }) {
+    setQuery(target.value);
+    fetchData(target.value);
+  }
+
+  function getColor(value) {
+    if (value > 0) {
+      return "green";
+    }
+    return "red";
+  }
+
+  function formatPercentChange(value) {
+    const trimmedNum = (value * 100).toFixed(2);
+    if (value >= 0) {
+      return `+${trimmedNum} %`;
+    }
+    return `${trimmedNum} %`;
+  }
+}
+
+.App {
+    font-family: sans-serif;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  .input-container {
+    height: 32px;
+    border-radius: 4px;
+    border: 1px solid blue;
+    width: 250px;
+    display: flex;
+    padding: 0 10px;
+  }
+  
+  .input {
+    height: 28px;
+    border: none;
+    width: 230px;
+    outline: none;
+  }
+  
+  .input:active {
+    outline: none;
+  }
+  
+  .loader {
+    width: 16px;
+    /* animation: loading infinite; */
+  }
+  
+  .list {
+    width: 270px;
+    margin-top: 30px;
+    border: 1px solid #ececec;
+    border-radius: 4px;
+  }
+  .item {
+    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ececec;
+  }
+  
+  .item:hover {
+    background-color: #777;
+  }
+  
+  /* animation @loading {
+    0% {
+      rotate: 0deg;
+    }
+    100% {
+      rotate: 360deg;
+    }
+  } */
+  

@@ -1,0 +1,6 @@
+First contentful paint : 9ms (how quickly content like text/images are painted on the page)
+Time to interactive: the time the page takes to be fully interactive (2.5ms)
+Speed Index: How quickly the contents of your pge are visibly polulated (1.3s)
+Total blocking time: how much time the page is blocked by scripts during page load (150ms)
+Largest contentful paint: how much time does the largest content on the page take to paint(1.2s)
+Cumulative layout shift: how much stable the page is while rendering(0.1s)
