@@ -1,0 +1,23 @@
+JS
+
+Promises
+This (in context of arrow fn, objects, fn constructor, prototypes, bind, call, apply)
+Polyfills of some popular library utilities
+Event loop and working of JS
+Problems based on timers to understand async way of doing things
+Understand callbacks in details so that understanding promises implementation becomes easy
+
+React
+Jonas course 
+
+Web performance
+
+Machine coding
+Tic-tac-toe [DONE]
+
+System design
+
+DS&Algo
+
+
+

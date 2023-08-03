@@ -1,33 +1,37 @@
 // JS
 // 1. Debounce
-let timer;
+
+let timer
 function debounce(cb, delay) {
-  clearTimeout(timer);
-  timer = setTimeout(cb, delay);
+  clearTimeout(timer)
+  timer = setTimeout(cb, delay)
 }
 
 function debounce(cb, delay) {
-  let timer;
+  let timer
   return function (...args) {
-    const self = this;
-    clearTimeout(timer);
-    timer = setTimeout(() => cb.apply(self, args), delay);
-  };
+    const self = this
+    clearTimeout(timer)
+    timer = setTimeout(() => cb.apply(self, args), delay)
+  }
 }
 
 // 2. Throttling
-
 function throttle(cb, delay) {
-  let throttlePause;
+  let throttlePause
+
   return function (...args) {
-    const self = this;
-    if (throttlePause) return;
-    throttlePause = true;
-    cb(self, args);
+    const self = this
+
+    if (throttlePause) return
+
+    throttlePause = true
+    cb(self, args)
+
     setTimeout(() => {
-      throttlePause = false;
-    }, delay);
-  };
+      throttlePause = false
+    }, delay)
+  }
 }
 
 // let throttlePause;
@@ -43,3 +47,28 @@ function throttle(cb, delay) {
 //     throttle(handleScrollAnimation, 250);
 // });
 
+function throt(cb, delay) {
+  let pause
+  return (...args) => {
+    const self = this
+    if (pause) return
+
+    cb.apply(self, args)
+    pause = true
+
+    setTimeout(() => {
+      pause = false
+    }, delay)
+  }
+}
+
+function db(cb, delay) {
+  let timer
+  return (...args) => {
+    const self = this
+    clearTimeout(timer)
+    timer = setTimeout(() => {
+      cb.apply(self, args)
+    }, delay)
+  }
+}

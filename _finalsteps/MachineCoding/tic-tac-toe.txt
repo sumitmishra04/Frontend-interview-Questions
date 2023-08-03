@@ -1,0 +1,10 @@
+1. create a state for tictactoe to represent cells and assign them with empty values
+2. create player and winner states, player would represent current player turn and winner will show the player name
+3. create 3 winning combinations and verify if the move made matches any one of them
+4. winning combinations are same row , same column and both diagonal
+5. add a click handler for each cell so that we know which cell is clicked
+6. on event received, see if that cell is already clicked hence return if it is so.
+7. update the table data with the value for the current player in the selected cell
+8. once updated find if it hits any one of the winning combinations
+9. If so, then declare the winner and return
+10. Else set the next player

@@ -1,41 +1,41 @@
+// objective questions: https://betterprogramming.pub/10-javascript-promise-challenges-before-you-start-an-interview-c9af8d4144ec
+
 myAll = (promises) => {
   let fulfilledPromises = [],
-    result = [];
+    result = []
   return new Promise((resolve, reject) => {
     promises.forEach((promise, index) => {
       if (typeof promise.then !== "function") {
-        result[index] = promise;
-        fulfilledPromises.push(true);
+        result[index] = promise
+        fulfilledPromises.push(true)
         if (fulfilledPromises.length === promises.length) {
-          return resolve(result);
+          return resolve(result)
         }
       } else {
         promise
           .then((val) => {
-            result[index] = val;
-            fulfilledPromises.push(true);
+            result[index] = val
+            fulfilledPromises.push(true)
             if (fulfilledPromises.length === promises.length) {
-              return resolve(result);
+              return resolve(result)
             }
           })
           .catch((val) => {
-            return reject(val);
-          });
+            return reject(val)
+          })
       }
-    });
-  });
-};
-const promise1 = Promise.resolve(1);
+    })
+  })
+}
+const promise1 = Promise.resolve(1)
 const promise2 = new Promise((resolve) => {
-  setTimeout(resolve, 0, "foo");
-});
-const promise3 = 42;
+  setTimeout(resolve, 0, "foo")
+})
+const promise3 = 42
 
-Promise.all([promise1, promise2, promise3])
-.then(console.log)
-.catch(console.log);
+Promise.all([promise1, promise2, promise3]).then(console.log).catch(console.log)
 
-myAll([promise1, promise2, promise3]).then(console.log).catch(console.log);
+myAll([promise1, promise2, promise3]).then(console.log).catch(console.log)
 
 // function MyPromise(executor) {
 //   let thenCallback,
