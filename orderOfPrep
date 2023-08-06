@@ -1,25 +1,18 @@
 1. var,let,const,this,hoisting,closure,objects,call,apply,bind, -> currying,debounce,throttle,inheritance,constructors
-3. polyfills
+2. polyfills
 3. promises, settimeout, setinterval and interview question before friday
-cab: https://medium.com/developers-arena/how-to-create-a-polyfill-for-call-apply-and-bind-917ae110edc3
-flux: https://www.javatpoint.com/react-flux-concept
-
+   cab: https://medium.com/developers-arena/how-to-create-a-polyfill-for-call-apply-and-bind-917ae110edc3
+   flux: https://www.javatpoint.com/react-flux-concept
 
 pattern-> quick 3 day recap
 followed by deep insights into each of them and every day recap
 followed by constant discovering ineterview questions
 
-
 system design and machine coding
-
 
 web performance and optimization, metrics, web vitals and other theoritical stuffs
 
-
 jsinfo all pages quick scan and questions
-
-
-
 
 6. https://www.frontendinterviewhandbook.com/javascript-questions
 7. bubbling: https://www.30secondsofcode.org/articles/s/javascript-event-bubbling-capturing-delegation
@@ -28,7 +21,7 @@ jsinfo all pages quick scan and questions
 9. http://www.adequatelygood.com/tag/javascript/
 10. https://github.com/sadanandpai/javascript-code-challenges/tree/main/challenges
 11. roadside coder
-12. js cafe, dev.aditya, React Developer Interview Series 
+12. js cafe, dev.aditya, React Developer Interview Series
 13. toptal 37 questions
 14. promises and its api from roadside coder
 15. web performance
@@ -55,7 +48,7 @@ jsinfo all pages quick scan and questions
 36. redux architechure
 37. closure for pvt variables hide access to internal variables
 38. flux arhitecture
-39. browser engines 
+39. browser engines
 40. how are we deploying
 41. code quality
 42. why react is better
@@ -79,7 +72,6 @@ jsinfo all pages quick scan and questions
 60. 155 questions: https://github.com/lydiahallie/javascript-questions
 61. 60 repo matching JS interview questions: https://github.com/topics/javascript-interview-questions
 
-
 Level 1
 hooks & its polyfills
 useState polyfill: https://www.youtube.com/playlist?list=PLrOmLLDpZg9PMOZdk3LNlp1g5xM0KL1Hf
@@ -90,7 +82,6 @@ Revise: var,let,const,this,hoisting,closure,objects,call,apply,bind,currying,deb
 why customhooks and not normal function: https://www.reactshark.com/blog/customhooks-vs-normalfunctions
 why useCallback: https://www.w3schools.com/react/react_usecallback.asp#:~:text=One%20reason%20to%20use%20useCallback,in%20the%20React.memo%20section.
 why reactQuery: Codevolution
-
 
 Level 2
 Level 3
