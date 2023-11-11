@@ -326,7 +326,7 @@ class MyPromise {
     try {
       cb(this.#onSuccess.bind(this), this.#onReject.bind(this))
     } catch (e) {
-      this.param2(e)
+      this.#onReject(e)
     }
   }
 

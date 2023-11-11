@@ -1,0 +1,3 @@
+longest substring
+basic object manipulation
+some optimzation/performance related questions

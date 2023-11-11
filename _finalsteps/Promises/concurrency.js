@@ -1,10 +1,5 @@
 function parallelLimit(tasks, limit) {
   return new Promise((resolve, reject) => {
-    if (tasks.length === 0) {
-      resolve([])
-      return
-    }
-
     const results = []
     let currentIndex = 0
     let runningTasks = 0
@@ -18,24 +13,17 @@ function parallelLimit(tasks, limit) {
 
       const taskIndex = currentIndex
       currentIndex++
-      runningTasks++
 
-      console.log("--", runningTasks)
-
-      const currentTask = tasks[taskIndex]
-      currentTask()
+      tasks[taskIndex]
         .then((result) => {
           results[taskIndex] = result
         })
         .finally(() => {
-          runningTasks--
           runNextTask()
         })
     }
 
-    // Start initial tasks (up to the limit)
     for (let i = 0; i < limit && i < tasks.length; i++) {
-      console.log("i", i)
       runNextTask()
     }
   })

@@ -8,6 +8,37 @@
 // Q7) call, apply bind : cab: https://medium.com/developers-arena/how-to-create-a-polyfill-for-call-apply-and-bind-917ae110edc3
 // Q9) find if a property is inherited from another or not
 // 10) debounce and throttling
+// 11 ) difference bt var and let in the context of window object
+
+// ------------------------------// ------------------------------
+// 11 ------------------------------
+
+let name4 = "mary"
+const person = {
+  name4: "keith",
+  getName: function () {
+    console.log(this.name4)
+  },
+}
+person.getName()
+const gn = person.getName
+gn()
+
+var name5 = "mary"
+const person2 = {
+  name5: "keith",
+  getName: function () {
+    console.log(this.name4)
+  },
+}
+person2.getName()
+const gn2 = person.getName
+gn2()
+
+// var is added to the window object but even though let is declared in the same scope as
+// var, it is not added to ensure we do not pollute the global scope object
+// ---------------s---------------// ------------------------------
+// ------------------------------
 
 // see if obj1 is an instance of obj2
 function myInstanceof(obj1, obj2) {

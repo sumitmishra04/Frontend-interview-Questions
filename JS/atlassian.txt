@@ -1,0 +1,4 @@
+bar chart: https://codesandbox.io/s/xenodochial-swirles-cv73nm?file=/src/styles.css
+create simple html css js code for rendering search input btn and paginated list
+questions on performance techniques, cors, 
+A/B testing: https://codesandbox.io/s/magical-morse-fswyvw?file=/src/App.js:0-1544
