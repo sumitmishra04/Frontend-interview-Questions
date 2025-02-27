@@ -1,0 +1,10 @@
+maplimit
+concurrency
+Understand Promise Queues (building blocks of request pools, worker threads)
+Implement a Full concurrency Polyfill (limit max concurrent async tasks dynamically)
+Build a Rate-Limited Request Handler (great for APIs like GitHub, Stripe)
+Once you're comfortable with these, you'll be able to:
+
+Handle large-scale API requests efficiently
+Optimize async operations in Node.js / Browsers
+Control concurrency based on available system resources

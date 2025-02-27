@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A secure and accessible todo list application">
+    <title>Todo List</title>
+    <style>
+        /* CSS Reset and Base Styles */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.5;
+            color: #1a1a1a;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header Styles */
+        .header {
+            margin-bottom: 2rem;
+        }
+
+        .title {
+            font-size: 2rem;
+            color: #1a1a1a;
+            margin-bottom: 1rem;
+        }
+
+        /* Search Section */
+        .search-container {
+            margin-bottom: 2rem;
+        }
+
+        .search-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #4a4a4a;
+        }
+
+        .search-input {
+            width: 100%;
+            max-width: 500px;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            border: 2px solid #e2e2e2;
+            border-radius: 0.5rem;
+            background-color: white;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+        }
+
+        /* Todo List - Flexbox Layout */
+        .todo-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            list-style: none;
+            padding: 0;
+            margin: -0.5rem; /* Compensate for item margin */
+        }
+
+        .todo-item {
+            flex: 1 1 300px; /* Grow, shrink, basis */
+            max-width: calc(33.333% - 1rem); /* Maximum width for larger screens */
+            min-width: 250px; /* Minimum width before wrapping */
+            margin: 0.5rem;
+            background: white;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #4a90e2;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .todo-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .todo-checkbox {
+            margin-top: 0.25rem;
+            width: 1.25rem;
+            height: 1.25rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            flex-shrink: 0; /* Prevent checkbox from shrinking */
+        }
+
+        .todo-text {
+            flex: 1;
+            word-break: break-word;
+        }
+
+        .todo-completed .todo-text {
+            text-decoration: line-through;
+            color: #888;
+        }
+
+        /* Loading State */
+        .loader {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 200px;
+            color: #4a90e2;
+            font-weight: 600;
+            width: 100%;
+        }
+
+        .loader::after {
+            content: '';
+            width: 1.5rem;
+            height: 1.5rem;
+            margin-left: 0.75rem;
+            border: 3px solid #4a90e2;
+            border-right-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Error State */
+        .error {
+            padding: 1rem;
+            background-color: #fee2e2;
+            border-radius: 0.5rem;
+            color: #dc2626;
+            margin-bottom: 1rem;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            color: #666;
+            padding: 2rem;
+            width: 100%;
+        }
+
+        /* Focus Styles for Accessibility */
+        :focus {
+            outline: 2px solid #4a90e2;
+            outline-offset: 2px;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .todo-item {
+                max-width: calc(50% - 1rem);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .todo-item {
+                max-width: 100%;
+            }
+
+            .title {
+                font-size: 1.5rem;
+            }
+
+            .todo-list {
+                margin: 0;
+            }
+        }
+
+        /* Utility Classes */
+        .hidden {
+            display: none !important;
+        }
+
+        /* High Contrast Mode Support */
+        @media (forced-colors: active) {
+            .todo-item {
+                border: 2px solid CanvasText;
+            }
+            
+            .todo-checkbox {
+                border: 2px solid CanvasText;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">Todo List</h1>
+        </header>
+
+        <main>
+            <div class="search-container">
+                <label for="search" class="search-label">Search Todos:</label>
+                <input 
+                    type="search"
+                    id="search"
+                    class="search-input"
+                    placeholder="Type to search..."
+                    autocomplete="off"
+                    aria-label="Search todos"
+                >
+            </div>
+
+            <div id="error-container" class="error hidden" role="alert"></div>
+            
+            <div id="loader" class="loader" role="status" aria-live="polite">
+                Loading todos...
+            </div>
+
+            <ul id="todo-list" class="todo-list hidden" aria-label="Todo list"></ul>
+
+            <p id="empty-state" class="empty-state hidden">No todos found matching your search.</p>
+        </main>
+    </div>
+
+    <script>
+        // Constants
+        const TODOS_API = 'https://dummyjson.com/todos';
+        
+        // DOM Elements
+        const todoList = document.getElementById('todo-list');
+        const searchInput = document.getElementById('search');
+        const loader = document.getElementById('loader');
+        const errorContainer = document.getElementById('error-container');
+        const emptyState = document.getElementById('empty-state');
+
+        // State
+        let todos = [];
+
+        // Utility Functions
+        function sanitizeHTML(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+        }
+
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func(this, ...args), wait);
+            };
+        }
+
+        // UI Functions
+        function showLoader() {
+            loader.classList.remove('hidden');
+            todoList.classList.add('hidden');
+            emptyState.classList.add('hidden');
+        }
+
+        function hideLoader() {
+            loader.classList.add('hidden');
+            todoList.classList.remove('hidden');
+        }
+
+        function showError(message) {
+            errorContainer.textContent = message;
+            errorContainer.classList.remove('hidden');
+        }
+
+        function hideError() {
+            errorContainer.classList.add('hidden');
+        }
+
+        function updateEmptyState(show) {
+            emptyState.classList.toggle('hidden', !show);
+        }
+
+        // Todo Rendering
+        function createTodoElement(todo) {
+            const li = document.createElement('li');
+            li.className = `todo-item ${todo.completed ? 'todo-completed' : ''}`;
+            li.setAttribute('data-todo-id', todo.id);
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.className = 'todo-checkbox';
+            checkbox.checked = todo.completed;
+            checkbox.setAttribute('aria-label', `Mark todo ${todo.completed ? 'incomplete' : 'complete'}`);
+            checkbox.disabled = true; // Since this is read-only
+
+            const text = document.createElement('span');
+            text.className = 'todo-text';
+            text.textContent = todo.todo;
+
+            li.appendChild(checkbox);
+            li.appendChild(text);
+
+            return li;
+        }
+
+        
+        function renderTodos(filteredTodos = todos) {
+            todoList.innerHTML = '';
+            
+            if (filteredTodos.length === 0) {
+                updateEmptyState(true);
+                return;
+            }
+
+            updateEmptyState(false);
+            
+            const fragment = document.createDocumentFragment();
+            filteredTodos.forEach(todo => {
+                fragment.appendChild(createTodoElement(todo));
+            });
+            
+            todoList.appendChild(fragment);
+        }
+
+        // Search Functionality
+        const handleSearch = debounce((searchTerm) => {
+            const normalizedSearchTerm = searchTerm.toLowerCase().trim();
+            const filteredTodos = todos.filter(todo => 
+                todo.todo.toLowerCase().includes(normalizedSearchTerm)
+            );
+            renderTodos(filteredTodos);
+        }, 2000);
+
+        // Event Listeners
+        searchInput.addEventListener('input', (e) => {
+            handleSearch(e.target.value);
+        });
+
+        // Fetch Data
+        async function fetchTodos() {
+            const controller = new AbortController();
+            showLoader();
+            hideError();
+
+            try {
+                const response = await fetch(TODOS_API, {
+                    signal: controller.signal,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch todos');
+                }
+
+                const data = await response.json();
+                todos = data.todos;
+                renderTodos();
+            } catch (error) {
+                if (error.name !== 'AbortError') {
+                    showError('Failed to load todos. Please try again later.');
+                    console.error('Error fetching todos:', error);
+                }
+            } finally {
+                hideLoader();
+            }
+
+            return () => controller.abort();
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', fetchTodos);
+    </script>
+</body>
+</html>

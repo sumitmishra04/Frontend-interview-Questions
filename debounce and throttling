@@ -26,6 +26,7 @@ const throttle = (callback, time) => {
     throttlePause = false;
   }, time);
 };
+
 window.addEventListener("scroll", () => { 
     throttle(handleScrollAnimation, 250);
 });

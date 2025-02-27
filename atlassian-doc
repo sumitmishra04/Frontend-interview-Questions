@@ -1,0 +1,26 @@
+Hey, tech enthusiasts! I recently interviewed at Atlassian for the position of frontend engineer in Bangalore. The recruitment adventure was an enlightening experience, peppered with challenges across 6 dynamic rounds.
+
+Recruiters were knowledgeable, briefed me well about each round, and provided useful feedback throughout the interview process.
+
+Round 1 — Karat Interview Round
+During this filter round, I was evaluated on Vanilla JavaScript, DOM manipulation, and some code dry-running questions. In total, there were around 7 to 8 questions.
+
+Can you find is there any security issue in the javascript code? const data = await fetch(“api”) const div = document.getElementById(“todo”) div.innerHTML = data So I need to find what is and how can resolve it.
+They gave an image URL and I need to make the same UI as it is. there were 6 points there I need to fulfill those. a. one placeholder inside the input that needs to align to the left with bold. b. there was one button that should be on the right side of the input without any gap between them. c. the height and width should be different from the actual height and width of the input. d. color of the border and button should be different from the basic colors.
+Given an API returning a list of todos, we want to fetch the list, create a separate block for each user, and display their todos in the appropriate block. Use this endpoint URL to get the todos: https://dummyjson.com/todos?limit=10&skip=80. It will return the following structure with a total of 10 todos: { “todos”: [ { “id”: 1, “todo”: “Do something nice for someone I care about”, “completed”: true, “userId”: 26 }, ], } Each block should contain the userId as the title of the block and the list of todos.
+Round 2 — Machine Coding Round
+This round was my canvas, and I chose Reactjs to paint a dynamic Tic-Tac-Toe board, where the number of boards will be accepted as props. There will be 2 players one user and one bot.
+
+Round 3 — JavaScript Round
+I was asked to create a feature flag component in React that consumes a feature’s API and conditionally renders UI based on the value of the feature.
+
+Round 4— System Design Round
+The system design was more focused on the data model, request and response payload, and state management with state normalization. The question was based on high-level UI design.
+
+Round 5— Values Round
+In this round, they ask how you relate to company values. They have a few sets of values that they expect their employees to possess, and it is already listed in their career section, and the best way to prepare for this is to recollect scenarios with values with your past experience.
+
+Round 6— Manager Round
+This would be a managerial round with the Engineering Manager that would discuss past engineering experiences, What’s the most complex project you’ve worked on? How did you solve the conflict? check if you are a team player or not, and how well you fit in the team.
+
+Alas, the ending was unexpected — I wasn’t selected. However, this narrative serves as a beacon for fellow aspirants, shedding light on the twists and turns of Atlassian’s frontend interview landscape. May your future endeavors be as enlightening and may you navigate the coding seas with newfound wisdom!

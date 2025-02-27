@@ -1,53 +1,42 @@
-function parallelLimit(tasks, limit) {
-  return new Promise((resolve, reject) => {
-    const results = []
-    let currentIndex = 0
-    let runningTasks = 0
+async function parallelLimit(tasks, limit) {
+  const results = [];
+  let runningTasks = 0;
+  let taskIndex = 0;
 
-    function runNextTask() {
-      if (currentIndex === tasks.length) {
-        // All tasks have been processed, resolve with the results
-        resolve(results)
-        return
+  return new Promise((resolve) => {
+    function runNext() {
+      if (taskIndex >= tasks.length && runningTasks === 0) {
+        return resolve(results); // All tasks are done
       }
 
-      const taskIndex = currentIndex
-      currentIndex++
+      while (runningTasks < limit && taskIndex < tasks.length) {
+        const task = tasks[taskIndex];
+        taskIndex++;
+        runningTasks++;
 
-      tasks[taskIndex]
-        .then((result) => {
-          results[taskIndex] = result
-        })
-        .finally(() => {
-          runNextTask()
-        })
+        task().then((result) => {
+          results.push(result); // Store based on completion order
+          runningTasks--;
+          runNext();
+        });
+      }
     }
 
-    for (let i = 0; i < limit && i < tasks.length; i++) {
-      runNextTask()
-    }
-  })
+    runNext(); // Start execution
+  });
 }
 
-// Example usage:
-function asyncTask(id) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve(`Task ${id} completed`)
-    }, Math.floor(Math.random() * 2000))
-  })
-}
 
-const tasks = []
-for (let i = 1; i <= 10; i++) {
-  tasks.push(() => asyncTask(i))
-}
+// Test cases
+const tasks = [
+  () => new Promise(resolve => setTimeout(() => resolve(1), 100)),
+  () => new Promise(resolve => setTimeout(() => resolve(2), 200)),
+  () => new Promise(resolve => setTimeout(() => resolve(3), 300)),
+  () => new Promise(resolve => setTimeout(() => resolve(4), 150)),
+  () => new Promise(resolve => setTimeout(() => resolve(5), 250))
+];
 
-const parallelLimitValue = 3
-parallelLimit(tasks, parallelLimitValue)
-  .then((results) => {
-    console.log("Results:", results)
-  })
-  .catch((error) => {
-    console.error("Error:", error)
-  })
+// Run with limit of 2 concurrent tasks
+parallelLimit(tasks, 2).then(results => {
+  console.log(results); // Expected Output: [1, 4, 2, 5, 3]
+});

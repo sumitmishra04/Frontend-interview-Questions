@@ -1,4 +1,4 @@
-1) const x = {}
+const x = {}
 x['foo'] = 'bar'
 x.bar = {
     'first': 100,
@@ -6,7 +6,12 @@ x.bar = {
 }
 console.log(x.bar['first'] + x['bar'].second)
 
-2) const prom = new Promise((resolve, reject) => {
+
+
+
+
+
+const prom = new Promise((resolve, reject) => {
     setTimeout(() => {
         resolve('prom')
     }, 1000)
@@ -28,7 +33,10 @@ prom.then(function(arg){
 
 
 
-3) function foo(x) {
+
+
+
+ function foo(x) {
     let returnValue = ""
     try{
         if(a === 'bar') {

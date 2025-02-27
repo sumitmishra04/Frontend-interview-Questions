@@ -24,16 +24,21 @@
 // local storage questions and events
 // best ways to optimise long running sync code
 
-/// what happens when any url is clicked
-// a url is divided into protocol+domain+resource
-// DNS lookup -> browser request goes to dns and then domain part of the url is converted to the ip address and is returned
-// now this will be called
-// domain is converted to ipAddress:portNumber (80 for http and 443 for https) port number identifies the service running in the server
-// So, if a web page request comes in, the data might be addressed to 192.168.1.1:80, indicating that it's meant for the web browser.
-// Your computer (house) uses the port number to know to send that data to the web browser application (room) for processing.
-// Similarly, if an email arrives, it might be addressed to 192.168.1.1:25, guiding your computer to deliver it to the email application (room).
 
-/** 
+/**  what happens when any url is clicked
+ * https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22649297
+ * 
+ * 
+a url is divided into protocol+domain+resource
+DNS lookup -> browser request goes to dns and then domain part of the url is converted to the ip address and is returned
+now this will be called.
+Domain is converted to ipAddress:portNumber (80 for http and 443 for https). Port number identifies the service running in the server
+So, if a web page request comes in, the data might be addressed to 192.168.1.1:80, indicating that it's meant for the web browser.
+Your computer (house) uses the port number to know to send that data to the web browser application (room) for processing.
+Similarly, if an email arrives, it might be addressed to 192.168.1.1:25, guiding your computer to deliver 
+it to the email application (room).
+
+
 So once we have the real ip address, a tcp socket connection is established between the browser and the server. 
 And so they are now finally connected. And this connection is typically kept alive for the entire time that it takes to transfer 
 all files of the website or all data.  tcp is the transmission control protocol. And ip is the internet 

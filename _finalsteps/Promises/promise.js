@@ -19,7 +19,7 @@ class MyPromise {
   constructor(cb) {}
 }
 
-new MyPromise(cb)
+new MyPromise(cb);
 
 // cb receives 2 params which the mypromise provides and we have the access to it in the mypromise obj
 
@@ -27,34 +27,34 @@ new MyPromise(cb)
 // param1 is onSuccess and param2 is onReject
 class MyPromise {
   constructor(cb) {
-    cb(this.param1, this.param2)
+    cb(this.param1, this.param2);
   }
 }
 
-new MyPromise(cb)
+new MyPromise(cb);
 
 /** STEP 3 */
 // cb is resposible for promise trigger and if it fails somehow we need to handle it through our fail cb
 class MyPromise {
   constructor(cb) {
     try {
-      cb(this.param1, this.param2)
+      cb(this.param1, this.param2);
     } catch (e) {
-      this.param2(e)
+      this.param2(e);
     }
   }
 }
 
-new MyPromise(cb)
+new MyPromise(cb);
 
 /** STEP 4 */
 // both callbacks receives a value
 class MyPromise {
   constructor(cb) {
     try {
-      cb(this.param1, this.param2)
+      cb(this.param1, this.param2);
     } catch (e) {
-      this.param2(e)
+      this.param2(e);
     }
   }
 
@@ -63,7 +63,7 @@ class MyPromise {
   param2(value) {}
 }
 
-new MyPromise(cb)
+new MyPromise(cb);
 // NOTE: value is the result of the execution of the promise. Once the value is executed, it is passed to
 // the onSuccess and then onSuccess takes that value and pass it to the then so that user can handle the
 // result of the promise exeution.
@@ -73,9 +73,9 @@ new MyPromise(cb)
 class MyPromise {
   constructor(cb) {
     try {
-      cb(this.#onSuccess, this.#onReject)
+      cb(this.#onSuccess, this.#onReject);
     } catch (e) {
-      this.param2(e)
+      this.param2(e);
     }
   }
 
@@ -84,16 +84,16 @@ class MyPromise {
   #onReject(value) {}
 }
 
-new MyPromise(cb)
+new MyPromise(cb);
 
 /** STEP 6 */
 // then: receives a callback and this cb will be executed onSuccess one by one
 class MyPromise {
   constructor(cb) {
     try {
-      cb(this.#onSuccess, this.#onReject)
+      cb(this.#onSuccess, this.#onReject);
     } catch (e) {
-      this.param2(e)
+      this.param2(e);
     }
   }
 
@@ -102,11 +102,11 @@ class MyPromise {
   #onReject(value) {}
 
   then(cb) {
-    this.#thenCbs.push(cb)
+    this.#thenCbs.push(cb);
   }
 }
 
-new MyPromise(cb)
+new MyPromise(cb);
 // NOTE: so then will help store cb that knows what to do when promise is resolved.
 // And hence when there is success, success can access these stored cb and will execute one by one.
 
@@ -117,37 +117,37 @@ const STATE = {
   FULFILLED: "fullfiled",
   REJECTED: "rejected",
   PENDING: "pending",
-}
+};
 
 class MyPromise {
-  #thenCb = []
-  #state = STATE.PENDING
-  #value
+  #thenCb = [];
+  #state = STATE.PENDING;
+  #value;
 
   constructor(cb) {
     try {
-      cb(this.#onSuccess, this.#onReject)
+      cb(this.#onSuccess, this.#onReject);
     } catch (e) {
-      this.param2(e)
+      this.param2(e);
     }
   }
 
   #onSuccess(value) {
-    this.#value = value
-    this.#state = STATE.FULFILLED
+    this.#value = value;
+    this.#state = STATE.FULFILLED;
   }
 
   #onReject(value) {
-    this.#value = value
-    this.#state = STATE.REJECTED
+    this.#value = value;
+    this.#state = STATE.REJECTED;
   }
 
   then(cb) {
-    this.#thenCbs.push(cb)
+    this.#thenCbs.push(cb);
   }
 }
 
-new MyPromise(cb)
+new MyPromise(cb);
 
 /** STEP 8 */
 // this this.#state === STATE.PENDING ensures a basic promise nature that not more than one resolve or reject
@@ -155,90 +155,90 @@ new MyPromise(cb)
 // hence next time, if called again, the if condition wont work, thus ensuring single call to resolve and reject combined.
 
 class MyPromise {
-  #thenCb = []
-  #state = STATE.PENDING
-  #value
+  #thenCb = [];
+  #state = STATE.PENDING;
+  #value;
 
   constructor(cb) {
     try {
-      cb(this.#onSuccess, this.#onReject)
+      cb(this.#onSuccess, this.#onReject);
     } catch (e) {
-      this.param2(e)
+      this.param2(e);
     }
   }
 
   #onSuccess(value) {
     if (this.#state === STATE.PENDING) {
-      this.#value = value
-      this.#state = STATE.FULFILLED
+      this.#value = value;
+      this.#state = STATE.FULFILLED;
     }
   }
 
   #onReject(value) {
     if (this.#state === STATE.PENDING) {
-      this.#value = value
-      this.#state = STATE.REJECTED
+      this.#value = value;
+      this.#state = STATE.REJECTED;
     }
   }
 
   then(cb) {
-    this.#thenCbs.push(cb)
+    this.#thenCbs.push(cb);
   }
 }
 
-new MyPromise(cb)
+new MyPromise(cb);
 
 /** STEP 9 */
 // runCallbacks will execute all the thens cbs on success and all catch cbs on failure.
 class MyPromise {
-  #thenCb = []
-  #catchCb = []
-  #state = STATE.PENDING
-  #value
+  #thenCb = [];
+  #catchCb = [];
+  #state = STATE.PENDING;
+  #value;
 
   constructor(cb) {
     try {
-      cb(this.#onSuccess, this.#onReject)
+      cb(this.#onSuccess, this.#onReject);
     } catch (e) {
-      this.param2(e)
+      this.param2(e);
     }
   }
 
   #runCallbacks() {
     if (this.#state === STATE.FULFILLED) {
       this.#thenCb.forEach((cb) => {
-        cb(this.#value)
-      })
+        cb(this.#value);
+      });
     }
     if (this.#state === STATE.REJECTED) {
       this.#catchCb.forEach((cb) => {
-        cb(this.#value)
-      })
+        cb(this.#value);
+      });
     }
   }
 
   #onSuccess(value) {
     if (this.#state === STATE.PENDING) {
-      this.#value = value
-      this.#state = STATE.FULFILLED
-      this.#runCallbacks()
+      this.#value = value;
+      this.#state = STATE.FULFILLED;
+      this.#runCallbacks();
     }
   }
 
   #onReject(value) {
     if (this.#state === STATE.PENDING) {
-      this.#value = value
-      this.#state = STATE.REJECTED
-      this.#runCallbacks()
+      this.#value = value;
+      this.#state = STATE.REJECTED;
+      this.#runCallbacks();
     }
   }
 
   then(cb) {
-    this.#thenCbs.push(cb)
+    this.#thenCbs.push(cb);
   }
 }
 
-new MyPromise(cb)
+new MyPromise(cb);
 
 /** STEP 10 */
 // By calling this.#runCallbacks() after registering a fulfillment or rejection handler, t
@@ -254,163 +254,163 @@ new MyPromise(cb)
 // handlers.
 
 class MyPromise {
-  #thenCb = []
-  #catchCb = []
-  #state = STATE.PENDING
-  #value
+  #thenCb = [];
+  #catchCb = [];
+  #state = STATE.PENDING;
+  #value;
 
   constructor(cb) {
     try {
-      cb(this.#onSuccess, this.#onReject)
+      cb(this.#onSuccess, this.#onReject);
     } catch (e) {
-      this.param2(e)
+      this.param2(e);
     }
   }
 
   #runCallbacks() {
     if (this.#state === STATE.FULFILLED) {
       this.#thenCb.forEach((cb) => {
-        cb(this.#value)
-      })
+        cb(this.#value);
+      });
 
-      this.#thenCb = []
+      this.#thenCb = [];
     }
     if (this.#state === STATE.REJECTED) {
       this.#catchCb.forEach((cb) => {
-        cb(this.#value)
-      })
+        cb(this.#value);
+      });
 
-      this.#catchCb = []
+      this.#catchCb = [];
     }
   }
 
   #onSuccess(value) {
     if (this.#state === STATE.PENDING) {
-      this.#value = value
-      this.#state = STATE.FULFILLED
-      this.#runCallbacks()
+      this.#value = value;
+      this.#state = STATE.FULFILLED;
+      this.#runCallbacks();
     }
   }
 
   #onReject(value) {
     if (this.#state === STATE.PENDING) {
-      this.#value = value
-      this.#state = STATE.REJECTED
-      this.#runCallbacks()
+      this.#value = value;
+      this.#state = STATE.REJECTED;
+      this.#runCallbacks();
     }
   }
 
   then(cb) {
-    this.#thenCbs.push(cb)
-    this.#runCallbacks()
+    this.#thenCbs.push(cb);
+    this.#runCallbacks();
   }
 
   catch(cb) {
-    this.#catchCb.push(cb)
-    this.#runCallbacks()
+    this.#catchCb.push(cb);
+    this.#runCallbacks();
   }
 }
 
-new MyPromise(cb)
+new MyPromise(cb);
 
 /** STEP 10 */
 // then is slightly different in a way that it can accept then and catch callbacks
 
 class MyPromise {
-  #thenCb = []
-  #catchCb = []
-  #state = STATE.PENDING
-  #value
+  #thenCb = [];
+  #catchCb = [];
+  #state = STATE.PENDING;
+  #value;
 
   constructor(cb) {
     try {
-      cb(this.#onSuccess.bind(this), this.#onReject.bind(this))
+      cb(this.#onSuccess.bind(this), this.#onReject.bind(this));
     } catch (e) {
-      this.#onReject(e)
+      this.#onReject(e);
     }
   }
 
   #runCallbacks() {
     if (this.#state === STATE.FULFILLED) {
       this.#thenCb.forEach((cb) => {
-        cb(this.#value)
-      })
+        cb(this.#value);
+      });
 
-      this.#thenCb = []
+      this.#thenCb = [];
     }
     if (this.#state === STATE.REJECTED) {
       this.#catchCb.forEach((cb) => {
-        cb(this.#value)
-      })
+        cb(this.#value);
+      });
 
-      this.#catchCb = []
+      this.#catchCb = [];
     }
   }
 
   #onSuccess(value) {
     if (this.#state === STATE.PENDING) {
-      this.#value = value
-      this.#state = STATE.FULFILLED
-      this.#runCallbacks()
+      this.#value = value;
+      this.#state = STATE.FULFILLED;
+      this.#runCallbacks();
     }
   }
 
   #onReject(value) {
     if (this.#state === STATE.PENDING) {
-      this.#value = value
-      this.#state = STATE.REJECTED
-      this.#runCallbacks()
+      this.#value = value;
+      this.#state = STATE.REJECTED;
+      this.#runCallbacks();
     }
   }
 
   then(thenCb, catchCb) {
-    if (thenCb) this.#thenCbs.push(cb)
-    if (catchCb) this.#catchCb.push(catchCb)
-    this.#runCallbacks()
+    if (thenCb) this.#thenCbs.push(thenCb);
+    if (catchCb) this.#catchCb.push(catchCb);
+    this.#runCallbacks();
   }
 
   catch(cb) {
-    this.then(undefined, cb)
+    this.then(undefined, cb);
   }
 
   finally(cb) {
-    cb()
+    cb();
   }
 }
 
-new MyPromise(cb)
+new MyPromise(cb);
 
 /** STEP 11 */
 // then is slightly different in a way that it can accept then and catch callbacks
 
 class MyPromise {
-  #thenCb = []
-  #catchCb = []
-  #state = STATE.PENDING
-  #value
+  #thenCb = [];
+  #catchCb = [];
+  #state = STATE.PENDING;
+  #value;
 
   constructor(cb) {
     try {
-      cb(this.#onSuccess.bind(this), this.#onReject.bind(this))
+      cb(this.#onSuccess.bind(this), this.#onReject.bind(this));
     } catch (e) {
-      this.param2(e)
+      this.param2(e);
     }
   }
 
   #runCallbacks() {
     if (this.#state === STATE.FULFILLED) {
       this.#thenCb.forEach((cb) => {
-        cb(this.#value)
-      })
+        cb(this.#value);
+      });
 
-      this.#thenCb = []
+      this.#thenCb = [];
     }
     if (this.#state === STATE.REJECTED) {
       this.#catchCb.forEach((cb) => {
-        cb(this.#value)
-      })
+        cb(this.#value);
+      });
 
-      this.#catchCb = []
+      this.#catchCb = [];
     }
   }
 
@@ -418,88 +418,88 @@ class MyPromise {
     queueMicrotask(() => {
       if (this.#state === STATE.PENDING) {
         if (value instanceof MyPromise) {
-          value.then(this.#onSuccess.bind(this), this.#onReject.bind(this))
-          return
+          value.then(this.#onSuccess.bind(this), this.#onReject.bind(this));
+          return;
         }
-        this.#value = value
-        this.#state = STATE.FULFILLED
-        this.#runCallbacks()
+        this.#value = value;
+        this.#state = STATE.FULFILLED;
+        this.#runCallbacks();
       }
-    })
+    });
   }
 
   #onReject(value) {
     queueMicrotask(() => {
       if (this.#state === STATE.PENDING) {
         if (value instanceof MyPromise) {
-          value.then(this.#onSuccess.bind(this), this.#onReject.bind(this))
-          return
+          value.then(this.#onSuccess.bind(this), this.#onReject.bind(this));
+          return;
         }
 
         if (this.#catchCb.length === 0) {
-          throw new UncaughtPromiseError(value)
+          throw new UncaughtPromiseError(value);
         }
-        this.#value = value
-        this.#state = STATE.REJECTED
-        this.#runCallbacks()
+        this.#value = value;
+        this.#state = STATE.REJECTED;
+        this.#runCallbacks();
       }
-    })
+    });
   }
 
   then(thenCb, catchCb) {
     return new MyPromise((resolve, reject) => {
       this.#thenCbs.push((result) => {
         if (thenCb === null) {
-          resolve(result)
-          return
+          resolve(result);
+          return;
         }
         try {
-          resolve(thenCb(result)) // if a then returns a value then pass that on
+          resolve(thenCb(result)); // if a then returns a value then pass that on
         } catch (err) {
-          reject(err)
+          reject(err);
         }
-      })
+      });
 
       this.#catchCb.push((result) => {
         if (catchCb === null) {
-          reject(result)
-          return
+          reject(result);
+          return;
         }
         try {
-          resolve(catchCb(result)) // if a catch returns a value then pass that on
+          resolve(catchCb(result)); // if a catch returns a value then pass that on
         } catch (err) {
-          reject(catchCb(result))
+          reject(catchCb(result));
         }
-      })
-      if (thenCb) this.#thenCbs.push(cb)
-      if (catchCb) this.#catchCb.push(catchCb)
-      this.#runCallbacks()
-    })
+      });
+      if (thenCb) this.#thenCbs.push(cb);
+      if (catchCb) this.#catchCb.push(catchCb);
+      this.#runCallbacks();
+    });
   }
 
   catch(cb) {
-    this.then(undefined, cb)
+    this.then(undefined, cb);
   }
 
   finally(cb) {
     return this.then(
       (result) => {
-        cb()
-        return result
+        cb();
+        return result;
       },
       (result) => {
-        cb()
-        throw result
+        cb();
+        throw result;
       }
-    )
+    );
   }
 }
 
 class UncaughtPromiseError extends Error {
   constructor(error) {
-    super(error)
+    super(error);
 
-    this.stack = `(in promise) ${error.stack}`
+    this.stack = `(in promise) ${error.stack}`;
   }
 }
-new MyPromise(cb)
+new MyPromise(cb);
