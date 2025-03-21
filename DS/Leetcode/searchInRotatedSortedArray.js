@@ -1,30 +1,38 @@
-function search(nums, target) {
-  let start = 0;
-  let end = nums.length - 1;
-  while (start <= end) {
-    let mid = (start + end) / 2;
-    if (nums[mid] === target) {
-      return mid;
-    } else if (nums[start] <= nums[mid]) {
-      // left array sorted
-      if (target >= nums[start] && target < nums[mid]) {
-        // search target in the left array range
-        end = mid - 1;
-      } else {
-        start = mid + 1;
+class Solution {
+  /**
+   * @param {number[]} nums
+   * @param {number} target
+   * @return {number}
+   */
+  search(nums, target) {
+  let left = 0, right = nums.length - 1;
+
+  while (left <= right) {
+      let mid = Math.floor((left + right) / 2);
+
+      if (nums[mid] === target) return mid; // Found target
+
+      // Check if left half is sorted
+      if (nums[left] <= nums[mid]) {
+          if (nums[left] <= target && target < nums[mid]) {
+              right = mid - 1; // Search left half
+          } else {
+              left = mid + 1; // Search right half
+          }
+      } 
+      // Right half is sorted
+      else {
+          if (nums[mid] < target && target <= nums[right]) {
+              left = mid + 1; // Search right half
+          } else {
+              right = mid - 1; // Search left half
+          }
       }
-    } else {
-      // right array sorted
-      if (target > nums[mid] && target <= nums[end]) {
-        // search target in the right array range
-        start = mid + 1;
-      } else {
-        end = mid - 1;
-      }
-    }
   }
-  return -1;
+  return -1; 
+  }
 }
+
 
 console.log(search([1, 4, 6, 8, 11, 13, 15], 13));
 console.log(search([1, 4, 6, 8, 11, 13, 15], 4));

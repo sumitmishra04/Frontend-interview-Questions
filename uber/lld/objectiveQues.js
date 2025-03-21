@@ -4,12 +4,7 @@ x.bar = {
     'first': 100,
     'second': 200
 }
-console.log(x.bar['first'] + x['bar'].second)
-
-
-
-
-
+// console.log(x.bar['first'] + x['bar'].second)
 
 const prom = new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -20,14 +15,14 @@ const prom = new Promise((resolve, reject) => {
     }, 1000)})
 
 prom.then(function(arg){
-    console.log(arg)
+    // console.log(arg)
     return new Promise((resolve, reject) => {
         reject(new Error('!arg'))
     }).catch((err)=> {
-        console.log(err.message)
+        // console.log(err.message)
     })
 }).catch((err)=> {
-     console.log(err.message)
+    //  console.log(err.message)
     })
 
 
@@ -51,5 +46,15 @@ prom.then(function(arg){
     return returnValue
 }
 
-console.log(foo('bar'))
+// console.log(foo('bar'))
 
+
+function Person(name) {
+    this.name = name
+}
+Person.prototype.getName = () => {
+    return this.name
+}
+
+const p = new Person('Sumit')
+console.log(p.getName())

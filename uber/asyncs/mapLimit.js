@@ -1,6 +1,3 @@
-
-
-
 Array.prototype.chopByLimit = function (size) {
     const tempArray = [...this]
     let i = 0;
@@ -26,14 +23,14 @@ function mapLimit(inputs, limit, iterateeFn, callback) {
    const choppedArray = inputs.chopByLimit(limit)
    
   const output = choppedArray.reduce((acc, curr) => {
-      return acc.then(val => {
+      return acc.then(value => {
           return new Promise((resolve, reject) => {
               const temp = []
               curr.forEach(item => {
                   iterateeFn(item, (val) => {
                       temp.push(val)
                       if(temp.length === curr.length) {
-                          resolve([...val, ...temp])
+                          resolve([...value, ...temp])
                       }
                   })
               })
