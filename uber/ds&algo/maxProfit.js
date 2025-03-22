@@ -8,10 +8,10 @@ class Solution {
         let maxProfit = 0;
 
         for (let price of prices) {
-            if(price < minPrice) {
+            if (price < minPrice) {
                 minPrice = price
             } else {
-                maxProfit = Math.max(maxProfit, price-minPrice)
+                maxProfit = Math.max(maxProfit, price - minPrice)
             }
         }
         return maxProfit;

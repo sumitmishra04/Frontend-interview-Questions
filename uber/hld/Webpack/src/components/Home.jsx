@@ -3,6 +3,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import * as styles from "./Home.module.css";
 import Autocomplete from "../reusableComponents/autocomplete";
+import Button from "sumit-component-library/Button";
+import Text from "sumit-component-library/Text";
 
 const Home = () => {
   return (
@@ -29,6 +31,9 @@ const Home = () => {
       <Link to="/about" className={styles.button}>
         Explore Bangalore
       </Link>
+      <Button variant="primary" label="primary"></Button>
+      <Button size="md" variant="secondary" label="secondary"></Button>
+      <Text content="Sumit text"></Text>
     </div>
   );
 };

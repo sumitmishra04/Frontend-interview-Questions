@@ -1,0 +1,42 @@
+{
+  "name": "sumit-component-library",
+  "version": "2.0.7",
+  "description": "",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.cjs.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./Button": {
+      "import": "./dist/Button.esm.js",
+      "require": "./dist/Button.cjs.js",
+      "types": "./dist/Button.d.ts"
+    },
+    "./Text": {
+      "import": "./dist/Text.esm.js",
+      "require": "./dist/Text.cjs.js",
+      "types": "./dist/Text.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc && rollup -c"
+  },
+  "type": "module",
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^28.0.3",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@rollup/plugin-typescript": "^12.1.2",
+    "@types/react": "^19.0.12",
+    "rollup": "^4.36.0",
+    "tslib": "^2.8.1",
+    "typescript": "^5.8.2"
+  }
+}
