@@ -2,7 +2,7 @@
 import React, { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./components/Home";
-import Weather from "./components/Weather";
+import Workers from "./components/Workers";
 
 // Lazy load About component
 const About = lazy(() => import("./components/About"));
@@ -21,10 +21,10 @@ const App = () => {
           }
         />
         <Route
-          path="/weather"
+          path="/workers"
           element={
             <Suspense fallback={<h2>Loading...</h2>}>
-              <Weather />
+              <Workers />
             </Suspense>
           }
         />
