@@ -10,7 +10,7 @@ export default {
   entry: './src/main.jsx',
   mode: 'development',
   devServer: {
-    port: 3001,
+    port: 3002,
     historyApiFallback: true,
   },
   output: {
@@ -32,15 +32,14 @@ export default {
       template: './public/index.html'
     }),
     new ModuleFederationPlugin({
-      name: 'dashboardApp',
+      name: 'profileApp',
       filename: 'remoteEntry.js',
       exposes: {
-        './Dashboard': './src/Dashboard.jsx'
+        './Profile': './src/Profile.jsx'
       },
       shared: {
-        react: { singleton: true, requiredVersion: "^18.2.0" },
-        'react-dom': { singleton: true, requiredVersion: "^18.2.0" },
-        'react-router-dom': { singleton: true, requiredVersion: "^6.22.3" },
+        react: { singleton: true, requiredVersion: '^18.2.0' },
+        'react-dom': { singleton: true, requiredVersion: '^18.2.0' },
         'shared-lib': { singleton: true }
       }
     })

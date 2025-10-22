@@ -241,3 +241,111 @@ HttpOnly + Secure + SameSite → minimum for auth cookies.
 Avoid storing sensitive data in localStorage if you can use cookies.
 JWT inside a cookie is safer than storing JWT in JS-accessible storage.
 Consider short-lived JWTs + refresh tokens for long sessions.
+
+
+Typical Flow
+
+User logs in
+
+Server sends back access token and refresh token
+
+Frontend stores access token in memory
+
+Not in localStorage (for security)
+
+User makes requests
+
+Access token validates user
+
+Access token expires (automatic timeout)
+
+Frontend silently uses refresh token
+
+Requests a new access token without user logging in again
+
+User continues seamlessly
+
+They don’t even know it expired in the background
+
+
+How Access & Refresh Tokens Work in Real Time
+📌 Assume:
+
+Access Token lifespan: 30 seconds
+
+Refresh Token lifespan: 7 days
+
+⏱️ Timeline Example (Like you described)
+🟢 0 – 30 seconds
+
+You log in and receive:
+
+AccessToken1 (valid for 30s)
+
+RefreshToken1 (valid 7 days, stored securely)
+
+You make 4 API calls → all use AccessToken1 ✅
+
+🔴 At 31 seconds
+
+AccessToken1 expires
+
+You make another API request
+
+The backend says: ❌ 401 Unauthorized (token expired)
+
+🔄 Silent Refresh Happens
+
+Frontend uses RefreshToken1 (automatically sent via HTTP-only cookie)
+
+Sends a refresh request: /auth/refresh
+
+Backend verifies refresh token and issues a new AccessToken2
+
+Frontend retries your last request with AccessToken2
+
+✅ You continue using the app without interruption or login prompt
+
+⏳ At 7 days
+
+RefreshToken1 expires
+
+The user makes a new request → refresh fails
+
+Frontend clears auth state and redirects user to login 🔒
+
+User logs in again to get new Access+Refresh tokens
+
+
+🔥 Phase 1 Simplification
+
+Only Access Token
+
+No refresh token yet
+
+Login gives token
+
+Token stored in React Context
+
+Authenticated API calls use token from context
+
+Logout clears token
+
+If token expires → user is simply logged out
+
+
+User logs in →
+ Backend returns:
+   - accessToken in response body
+   - refreshToken in HttpOnly cookie
+Frontend stores accessToken in memory
+|
+V
+Every API uses accessToken in Authorization header
+|
+V
+If API returns 401 Unauthorized:
+  → Automatically send a request to /auth/refresh
+  → Backend validates refreshToken from cookie
+  → Backend issues new accessToken
+  → Frontend retries original request

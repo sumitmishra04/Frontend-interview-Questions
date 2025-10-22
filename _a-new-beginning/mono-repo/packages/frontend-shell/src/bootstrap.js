@@ -1,10 +1,29 @@
-import React, { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import { AuthProvider, useAuth } from 'shared-lib';
+import { BrowserRouter, useNavigate } from 'react-router-dom';
+import { setUnauthorizedHandler } from 'shared-lib';
+import App from './App.jsx';
+
+function GlobalWrapper() {
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    // 🔐 Auto redirect on expired refresh token
+    setUnauthorizedHandler(() => {
+      logout();         // clear auth state
+      navigate('/login');
+    });
+  }, []);
+
+  return <App />;
+}
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+  <AuthProvider>
+    <BrowserRouter>
+      <GlobalWrapper />
+    </BrowserRouter>
+  </AuthProvider>
+);

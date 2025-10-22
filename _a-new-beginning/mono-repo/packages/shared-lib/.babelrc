@@ -1,0 +1,6 @@
+{
+  "presets": [
+    ["@babel/preset-env", { "modules": false }],   // ✅ Keep ES Module
+    ["@babel/preset-react", { "runtime": "automatic" }]
+  ]
+}

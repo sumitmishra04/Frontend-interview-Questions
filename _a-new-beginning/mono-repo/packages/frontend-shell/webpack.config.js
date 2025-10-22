@@ -38,12 +38,15 @@ export default {
     new ModuleFederationPlugin({
       name: 'host',            // Name of this container
        remotes: {
-        dashboardApp: 'dashboardApp@http://localhost:3001/remoteEntry.js'
+        dashboardApp: 'dashboardApp@http://localhost:3001/remoteEntry.js',
+        profileApp: 'profileApp@http://localhost:3002/remoteEntry.js',
+        authApp: 'authApp@http://localhost:3003/remoteEntry.js',
        },            // Will add micro frontends here later
        shared: {
         react: { singleton: true, requiredVersion: "^18.2.0" },
         'react-dom': { singleton: true, requiredVersion: "^18.2.0" },
-        'react-router-dom': { singleton: true, requiredVersion: "^6.22.3" }
+        'react-router-dom': { singleton: true, requiredVersion: "^6.22.3" },
+        'shared-lib': { singleton: true }
       }
     }),
   ],
