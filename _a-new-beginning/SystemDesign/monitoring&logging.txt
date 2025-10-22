@@ -1,0 +1,35 @@
+MONITORING & LOGGING::
+Monitoring, logging, and alerting are foundational to maintaining the stability and performance of a highly scalable React application. We use Sentry as the primary tool for a unified strategy covering both code errors and user-centric performance.
+
+Here is a summary of the implementation strategy for our food delivery application:
+
+Monitoring, Logging, and Alerting Summary
+1. Monitoring: Data Collection Strategy (RUM)
+The core of monitoring is implementing Real User Monitoring (RUM) to collect Field Data from actual user sessions.
+
+Tool	            Sentry React SDK	Injects a small script to capture real-time user session data.
+Error Monitoring	Automatic Tracking	Captures unhandled exceptions, promise rejections, and network failures with full stack traces.
+Performance Monitoring	Core Web Vitals & Tracing	Automatically monitors LCP, INP, and CLS directly from the browser's APIs. Captures Transaction Traces (e.g., the time taken for the checkout route or the place_order API call).
+Context	Breadcrumbs & Tags	Attaches user-specific context (user ID, browser, device, navigation history) to every event for easier debugging.
+
+Export to Sheets
+2. Logging: Error and Performance Visualization
+Logging in this context refers to the persistent storage and organization of all captured data within the Sentry platform.
+
+Log Type	Sentry Feature	Value in Debugging
+Error Grouping	Issue Grouping	Sentry automatically groups similar stack traces into a single "Issue", preventing notification spam and focusing development efforts.
+Transaction Logs	Performance Dashboard	Visualizes the distribution of key metrics (e.g., the 90th percentile LCP time) over time, allowing easy detection of regressions.
+Session Replays	(Advanced RUM)	Allows developers to replay the user session leading up to an error or a slow transaction, providing exact steps to reproduce the issue.
+
+Export to Sheets
+3. Alerting: Proactive Incident Management
+Alerting transforms raw log data into actionable signals, ensuring the right team is notified immediately when a threshold is crossed.
+
+Alert Type	Sentry Alert Rule	Rationale for Use
+High Priority Error	Issue Alert Rule: "Alert if an issue's rate exceeds 50 events in 5 minutes in production."	Catches sudden, high-impact bugs (e.g., payment API failure) that are affecting many users immediately.
+Performance Regression	Metric Alert Rule: "Alert if the p95 LCP for the /home transaction is greater than 3.0 seconds over 30 minutes."	Catches performance degradation (slowdowns) caused by recent code changes, ensuring we meet our Core Web Vitals standard.
+Security/Data Error	Issue Alert Rule with Tag: "Alert if tag area is 'auth' and tag status is '401' or '403'."	Proactively alerts security/backend teams to unusual authentication or authorization denial patterns.
+
+Export to Sheets
+By utilizing Sentry's full capabilities—from automatic SDK data collection to defining metric-based alerts—we ensure our React application maintains high standards for both stability and user experience, which is crucial for a competitive D2C platform.
+

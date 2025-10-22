@@ -1,0 +1,51 @@
+When you type https://www.example.com in your browser and press Enter:
+
+The browser extracts the domain name (www.example.com).
+It checks if the domain is cached (locally like in browser, os or router cache or in DNS cache).
+If not cached, it sends a DNS request to get the IP address of www.example.com.
+
+
+DNS (Domain Name System) acts like the phonebook of the internet and translates the domain into an IP address (e.g., 203.0.113.10).
+
+The browser gets the server’s IP address and now knows where to connect.
+
+
+Now that the browser has the IP, it needs to establish a secure connection.
+
+Since HTTPS runs over TCP, the browser first establishes a TCP connection with the server:
+
+Client (Browser) → SYN → Server (Requests to open a connection).
+Server → SYN-ACK → Client (Acknowledges and agrees).
+Client → ACK → Server (Confirms, connection established).
+🔹 At this stage, the client and server can communicate, but it’s still unencrypted.
+
+Since the website uses HTTPS, SSL/TLS encryption is established on top of TCP.
+
+Step 2: SSL/TLS Handshake (Secure Key Exchange)
+Client Hello:
+
+The browser sends a message listing supported encryption algorithms (ciphers).
+It also sends a random number to help generate encryption keys.
+Server Hello:
+
+The server selects a cipher from the client’s list.
+It also sends its SSL certificate (issued by a trusted Certificate Authority, CA).
+Another random number is sent for key generation.
+Certificate Verification:
+
+The browser validates the SSL certificate:
+Is it signed by a trusted CA?
+Is it expired or revoked?
+Does the domain match the certificate?
+Key Exchange:
+
+The client and server generate a shared encryption key using either:
+RSA (older method): The client encrypts a secret key with the server’s public key.
+Diffie-Hellman (modern method): Both client and server contribute to a key.
+Session Key Established:
+
+Both sides now have a shared session key for symmetric encryption (faster than public-key encryption).
+Finished Messages:
+
+Both parties confirm that encryption is set up, and secure communication begins.
+🔹 Now, all data exchanged between the client and server is encrypted and secure.

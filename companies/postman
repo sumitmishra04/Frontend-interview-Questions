@@ -1,0 +1,25 @@
+First Round - Hiring Manager round with Technical Question to solve Second Round - Coding Round - UI Based component in language of your choice Third Round - System Design (LLD + HLD)
+
+Interview questions [1]
+
+Question 1
+
+First Round - Design a stopwatch component Second Round - Design a Folder based structure with n level nesting of both files and folders Third Round - Design a collaborative realtime app like Notes with both HLD and LLD
+
+Round 1:
+JS Interview:
+what is DNS
+how internet works
+callback hell
+event loop
+closure
+event bubbling, event capturing
+
+React Interview:
+what are render props
+is setState Async and justify your ans
+Higher order components
+Pure components
+Hooks
+context api
+what is redux

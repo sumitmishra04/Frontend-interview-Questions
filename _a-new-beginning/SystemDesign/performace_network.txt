@@ -1,0 +1,2 @@
+1. use service worker. helps with caching and offline capabilities.
+2. Use lazy-loading modules and components. Reduces the chunk size. Load only whats important.

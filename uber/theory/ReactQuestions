@@ -1,0 +1,52 @@
+"What is the difference between state and props in React?
+Why do we need to use the key prop when rendering lists in React?
+Component Lifecycle Questions:
+How do lifecycle methods in class components map to hooks in functional components?
+What is the purpose of the useEffect cleanup function?
+When would you use useMemo vs useCallback?
+State Management Questions:
+What are the advantages of using Redux over React's Context API?
+How do you handle component state that needs to be shared between multiple components?
+What is prop drilling and how can you avoid it?
+Performance Questions:
+What are React Fragments and why should we use them?
+How can you optimize React performance using React.memo?
+What causes unnecessary re-renders in React and how can you prevent them?
+Advanced Concepts:
+What are Higher-Order Components (HOCs) and when would you use them?
+How does React Fiber work and what problems does it solve?
+What are React Portals and when would you use them?
+Architecture & Design Questions:
+What are the differences between controlled and uncontrolled components? When would you use each?
+How do you handle forms in React? Compare different form management libraries like Formik, React Hook Form, and Redux Form.
+What are React Error Boundaries and how do you implement them?
+Hooks Deep Dive:
+What are custom hooks? How do you create them and what are some common use cases?
+How does the dependency array in useEffect work? What are the common pitfalls?
+What is the useReducer hook and when would you choose it over useState?
+Performance & Optimization:
+What is code splitting in React and how do you implement it?
+How do you handle image optimization in React applications?
+What is the difference between React.lazy() and Suspense? How do they work together?
+Testing:
+What are the best practices for testing React components?
+How do you test custom hooks?
+What is the difference between shallow rendering and full DOM rendering in testing?
+Advanced Patterns:
+What is the Compound Components pattern and when would you use it?
+How does the Render Props pattern compare to Custom Hooks?
+What is the Container/Presenter pattern and what problems does it solve?
+State Management Deep Dive:
+How do you handle global state in React without Redux?
+What are the trade-offs between different state management solutions (Redux, MobX, Recoil, Zustand)?
+How do you handle caching and state persistence in React applications?
+Security:
+What are common security vulnerabilities in React applications and how do you prevent them?
+How do you handle XSS protection in React?
+Routing:
+How does React Router work internally?
+What are the differences between various routing solutions (React Router, Reach Router, Next.js routing)?
+Server-Side Rendering:
+What is hydration in React and how does it work?
+How do you handle SEO in React applications?
+Would you like me to explain any of these questions in detail?

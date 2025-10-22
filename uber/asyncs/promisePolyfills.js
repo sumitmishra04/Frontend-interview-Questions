@@ -20,7 +20,8 @@ const STATE = {
 
 
 // REASON2
-// We call this.#runCallbacks() inside #onResolve (and #onReject) to immediately execute all stored .then() or .catch() callbacks once the promise transitions from PENDING to FULFILLED or REJECTED.
+// We call this.#runCallbacks() inside #onResolve (and #onReject) to immediately execute all stored .then() or .catch() 
+// callbacks once the promise transitions from PENDING to FULFILLED or REJECTED.
 
 // Why is this.#runCallbacks() called inside #onResolve?
 // Ensures queued .then() callbacks run immediately upon resolution
@@ -45,20 +46,20 @@ class MyPromise {
     constructor(cb) {
         try {
             cb(this.#onResolve.bind(this), this.#onReject.bind(this))
-        } catch(err) {
+        } catch (err) {
             this.#onReject(err)
         }
     }
 
-    #runCallbacks () {
-        if(this.#state === STATE.FULFILLED) {
+    #runCallbacks() {
+        if (this.#state === STATE.FULFILLED) {
             this.#thenCbs.forEach(cb => {
                 cb(this.#value)
             })
             this.#thenCbs = []
         }
 
-        if(this.#state === STATE.REJECTED) {
+        if (this.#state === STATE.REJECTED) {
             this.#catchCbs.forEach(cb => {
                 cb(this.#value)
             })
@@ -66,11 +67,11 @@ class MyPromise {
         }
     }
 
-  /// it is called when resolve is invoked. We save the value passed from resolve in the state variable so that it can be passed when then is invoked
-    #onResolve (val) {
+    /// it is called when resolve is invoked. We save the value passed from resolve in the state variable so that it can be passed when then is invoked
+    #onResolve(val) {
         queueMicrotask(() => {
-            if(this.#state === STATE.PENDING) {
-                if(val instanceof MyPromise) {
+            if (this.#state === STATE.PENDING) {
+                if (val instanceof MyPromise) {
                     val.then(this.#onResolve.bind(this), this.#onReject.bind(this))
                     return
                 }
@@ -82,16 +83,16 @@ class MyPromise {
         })
     }
 
-  /// it is called when reject is invoked.
-    #onReject (val) {
+    /// it is called when reject is invoked.
+    #onReject(val) {
         queueMicrotask(() => {
-            if(this.#state === STATE.PENDING) {
+            if (this.#state === STATE.PENDING) {
                 // val can be both simple value or a promise hence wait for it to get resolved
-                if(val instanceof MyPromise) {
+                if (val instanceof MyPromise) {
                     val.then(this.#onResolve.bind(this), this.#onReject.bind(this))
                     return
                 }
-                
+
                 this.#value = val
                 this.#state = STATE.REJECTED
                 this.#runCallbacks()
@@ -99,14 +100,14 @@ class MyPromise {
         })
     }
 
-    then (thenCb, catchCb) {
+    then(thenCb, catchCb) {
         return new MyPromise((resolve, reject) => {
             // pushing coz promise.then can be called multiple times hence save all the cbs to be invoked when onResolve is resolved. Its not same as chaining thens.
             // If thenCb is null or undefined, the callback should not modify the result.
             // Instead, it simply forwards the previous result to the next .then().
             // promise.then().then(val => console.log(val));
             this.#thenCbs.push(result => {
-                if(typeof thenCb !== "function") { // means catch invoked it. simply ignore and pass the value to the next then
+                if (typeof thenCb !== "function") { // means catch invoked it. simply ignore and pass the value to the next then
                     resolve(result)
                     return
                 }
@@ -117,35 +118,35 @@ class MyPromise {
                 // If thenCb(result) throws an error, the promise should reject instead of silently failing.
                 try {
                     resolve(thenCb(result))
-                }catch(e) {
+                } catch (e) {
                     reject(e)
                 }
             })
-            
+
 
             this.#catchCbs.push(result => {
-                if(typeof catchCb !== "function") { // means then invoked it. simply ignore and pass the value to the next catch
+                if (typeof catchCb !== "function") { // means then invoked it. simply ignore and pass the value to the next catch
                     reject(result)
                     return
                 }
                 try {
                     resolve(catchCb(result))
-                }catch(e) {
+                } catch (e) {
                     reject(e)
                 }
             })
-            
+
             this.#runCallbacks()   // why called here? REFER TOP COMMENT: REASON1
         })
-        
-        
+
+
     }
 
-    catch (catchCb){
+    catch(catchCb) {
         return this.then(null, catchCb)
     }
 
-    finally (cb){
+    finally(cb) {
         // finally do not return any value hence call with empty cb and then pass on the result to the chain next
         return this.then(result => {
             cb()
@@ -170,72 +171,72 @@ class MyPromise {
         })
     }
 
-    static all (promises) {
+    static all(promises) {
         return new MyPromise((res, rej) => {
             const result = []
             let completed = 0
             promises.forEach((prom, index) => {
                 MyPromise.resolve(prom)
-                .then((val) => {
-                    completed++
-                    result[index] = val
-                    if(completed === promises.length) {
-                        return res(result)
-                    }
-                })
-                .catch(e => {
-                    rej(e)
-                })
-            }) 
+                    .then((val) => {
+                        completed++
+                        result[index] = val
+                        if (completed === promises.length) {
+                            return res(result)
+                        }
+                    })
+                    .catch(e => {
+                        rej(e)
+                    })
+            })
         })
     }
 
-    static allSettled (promises) {
+    static allSettled(promises) {
         return new MyPromise((res, rej) => {
             const result = []
             let completed = 0
             promises.forEach((prom, index) => {
                 MyPromise.resolve(prom)
-                .then((val) => {
-                    result[index] = {status: STATE.FULFILLED, value: val}
-                })
-                .catch(e => {
-                    result[index] = {status: STATE.REJECTED, reason: e}
-                }).finally(() => {
-                    completed++
-                    if(completed === promises.length) {
-                        return res(result)
-                    }
-                })
-            }) 
-        })
-    }
-    
-    static race (promises) {
-        return new MyPromise((res, rej) => {
-            promises.forEach((prom, index) => {
-                MyPromise.resolve(prom)
-                .then(res)
-                .catch(rej)
-            }) 
+                    .then((val) => {
+                        result[index] = { status: STATE.FULFILLED, value: val }
+                    })
+                    .catch(e => {
+                        result[index] = { status: STATE.REJECTED, reason: e }
+                    }).finally(() => {
+                        completed++
+                        if (completed === promises.length) {
+                            return res(result)
+                        }
+                    })
+            })
         })
     }
 
-    static any (promises) {
+    static race(promises) {
+        return new MyPromise((res, rej) => {
+            promises.forEach((prom, index) => {
+                MyPromise.resolve(prom)
+                    .then(res)
+                    .catch(rej)
+            })
+        })
+    }
+
+    static any(promises) {
         const errors = []
         let rejected = 0
         return new MyPromise((res, rej) => {
             promises.forEach((prom, index) => {
                 MyPromise.resolve(prom)
-                .then(res)
-                .catch(e => {
-                    errors[index] = e
-                    rejected++
-                    if(rejected === promises.length) {
-                        rej(errors)
-                    }
-                })
-            }) 
+                    .then(res)
+                    .catch(e => {
+                        errors[index] = e
+                        rejected++
+                        if (rejected === promises.length) {
+                            rej(errors)
+                        }
+                    })
+            })
         })
     }
 }

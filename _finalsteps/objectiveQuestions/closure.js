@@ -10,9 +10,9 @@ function outer() {
 const innerFunc1 = outer()
 const innerFunc2 = outer()
 
-// innerFunc1() // Output: ?
-// innerFunc1() // Output: ?
-// innerFunc2()
+innerFunc1() // Output: ?
+innerFunc1() // Output: ?
+innerFunc2()
 
 function createCounter() {
   let count = 0
@@ -52,7 +52,7 @@ function outer() {
 }
 
 const greet = outer()
-// greet() // Output: ?
+greet() // Output: ?
 
 function outer() {
   const arr = []
@@ -67,8 +67,8 @@ function outer() {
 }
 
 const funcs = outer()
-// funcs[0]() // Output: ?
-// funcs[1]() // Output: ?
+funcs[0]() // Output: ?
+funcs[1]() // Output: ?
 
 function countdown(start) {
   let counter = start

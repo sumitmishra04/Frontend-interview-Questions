@@ -14,9 +14,10 @@ function getCellCount() {
 export default function App() {
   const [idOrder, setIdOrder] = useState([]);
   let timerRef = useRef(null);
+  const total = getCellCount()
 
   useEffect(() => {
-    if (idOrder.length === getCellCount()) {
+    if (idOrder.length === total) {
       timerRef.current = setInterval(() => {
         setIdOrder((order) => {
           const newOrder = [...order].slice(0, -1)
@@ -38,7 +39,7 @@ export default function App() {
 
   return <main>
       {BOX_DATA.map((row, index) => {
-        return row.map((col, colIndex) => {
+        return row.map((value, colIndex) => {
             const id = index + colIndex;
             const isSelected = idOrder.includes(id)
             return <div key={id} 

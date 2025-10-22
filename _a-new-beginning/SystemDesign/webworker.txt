@@ -1,0 +1,54 @@
+
+Web Workers: Offloading Work from the Main Thread
+A Web Worker is a JavaScript script that runs in a separate thread in the background, entirely isolated from the main thread where the UI and DOM are handled.
+
+1. How Web Workers Work (The Isolation)
+The primary job of a Web Worker is to move CPU-intensive, blocking tasks out of the main thread.
+
+Creation: The main thread spins up a new worker thread using new Worker('worker.js').
+
+Execution: The code in worker.js runs independently. It is computationally safe because it cannot access or modify the DOM (the window object is largely unavailable).
+
+Communication: The worker and the main thread communicate strictly via a messaging system (postMessage).
+
+2. Where It Adds a Performance Boost
+Web Workers provide a performance boost by preventing jank (stuttering or freezing of the UI).
+
+Problem: If you perform a large calculation (e.g., processing a 10MB file, complex JSON manipulation, or encryption) directly on the main thread, the browser freezes for several seconds.
+
+Solution: You move that heavy task into a Web Worker. The Worker executes the calculation in the background thread. The main thread remains free and responsive, allowing the user to scroll, click, and interact with the UI without any delay.
+
+3. Common Use Cases
+Heavy Calculations: Processing large datasets, image manipulation, or complex mathematical modeling.
+
+Data Serialization/Deserialization: Handling massive JSON responses (e.g., 50MB) without freezing the UI.
+
+Client-side Cryptography: Encryption and decryption tasks.
+
+Prefetching/Pre-rendering: Performing pre-calculations for complex UI elements or games before they are needed.
+
+4. How It Communicates (postMessage)
+Communication between the main page and the worker is asynchronous and uses the postMessage() API for both directions.
+
+Communication	Sender Code	Listener Code
+Main → Worker	worker.postMessage({ data: 'hello' });	self.addEventListener('message', (e) => { console.log(e.data); });
+Worker → Main	self.postMessage({ result: 42 });	worker.addEventListener('message', (e) => { console.log(e.data); });
+
+Export to Sheets
+Web Workers vs. Service Workers
+While both are types of "workers" and run on separate threads, their purpose, scope, and lifespan are fundamentally different.
+
+Feature	Web Worker	Service Worker
+Purpose	To offload CPU tasks from the main thread to prevent UI freezing (jank).	To act as a proxy/network layer between the browser and the network.
+Access	No direct access to the DOM (window).	No access to the DOM.
+Lifespan	Starts when created by the main script. Stops when the tab is closed or explicitly terminated (worker.terminate()).	Starts when events are received (e.g., a network request). Stops when idle.
+Scope	Tab-specific. Only active for the tab that created it.	Origin/Domain-wide. Can intercept requests from any page/tab under its defined scope.
+Key Use Case	Performance (non-blocking processing).	Reliability (caching, offline support, push notifications).
+
+Export to Sheets
+Analogy:
+
+Web Worker: A dedicated assistant hired by a single person (a tab) to handle heavy paperwork so the person can focus on talking (the UI).
+
+Service Worker: A doorman/bouncer for the entire building (the origin), who decides who can come in (network requests) and what can be served from the inventory (cache).
+|--------------------------------------

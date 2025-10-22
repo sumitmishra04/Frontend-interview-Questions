@@ -1,0 +1,84 @@
+React:
+
+react.memo
+useMemo
+useCallback
+virtualiszation/Windowing
+Code Splitting & Lazy Loading
+client side caching
+debounce and throttling
+
+
+
+
+
+Webpack:
+minification  (TerserPlugin)
+uglification (TerserPlugin)
+treeshaking
+hashed content for caching
+css extraction to a separate file
+compression using brottli (Network-Level Optimization by CompressionWebpackPlugin)
+
+
+Network:
+Anything that reduces file size will improve network load time and reduce TTFB
+eg: compression, minification, uglification, treeshaking, webp images, css sprites
+debouncing
+throttling
+service worker
+web worker
+react query
+compression
+caching using webpack content hash
+cdn caching
+pagination, 
+Code Splitting & Lazy Loading
+GraphQL
+
+Image:
+Responsive Image Sizing (Server/CDN):
+Concept: Never serve an image larger than it will be displayed. The server or a specialized image CDN (like Cloudinary or Myntra's internal CDN) must dynamically generate the image at the exact required dimensions (e.g., 300×400 thumbnail for the list view, not the 2000×3000 high-res master file).
+Benefit: Drastically reduces the file size in kilobytes.
+
+Modern Image Formats (WebP/AVIF):
+Concept: Serve images in modern formats like WebP (or AVIF) instead of JPEG or PNG.
+Benefit: Provides 25–50% better compression than JPEG at the same perceived quality.
+
+Lazy Loading (Intersection Observer):
+Concept: The browser is instructed to defer loading the image entirely until the element comes into or nears the visible viewport.
+Implementation: Use the native browser attribute loading="lazy" on the <img> tag, or use a custom implementation with the Intersection Observer API combined with virtualization.
+Key Distinction: Virtualization manages the React components; Lazy Loading manages the image resource request. They work together: the virtualizer renders the component, and the lazy loader ensures the image URL isn't fetched until the component is almost visible.
+
+Placeholder Technique (Skeleton/Blur-up):
+Concept: Before the image loads, display a lightweight placeholder.
+Techniques:
+Skeleton Screens: A gray/shimmering block that reserves the image's space, preventing layout shift (CLS).
+Low-Quality Image Placeholder (LQIP) / Blur-Up: Load an extremely tiny (e.g., 2KiB), blurry thumbnail immediately, and then swap it out for the full-resolution image once the main file is downloaded.
+
+
+CSS::
+
+Keep selectors short and simple. Avoid deeply nested selectors (e.g., body > div > #main > article > p). Never use the universal selector (*).	
+Use properties like transform and opacity for animations instead of properties like top, left, width, or height
+Minimize CSS Size	
+Load only that css that helps with above the fold by extracting css using tools and inline them in <style> tags
+rest load asynchronously
+You use the rel="preload" attribute to load the file asynchronously, and then you apply the styles using onload.
+
+HTML
+
+<link 
+  rel="preload" 
+  href="/styles/non-critical.css" 
+  as="style" 
+  onload="this.onload=null;this.rel='stylesheet'"
+/>
+<noscript>
+  <link rel="stylesheet" href="/styles/non-critical.css" />
+</noscript>
+
+
+
+
+

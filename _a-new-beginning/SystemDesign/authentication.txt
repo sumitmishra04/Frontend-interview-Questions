@@ -1,0 +1,243 @@
+AUTHENTICATION::
+SSO:
+SSO (Single Sign-On) is an authentication method that allows a user to log in once and gain access to multiple applications or services without logging in again.
+Why it’s used:
+Better user experience (no repeated logins)
+Centralized authentication
+More secure: passwords are not shared with every service
+
+How SSO Works (Conceptually)
+There are a few protocols used for SSO:
+Protocol	Description
+SAML	XML-based, used in enterprise apps
+OAuth 2.0 / OpenID Connect (OIDC)	Token-based, widely used in modern web/mobile apps
+JWT	JSON Web Tokens, often combined with OAuth/OIDC
+
+Basic Flow (OAuth 2.0 / OIDC style):
+User clicks Login on App A.
+App A redirects to Identity Provider (IdP) (Google, Auth0, Okta, etc.).
+User authenticates at IdP.
+IdP returns a token (JWT or OAuth token) to App A.
+App A validates the token and logs in the user.
+The token can be used to access other apps in the SSO ecosystem.
+
+JWT 
+1. neevr store password in plain text. It must be encrypted using bcrypt package. When checking, the user's input password, that must also be encrypted and then compared.
+2. password must be sent through body as communication is encrypted usin https.
+3. we send jwt as headers {"x-access-token": Bearer token}
+this token can be fetched from cookies or state by passing {withCredentials: true} in axios options. this then helps automatic inclusion of cookie in the req to server.
+4. 401 unauthenticated and 403 for forbiddeden(unauthorised)
+A JWT is composed of 3 parts:
+header.payload.signature
+// header
+{
+  "alg": "HS256",
+  "typ": "JWT"
+}
+// payload
+{
+  "sub": "1234567890",
+  "name": "Sumit",
+  "iat": 1697000000,
+  "exp": 1697604800
+}
+// signature = HMACSHA256(base64UrlEncode(header) + "." + base64UrlEncode(payload), secret)
+1️⃣ JWT Delivery to Browser
+
+After a successful login (OAuth flow, or your backend authenticates the user), the JWT can be sent to the browser in two main ways:
+
+Option A: In Response Body
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+
+
+Browser receives token via AJAX (fetch/axios).
+
+You can store it in memory.
+
+Example:
+
+const res = await fetch('/login', { method: 'POST', body: JSON.stringify({ username, password }) });
+const data = await res.json();
+const token = data.token;
+
+// store in memory or sessionStorage
+sessionStorage.setItem('jwt', token);
+
+
+Pros: Easy to read from JS.
+Cons: Vulnerable to XSS attacks if malicious scripts run on your page.
+
+Option B: HTTP-Only Secure Cookie
+
+Backend sets the JWT in a cookie:
+
+Set-Cookie: jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...; HttpOnly; Secure; SameSite=Strict
+
+
+Browser automatically sends this cookie with requests.
+
+Cannot be read by JS (document.cookie won’t work).
+
+Pros: Safer — protected from XSS.
+Cons: Need to handle CSRF attacks carefully.
+
+2️⃣ Using JWT in Requests
+
+If stored in JS-accessible storage:
+
+const token = sessionStorage.getItem('jwt');
+
+fetch('/api/orders', {
+  method: 'GET',
+  headers: {
+    'Authorization': `Bearer ${token}`,
+  }
+});
+
+
+The server reads the Authorization header, verifies the token, and returns data.
+
+If stored in HTTP-only cookie:
+
+fetch('/api/orders', {
+  method: 'GET',
+  credentials: 'include' // important for cookies
+});
+Browser automatically sends the cookie.
+Server verifies the token from the cookie.
+
+3️⃣ Lifecycle & Expiration
+
+JWT usually has an expiry (exp) claim.
+When expired, you either:
+Ask the user to log in again
+Use a refresh token (long-lived token) to get a new JWT
+🔑 TL;DR
+Method	How Browser Accesses	Pros	Cons
+LocalStorage / sessionStorage	sessionStorage.getItem('jwt')	Easy to use in JS	Vulnerable to XSS
+HTTP-Only Cookie	Sent automatically with requests	Protected from XSS	Need CSRF protection
+
+Best practice: For production apps, use HTTP-only secure cookies. If you must use localStorage, make sure your app is free of XSS vulnerabilities.
+
+const express = require('express');
+const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+
+const app = express();
+app.use(cookieParser());
+app.use(bodyParser.json());
+
+const JWT_SECRET = 'your_secret_key'; // store securely in env variables
+
+// Dummy user for demo
+const USER = {
+  username: 'sumit',
+  password: '12345',
+  name: 'Sumit'
+};
+
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+
+  if (username === USER.username && password === USER.password) {
+    const token = jwt.sign({ username: USER.username, name: USER.name }, JWT_SECRET, { expiresIn: '1h' });
+
+    // Set token in HTTP-only cookie
+    res.cookie('jwt', token, {
+      httpOnly: true,
+      secure: false, // set to true in production (HTTPS)
+      sameSite: 'Strict'
+    });
+
+    return res.json({ message: 'Login successful' });
+  }
+
+  res.status(401).json({ message: 'Invalid credentials' });
+});
+
+// Protected route
+app.get('/profile', (req, res) => {
+  const token = req.cookies.jwt;
+  if (!token) return res.status(401).json({ message: 'Not authenticated' });
+
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    res.json({ user: decoded });
+  } catch (err) {
+    res.status(401).json({ message: 'Token invalid or expired' });
+  }
+});
+
+app.listen(4000, () => console.log('Server running on http://localhost:4000'));
+
+
+// App.jsx
+import React, { useState } from 'react';
+
+function App() {
+  const [user, setUser] = useState(null);
+  const [message, setMessage] = useState('');
+
+  const handleLogin = async () => {
+    const res = await fetch('http://localhost:4000/login', {
+      method: 'POST',
+      credentials: 'include', // important to send/receive cookies
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: 'sumit', password: '12345' })
+    });
+
+    const data = await res.json();
+    setMessage(data.message);
+  };
+
+  const fetchProfile = async () => {
+    const res = await fetch('http://localhost:4000/profile', {
+      method: 'GET',
+      credentials: 'include' // send cookie automatically
+    });
+    const data = await res.json();
+    setUser(data.user);
+  };
+
+  return (
+    <div>
+      <h1>React + Express JWT Example</h1>
+      <button onClick={handleLogin}>Login</button>
+      <button onClick={fetchProfile}>Get Profile</button>
+      <p>{message}</p>
+      {user && <pre>{JSON.stringify(user, null, 2)}</pre>}
+    </div>
+  );
+}
+
+export default App;
+
+
+COOKIES::
+A cookie is a small piece of data stored in the browser and sent automatically with every HTTP request to the domain that set it.
+Set-Cookie: jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...; Path=/; Expires=Fri, 11 Oct 2025 18:00:00 GMT
+res.cookie('jwt', token, {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === 'production', // HTTPS only in prod
+  sameSite: 'Strict',
+  path: '/',
+  maxAge: 60 * 60 * 1000 // 1 hour
+})
+
+2️⃣ Important Cookie Attributes for Security
+Attribute	Purpose	Security Notes
+HttpOnly	JS cannot access this cookie (document.cookie)	Prevents XSS from stealing JWTs
+Secure	Cookie only sent over HTTPS	Prevents sending token in plaintext over HTTP
+SameSite	Controls cross-site sending	Strict → only same-site requests; Lax → allows top-level navigation; None → cross-site allowed but must use Secure
+Domain	Limits cookie to a specific domain	Can be used for subdomain sharing
+Path	Limits cookie to a specific path	e.g., /api → cookie sent only for /api/* requests
+Expires / Max-Age	Defines lifetime of the cookie	Shorter lifetimes reduce risk of token misuse
+
+💡 Key Takeaways:
+HttpOnly + Secure + SameSite → minimum for auth cookies.
+Avoid storing sensitive data in localStorage if you can use cookies.
+JWT inside a cookie is safer than storing JWT in JS-accessible storage.
+Consider short-lived JWTs + refresh tokens for long sessions.

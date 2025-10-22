@@ -1,4 +1,4 @@
-async function parallelLimit(tasks, limit) {
+async function concurrentWithLimit(tasks, limit) {
     const results = [];
     let runningTasks = 0;
     let taskIndex = 0;
@@ -37,7 +37,7 @@ async function parallelLimit(tasks, limit) {
   ];
   
   // Run with limit of 2 concurrent tasks
-  parallelLimit(tasks, 2).then(results => {
+  concurrentWithLimit(tasks, 2).then(results => {
     console.log(results); // Expected Output: [1, 4, 2, 5, 3]
   });
   

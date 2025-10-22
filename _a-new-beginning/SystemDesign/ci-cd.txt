@@ -1,0 +1,4 @@
+continous integration
+continous delivery/deployment
+
+ci->cd

@@ -3,7 +3,7 @@
 
 // Creates a new empty object { }.
 // Sets this inside the function to refer to the new object.
-// Links the new object's __proto__ to the constructor function's.prototype.
+// Links the new objects __proto__ to the constructor functions.prototype.
 // Returns the new object(unless the function explicitly returns something else).
 
 // JavaScript’s new behavior:
@@ -14,8 +14,8 @@
 
 // No return (undefined) =>	Return the created object (obj)
 // Returns a primitive (string, number, etc.) => Ignore it, return obj
-// Returns an object =>	Return that object instead
 // Returns this	=> Behaves the same as no return hence normal usecase
+// Returns an object =>	Return that object instead
 
 
 // What Does new Do ?
@@ -157,6 +157,37 @@ function myCreate(proto) {
     function F() { } //  
     F.prototype = proto
     return new F()
+}
+
+function myCreate(proto, propertiesObject) {
+    if (typeof Object.create !== 'function') {
+ 
+        // Handle edge cases
+        if (proto !== Object(proto) && proto !== null) {
+            throw new TypeError('Object prototype may only be an Object or null');
+        }
+
+        // Create a temporary constructor function
+        function F() {}
+        
+        // Set its prototype to the provided proto
+        F.prototype = proto;
+        
+        // Create new instance
+        const obj = new F();
+        
+        // If proto was null, remove __proto__
+        if (proto === null) {
+            Object.setPrototypeOf(obj, null);
+        }
+        
+        // If properties object is provided, define properties
+        if (propertiesObject !== undefined) {
+            Object.defineProperties(obj, propertiesObject);
+        }
+        
+        return obj;
+   }
 }
 
 const animal = { type: "mammal" };

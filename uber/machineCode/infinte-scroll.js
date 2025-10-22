@@ -1,90 +1,118 @@
 import "./styles.css";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useDebugValue, useEffect, useRef, useState } from "react";
 
 export default function InfinteScroll({ fetchMore, hasMore, renderItem }) {
-    const [list, setList] = useState([]);
-    const observerRef = useRef(null);
+  const [list, setList] = useState([]);
+  const observerRef = useRef(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-    useEffect(() => {
-        fetchMore().then((newItems) => setList(newItems));
-    }, []);
+  useEffect(() => {
+    fetchMore().then((newItems) => setList(newItems));
+  }, []);
 
-    const lastItemRef = useCallback(
-        (node) => {
-            if (!hasMore || !node) return;
-            if (observerRef.current) observerRef.current.disconnect();
+  const lastItemRef = useCallback(
+    function triggerFetch(node) {
+      // Early return if no node or no more items
+      if (!node || !hasMore) return;
 
-            observerRef.current = new IntersectionObserver(([entry]) => {
-                if (entry.isIntersecting) {
-                    fetchMore().then((newItems) => {
-                        setList((prev) => [...prev, ...newItems]);
-                    });
-                }
+      // Cleanup previous observer
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
+
+      // Track if the component is still mounted
+      let isSubscribed = true;
+
+      observerRef.current = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting && hasMore && !isLoading) {
+          setIsLoading(true);
+          // Disconnect immediately to prevent multiple triggers
+          observerRef.current.disconnect();
+
+          fetchMore()
+            .then((newItems) => {
+              // Only update if component is still mounted
+              if (isSubscribed) {
+                setList((prev) => [...prev, ...newItems]);
+              }
+            })
+            .catch((error) => {
+              console.error("Error fetching more items:", error);
+            })
+            .finally(() => {
+              if (isSubscribed) {
+                setIsLoading(false);
+              }
             });
+        }
+      });
 
-            observerRef.current.observe(node);
-        },
-        [hasMore, fetchMore]
-    );
+      observerRef.current.observe(node);
 
-    return (
-        <div style={{ display: "flex", gap: "2px", flexDirection: "column" }}>
-            Infinite Scroll
-            <div>
-                <ul
-                    style={{
-                        border: "1px solid",
-                        padding: "10px",
-                        height: "100px",
-                        width: "fit-content",
-                        overflow: "auto",
-                    }}
-                >
-                    {list.map((item, index) => {
-                        return (
-                            <li
-                                style={{ listStyle: "none" }}
-                                ref={index === list.length - 1 ? lastItemRef : null}
-                            >
-                                {renderItem(item, index)}
-                            </li>
-                        );
-                    })}
-                </ul>
-            </div>
-            {!hasMore && <p>End of list</p>}
-        </div>
-    );
+      // Cleanup function
+      return () => {
+        isSubscribed = false;
+        if (observerRef.current) {
+          observerRef.current.disconnect();
+        }
+      };
+    },
+    [fetchMore, hasMore]
+  );
+
+  return (
+    <div style={{ display: "flex", gap: "2px", flexDirection: "column" }}>
+      Total Items Fetched ({list.length})
+      <div>
+        <ul
+          style={{
+            border: "1px solid",
+            padding: "10px",
+            height: "100px",
+            width: "fit-content",
+            overflow: "auto",
+          }}
+        >
+          {list.map((item, index) => {
+            return (
+              <li
+                key={index}
+                style={{ listStyle: "none" }}
+                ref={index === list.length - 1 ? lastItemRef : null}
+              >
+                {renderItem(item, index)}
+              </li>
+            );
+          })}
+          {isLoading && (
+            <li key="loading" style={{ listStyle: "none" }}>
+              Loading...
+            </li>
+          )}
+        </ul>
+      </div>
+      {!hasMore && <p>End of list</p>}
+    </div>
+  );
 }
 
+// usage
+const [hasMore, setHasMore] = useState(true);
+const [infiniteScrollItems, setInfiniteScrollItems] = useState([]);
+const pageSize = 10;
 
-const staticData = Array.from({ length: 50 }, (_, i) => `Item ${i + 1}`);
+const fetchMore = () =>
+  new Promise((resolve) => {
+    setTimeout(() => {
+      const newItems = Array.from(
+        { length: pageSize },
+        (_, i) => `Item ${infiniteScrollItems.length + i + 1}`
+      );
+      const totalItems = [...infiniteScrollItems, ...newItems];
+      if (totalItems.length === 30) setHasMore(false); // Stop after 50 items
+      setInfiniteScrollItems(totalItems);
+      resolve(newItems);
+    }, 1000); // Simulate network delay
+  });
 
-const fetchStaticData = async (start, limit) => {
-    return new Promise((resolve) => {
-        setTimeout(() => resolve(staticData.slice(start, start + limit)), 500);
-    });
-};
-
-export default function App() {
-
-    const [start, setStart] = useState(0);
-    const [hasMore, setHasMore] = useState(true);
-
-    const fetchMore = async () => {
-        const newItems = await fetchStaticData(start, 10);
-        setStart((prev) => prev + 10);
-        if (newItems.length === 0) setHasMore(false);
-        return newItems;
-    };
-
-    return (
-        <div className="App">
-            <InfinteScroll
-                fetchMore={fetchMore}
-                hasMore={hasMore}
-                renderItem={(item) => <p>{item}</p>}
-            />
-        </div>
-    );
-}
+const renderItem = (item) => <div>{item}</div>;

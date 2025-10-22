@@ -44,9 +44,9 @@ function fetchAllData2() {
 
 function fetchAllData3() {
     const tasks = [getData, getData, getData]
-    return tasks.reduce((promiseChain, task) => {
-        return promiseChain.then(results => {
-            return task().then(result => [...results, result])
+    return tasks.reduce((acc, curr) => {
+        return acc.then(results => {
+            return curr().then(result => [...results, result])
         })
     }, Promise.resolve([]))
 }

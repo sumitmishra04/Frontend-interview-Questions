@@ -1,0 +1,151 @@
+CRITICAL RENDERING PATH::
+1️⃣ What is Critical Rendering Path (CRP)?
+
+Definition:
+The Critical Rendering Path is the sequence of steps the browser takes to convert HTML, CSS, and JavaScript into pixels on the screen.
+
+Think of it as everything that happens between “user requests a page” → “user sees the content”.
+
+Optimizing CRP = faster page load → better user experience.
+
+2️⃣ Steps in the Critical Rendering Path
+
+When a browser loads a page:
+
+Step 1: Construct the DOM
+
+Browser parses HTML into the DOM tree.
+
+Example: <div><p>Hello</p></div> → DOM nodes for div and p.
+
+Step 2: Construct the CSSOM
+
+Browser parses CSS into the CSS Object Model (CSSOM).
+
+Example: div { color: red; } → CSSOM node for div with color:red.
+
+Step 3: Construct the Render Tree
+
+Browser combines DOM + CSSOM → Render Tree
+
+Only visible elements are included (e.g., <head> content is ignored)
+
+Step 4: Layout / Reflow
+
+Browser calculates exact position & size of each render tree node
+
+Example: where the <div> sits on the page, its width, height, etc.
+
+Step 5: Paint / Rasterize
+
+Browser fills pixels on the screen according to the render tree
+
+Text, colors, borders, images are painted
+
+
+3️⃣ Why CRP is Important
+
+Anything that blocks the DOM/CSSOM construction delays rendering → slower First Contentful Paint (FCP).
+
+Examples of render-blocking resources:
+
+<link rel="stylesheet"> in head
+
+<script> without async or defer
+
+Optimizing CRP can make your page feel faster, even if total download size is large.
+
+-------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------
+
+How do you measure performance::
+What to Measure (Metrics), How to Measure (Tools), and Where to Measure (Environments).
+What to Measure (Metrics)
+Category	Metric	What it Measures
+Loading	Largest Contentful Paint (LCP)	The time it takes for the largest visual element (e.g., your food banner image) to appear.
+Interactivity	Interaction to Next Paint (INP) (New Standard)	The latency of all user interactions (clicks, taps, key presses) throughout the lifespan of the page.
+Visual Stability	Cumulative Layout Shift (CLS)	The amount of unexpected movement of page content while the page loads.
+Supplemental	First Contentful Paint (FCP)	Time until the first piece of content (text, image, etc.) appears on the screen.
+Supplemental	Time to First Byte (TTFB)	The delay until the user's browser receives the first byte of data from your server. (Server speed).
+
+How to Measure (Tools)
+Type of Testing	Description	Primary Tool(s)
+Lab Data (Synthetic)	Performance measured in a controlled environment (simulated network speeds, clean browser). Great for debugging and comparing changes between builds.	Lighthouse (in Chrome DevTools), WebPageTest, and local tools like Webpack Bundle Analyzer.
+Field Data (Real User Monitoring - RUM)	Performance measured based on actual user sessions, using real devices, networks, and geographies. Essential for understanding the true user experience.	Google PageSpeed Insights (uses field data), Google Search Console, and RUM tools like DataDog RUM, Sentry, or custom RUM scripts.  
+Key Point to Mention: "We primarily use Lighthouse for daily debugging (Lab Data) and monitor our live site's performance using RUM tools to capture real-world Core Web Vitals (Field Data)."
+
+
+
+. Where to Measure: The Process
+Explain how performance fits into your development lifecycle:
+
+Stage	Action	Tool/Metric Focus
+Local Development	Developer runs Lighthouse on their code before committing.	Focus on LCP and identifying unoptimized local assets.
+Continuous Integration (CI)	Automatically block code merges if performance budgets are exceeded.	Use tools like WebPageTest API or Lighthouse CI to run automated performance checks on every pull request.
+Production	Monitor real-world user metrics and conduct A/B testing on performance improvements.	RUM Tools and INP (for real interactivity issues).
+
+
+
+"I measure performance using a combination of standardized Core Web Vitals metrics and leveraging both Lab Data and Field Data to ensure we capture the real user experience."
+
+Then elaborate:
+
+Metrics: Focus on LCP (for loading), INP (for interactivity), and CLS (for stability).
+
+Tools (Lab): We use Lighthouse in DevTools and Webpack Bundle Analyzer to audit our bundles and find issues before deployment.
+
+Tools (Field/RUM): We track the Core Web Vitals of actual users using a Real User Monitoring (RUM) solution to understand performance impact across various devices and geographies.
+
+Process: We enforce Performance Budgets in our CI/CD pipeline to prevent slow code from ever reaching production.
+
+RUM tools, like Sentry, DataDog RUM, or New Relic, work by injecting a small JavaScript snippet into your production app. This enables Field Data collection.
+
+Component	Role	How it Works
+Sentry SDK (Frontend)	Data Collector	Sentry's SDK initializes with a unique project key (DSN). It hijacks the browser's native Web Vitals APIs and event listeners.
+Data Collection	Tracking Session	1. When a real user loads your page, the SDK starts tracking. 2. It records the LCP time based on the browser's API. 3. It records interaction latency (INP) for every click/tap. 4. It measures CLS during the session.
+Error Context	Adding Context	Sentry is famous for linking performance events (e.g., a slow transaction) directly to any code errors that occurred during that session. You see the entire stack trace, the user's breadcrumbs, and device info.
+Reporting	Aggregation	The SDK sends this data back to the Sentry server. Sentry aggregates millions of user sessions to show you performance distribution (e.g., "90% of users have an LCP better than 2.0s").
+
+Key Advantage: RUM shows you the true experience of users on slow Wi-Fi in Brazil on an old Android phone, which a fixed Lab Test can never replicate.
+
+
+With error boundary:
+// src/components/ErrorBoundary.jsx
+import React from 'react';
+import * as Sentry from '@sentry/react'; 
+
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  // 1. Catches JavaScript errors anywhere in its child component tree.
+  static getDerivedStateFromError(error) {
+    // Update state so the next render shows the fallback UI.
+    return { hasError: true };
+  }
+
+  // 2. This is the crucial integration point!
+  componentDidCatch(error, errorInfo) {
+    // Log the error to Sentry with additional context
+    Sentry.withScope((scope) => {
+      // Add component stack trace information
+      scope.setExtras(errorInfo); 
+      // 3. Send the captured error to Sentry's server
+      Sentry.captureException(error); 
+    });
+  }
+
+  render() {
+    if (this.state.hasError) {
+      // Fallback UI for the customer (e.g., in the tracking section)
+      return <h1>Oops! The map couldn't load. Please try refreshing.</h1>;
+    }
+
+    return this.props.children;
+  }
+}
+export default ErrorBoundary;
+

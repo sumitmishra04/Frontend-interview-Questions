@@ -1,0 +1,9 @@
+react.memo
+useMemo
+useCallback
+virtualiszation/Windowing
+Code Splitting & Lazy Loading
+client side caching
+debounce and throttling
+
+

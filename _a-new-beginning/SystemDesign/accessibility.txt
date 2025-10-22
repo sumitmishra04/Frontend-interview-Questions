@@ -1,0 +1,31 @@
+
+ACCESSIBILITY:: 
+1. must be keyboard accessible and text not too small or low in contrast. Should use standard html elements so that it can be interpreted correctly by screen reader agents.
+4. Use role attributes on non-semantic elements to define their purpose to AT (Assistive Technology). <div role="button">Submit</div> (Only use if necessary, prefer <button>).
+5. Use aria-expanded, aria-checked, aria-live, etc., to communicate the dynamic state of a component.
+6. The first rule of ARIA is to not use ARIA. If you can achieve the same result with standard semantic HTML, do it. ARIA is for bridging the gap where native HTML is insufficient
+7. How do you test for accessibility? Axe DevTools. Manual Keyboard Testing (manually tabbing) and Screen Reader Testing like VoiceOver to check if the content is read out correctly,
+8. What is a focus trap, and how do you handle it? A focus trap is a design pattern used primarily in modal dialogs. When a modal opens, we want to restrict the user's keyboard focus only to elements inside that modal, preventing them from tabbing to content behind it.
+9. Explain the importance of color contrast.WCAG requires a minimum contrast ratio of 4.5:1 for normal text and 3:1 for large text (at least 18pt). If the contrast is insufficient, users can't distinguish the text from the background, making the content unreadable."
+10. explain tabIndex? By adding tabindex="0" and key event handlers, you are transforming a non-semantic element into a usable interactive widget for keyboard-only users. However, it is always best practice (the "First Rule of ARIA") to use the native semantic element (<button>) instead, as it provides all this functionality for free.
+11: Focus Indication: Keyboard User's Anchor: The rule states: Never remove the visual focus indicator (the outline) unless you replace it with a clear, custom style. The focus indicator is a vital part of the Perceivable WCAG principle. It is the visual clue that shows a user which element on the screen currently has keyboard focus.
+/* For better UX, you can use :focus-visible to only show the outline 
+   when the user navigates with a keyboard, not a mouse click. */
+:focus-visible {
+    /* Apply a distinct, high-contrast style here */
+}
+12: Tabindex: 
+    0: This is the value you use to make a non-interactive element focusable and operable. It is placed in the natural document order (Source Order). It follows all elements with positive tabindex values and comes before all non-focusable elements.
+    -1: This value is used to remove an element from the natural tab flow while keeping it programmatically accessible.  After a form submission error, you want the screen reader user to immediately hear the error message. You can't rely on them tabbing to it. By using tabindex="−1" on the message and calling .focus() with JavaScript, you instantly shift their focus (their "anchor") to the critical information
+    1 or positive: This value allows you to force a custom tab order, overriding the natural document flow. The single biggest reason to avoid positive tabindex is that it breaks the connection between the visual order and the tab order. The logical keyboard navigation order should always match the visual layout and the source code order. If your visual design requires a different order than your HTML, you should rearrange your HTML source code, not force the order with tabindex>0.
+13: Screen reader: The screen reader doesn't read the raw HTML code. Instead, it interacts with a dedicated layer created by the browser called the Accessibility Tree.Based on the HTML tags, roles, and attributes, the browser generates a parallel, simplified structure called the Accessibility Tree. This tree contains only the relevant information for accessibility (e.g., element role, state, and accessible name).
+14: aria-live="polite" ensures dynamic, non-critical page updates are announced by a screen reader only after the user finishes their current task or reading, preventing interruption.
+15: so basically only interactable elements can have default tab behavior like a, button, input, select, form elements
+however non-focusable ones do not have like <div>, <span>, <section>, <article>.
+16. It is advisable to use tabIndex={0} specifically when you need to make a non-natively focusable HTML element (like a <div>, <span>, or a static image) focusable and reachable via the keyboard, because you have transformed it into a custom interactive control. Use role in that case. Role will be used by screen readers. eg Treat this <div> like a button.
+17. While the role attribute tells a screen reader "What an element is" (e.g., role="button"), the aria-* attributes tell the screen reader "What the element is doing, what its settings are, and how it relates to other things"
+eg: aria-expanded, checked, hidden, disabled
+aria-label is used for icons as no visible text is available for icons
+while live are the attributes signal that tells a part of the page is likely to be updated dynamically and that the screen reader should pay attention and announce the change without needing the user to move focus.
+eg: Used on a shopping cart total that updates automatically when an item is added: aria-live="polite".
+By using role (what it is) and aria-* (what its status is), you ensure your application is fully understandable by all users.

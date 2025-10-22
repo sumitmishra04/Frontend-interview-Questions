@@ -8,8 +8,7 @@ Function.prototype.mybind = function (obj, ...args) {
 
 const obj = {
   name: "sumit",
-  getName: function (value) {
-    console.log(value)
+  getName: function () {
     return this.name
   },
 }
@@ -18,4 +17,4 @@ const obj2 = {
   name: "mishra",
 }
 
-console.log(obj.getName.mybind(obj2, obj.name)(1, 2))
+console.log(obj.getName.mybind(obj2, obj.name)())

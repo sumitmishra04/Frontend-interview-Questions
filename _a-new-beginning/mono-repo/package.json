@@ -1,0 +1,24 @@
+{
+  "name": "mono-repo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev --workspace=backend-app\" \"npm run dev --workspace=frontend-app\"",
+    "dev:backend": "npm run dev --workspace=backend-app",
+    "dev:frontend": "npm run dev --workspace=frontend-app",
+    "start": "npm run dev --workspaces",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^9.2.1"
+  },
+  "node": ">=20 <21"
+}

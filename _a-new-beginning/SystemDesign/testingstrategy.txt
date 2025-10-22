@@ -1,0 +1,21 @@
+
+Unit Testing (Focus: Functions & Small Components)
+
+Component Isolation	Verify a small, stateless component renders correctly given specific props.	Jest, React Testing Library (RTL)	Test the <ProductCardTitle> component to ensure it correctly displays the productName prop and truncates it if it exceeds 50 characters.
+Hook Logic	Test the logic within custom hooks (e.g., state initialization, derived state, side effects).	Jest, RTL's renderHook utility	Test a custom hook useCartState to ensure calling addItem(item) correctly increments the item count and updates the total price state.
+Pure Functionality	Test helper functions that have no side effects (e.g., formatting data).	Jest	Test a utility function formatPrice(price) to ensure the number 1234.56 correctly returns the localized string "₹1,234".
+
+
+Component/Integration Testing (Focus: Feature Logic & API Mocks)
+This layer focuses on how components work together, simulating browser events and API responses.
+
+API Mocking	Test a component that fetches data without making a real network call.	Mock Service Worker (MSW), Jest	Test the <ProductFilters> component: Mock the API call that fetches available colors. Assert that once the mocked data returns, the correct number of color checkboxes appears on the screen.
+User Interaction	Test a complex interaction flow within a contained feature (simulating clicks, typing).	RTL (fireEvent, userEvent)	Test the <SearchBox> component: Type "t-shirt" into the input, and assert that the component immediately displays a loading spinner and then renders the search results list.
+Context/Redux Connection	Test if a component correctly reads from and dispatches actions to a global state store.	Jest, Redux Mock Store	Test the <AddToCartButton> component to ensure that clicking it dispatches the cart/itemAdded action with the correct product ID and quantity payload.
+
+
+End-to-End (E2E) Testing (Focus: Full User Flow)
+This tests the application running in a real browser against a deployed environment (Staging or QA).
+
+Critical Path Validation	Ensure the most valuable user journeys are functional from start to finish.	Cypress, Playwright	Checkout Flow: Navigate to the homepage → Search for "dress" → Click the first product → Select size → Click 'Add to Bag' → Go to Cart → Click 'Checkout' → Verify the Shipping Address step loads correctly.
+Cross-Browser/Device	Verify layout and functionality on different browsers and mobile viewports.	Cypress, BrowserStack/Sauce Labs	Test the image carousel on the product details page to ensure swipe gestures work on a simulated mobile viewport in Chrome, Firefox, and Safari.

@@ -1,0 +1,24 @@
+https://frontendmasters.com/courses/frontend-system-design/
+
+Feed
+
+Requirements:
+FR:
+Post (comments, likes and share). Support attachments for images, can have text support as well.
+Each post will show the time of upload, the profile detail like image and name.
+Can have edit, delete, archive function
+
+List of posts
+Infinite scroll and virtulisation 
+
+Localisation and internationalisation
+
+Architecture:
+Feed UI
+  > Post Card
+  > Post List
+
+Feed UI => BE 
+We can have SW.
+
+Create post
