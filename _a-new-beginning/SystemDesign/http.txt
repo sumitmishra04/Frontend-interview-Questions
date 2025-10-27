@@ -98,7 +98,7 @@ Method	Using PUT, DELETE, or PATCH.	These methods inherently change or delete da
 Custom Headers	Adding a header like X-API-Key or a custom Content-Type.	Browsers want to make sure the receiving server is prepared to handle custom data formats or security keys.
 Content Type	Sending data as application/json (standard for most modern APIs).	This is a complex content type that requires explicit server authorization.
 
-Export to Sheets
+
 If your request is a simple GET, HEAD, or a basic POST with standard form data, no preflight is sent.
 
 3. What is its Use? (The Knock-Knock Dialogue)
@@ -111,7 +111,7 @@ Step	Sender	Request/Header	Meaning
 2. Permission	Server (API)	200 OK Headers: Access-Control-Allow-Origin: *, Access-Control-Allow-Methods: PUT, Access-Control-Allow-Headers: X-Auth-Token	"Yes, I allow PUT and X-Auth-Token from your origin. Proceed."
 3. Main Request	Browser (Client)	PUT /api/data (Actual request body)	The browser now sends the actual data.
 
-Export to Sheets
+
 If the server responds in Step 2 saying, "No, I don't allow PUT," the browser immediately cancels the main request and throws a CORS error in your console. The actual data never leaves your computer.
 
 4. Access-Control-Max-Age (Optimization)
@@ -119,3 +119,16 @@ The browser knows that asking for permission every time is slow. The server can 
 
 It does this by adding the header Access-Control-Max-Age: 86400 (86,400 seconds = 24 hours) to the preflight response. The browser then caches the permission, eliminating the need for subsequent preflights for that endpoint within the time limit.
  In summary, the Preflight exists because modern complex requests are so powerful that the browser cannot risk sending them without the server's explicit, immediate, and positive confirmation that the originating domain is allowed to perform that specific action (method, headers) against that resource. It prevents CSRF attack
+
+
+No, a preflight request never happens when the request is made to the same origin.
+
+Here's the quick breakdown why:
+
+The browser's default security rule is the Same-Origin Policy (SOP).
+
+If the request is Same-Origin (same protocol, domain, and port), the SOP allows it immediately.
+
+CORS (Cross-Origin Resource Sharing) is the mechanism used to ask permission to bypass the SOP.
+
+Since you don't need to ask permission for a Same-Origin request, CORS is not invoked, and therefore, the CORS preflight (OPTIONS request) is not sent.

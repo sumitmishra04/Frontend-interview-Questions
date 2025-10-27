@@ -71,7 +71,9 @@ Supplemental	Time to First Byte (TTFB)	The delay until the user's browser receiv
 
 How to Measure (Tools)
 Type of Testing	Description	Primary Tool(s)
+
 Lab Data (Synthetic)	Performance measured in a controlled environment (simulated network speeds, clean browser). Great for debugging and comparing changes between builds.	Lighthouse (in Chrome DevTools), WebPageTest, and local tools like Webpack Bundle Analyzer.
+
 Field Data (Real User Monitoring - RUM)	Performance measured based on actual user sessions, using real devices, networks, and geographies. Essential for understanding the true user experience.	Google PageSpeed Insights (uses field data), Google Search Console, and RUM tools like DataDog RUM, Sentry, or custom RUM scripts.  
 Key Point to Mention: "We primarily use Lighthouse for daily debugging (Lab Data) and monitor our live site's performance using RUM tools to capture real-world Core Web Vitals (Field Data)."
 

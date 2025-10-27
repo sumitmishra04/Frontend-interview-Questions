@@ -10,8 +10,9 @@ const __dirname = path.dirname(__filename);
 const ACCESS_SECRET = 'dev-access-secret';
 const REFRESH_SECRET = "refresh-secret-key";
 
-const ACCESS_TOKEN_LIFETIME = "15s";
-const REFRESH_TOKEN_LIFETIME = "70s";
+const ACCESS_TOKEN_LIFETIME = "6000s";
+const REFRESH_TOKEN_LIFETIME = "70000s";
+const CSP_HEADERS = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src *";
 
 const app = express();
 const PORT = 5000;
@@ -38,11 +39,22 @@ app.use(cors({
   credentials: true
 }));
 
+app.use((req, res, next) => {
+    // We are setting the CSP header on the response from the Express server.
+    // The browser reads this header when it receives the HTML.
+    res.setHeader('Content-Security-Policy', CSP_HEADERS);
+    next();
+});
+
+
 app.use(express.json());
 app.use(cookieParser());
 
-const frontendPath = path.join(__dirname, "../frontend/dist");
+const frontendPath = path.join(__dirname, "../frontend-shell/dist");
+console.log("frontendPath", frontendPath)
 app.use(express.static(frontendPath));
+
+
 
 function verifyCredentials(username, password) {
   if (username === "sumit" && password === "password123") {
@@ -50,7 +62,6 @@ function verifyCredentials(username, password) {
   }
   return null;
 }
-
 
 function createAccessToken(user) {
   return jwt.sign(user, ACCESS_SECRET, { expiresIn: ACCESS_TOKEN_LIFETIME }); // 30s demo expiry
@@ -118,10 +129,20 @@ app.post("/api/auth/logout", (req, res) => {
   return res.json({ message: "Logged out and refresh token cleared" });
 });
 
-
 app.get("/api/selfProfile", authenticateToken, (req, res) => {
   return res.json({ user: req.user });
 });
+
+app.get('/api/products', (req, res) => {
+    res.json([
+        {
+            id: 2,
+            title: 'Third-Party Image Product',
+            image: 'https://placehold.co/150x150/FF5733/white/png?text=BLOCKED'
+        }
+    ]);
+});
+
 
 // API route example
 app.get("/api/hello", (req, res) => {
@@ -133,9 +154,13 @@ app.use((req, res, next) => {
   if (req.path.startsWith('/api')) {
     return res.status(404).json({ error: "API route not found" });
   }
+  console.log('HTML TRIGGERRREDDDDD>>>>')
   res.sendFile(path.join(frontendPath, "index.html"));
 });
 
 app.listen(PORT, () => {
   console.log(`🚀 Backend running at http://localhost:${PORT}`);
 });
+
+
+

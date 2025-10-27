@@ -19,3 +19,678 @@ This tests the application running in a real browser against a deployed environm
 
 Critical Path Validation	Ensure the most valuable user journeys are functional from start to finish.	Cypress, Playwright	Checkout Flow: Navigate to the homepage → Search for "dress" → Click the first product → Select size → Click 'Add to Bag' → Go to Cart → Click 'Checkout' → Verify the Shipping Address step loads correctly.
 Cross-Browser/Device	Verify layout and functionality on different browsers and mobile viewports.	Cypress, BrowserStack/Sauce Labs	Test the image carousel on the product details page to ensure swipe gestures work on a simulated mobile viewport in Chrome, Firefox, and Safari.
+
+
+1. Unit Tests – Foundation
+
+I write component-level and utility-level tests using Jest + React Testing Library.
+
+These focus on logic, rendering under different states, and edge cases.
+
+I avoid over-mocking DOM and instead test behavior, not implementation.
+
+Example: “If a dropdown renders dynamic items based on props and triggers callbacks, I validate rendering, user interaction, and business logic independently.”
+
+
+E2E Tests – User journey validation
+
+I use Cypress/Playwright for critical user flows: login, purchase journey, settings update.
+
+Focus on happy path + high-risk edge flows, not every possible scenario (to avoid flaky, slow suites).
+
+I integrate E2E with CI/CD and run them on production-like environments.
+
+4. Accessibility & Performance Testing
+
+I run a11y tests using axe-core / Storybook addons.
+
+For performance, I use Lighthouse CI to ensure no regressions in LCP, FCP, CLS.
+
+TDD is a development methodology where I write tests before writing actual code. I follow the Red-Green-Refactor cycle — writing a failing test, implementing just enough code to pass it, and then refactoring. This approach leads to clean, testable, and reliable code while ensuring that every piece of functionality is validated from the start
+
+
+// SearchInput.test.js
+import { render, screen, fireEvent } from '@testing-library/react';
+import SearchInput from './SearchInput';
+
+test('updates displayed value when user types', () => {
+  render(<SearchInput onSearch={() => {}} />);
+  const input = screen.getByPlaceholderText('Search...');
+  
+  fireEvent.change(input, { target: { value: 'hello' } });
+  expect(input.value).toBe('hello'); // <-- Behavior expectation
+});
+
+test('calls onSearch when Enter is pressed', () => {
+  const mockOnSearch = jest.fn();
+  render(<SearchInput onSearch={mockOnSearch} />);
+  const input = screen.getByPlaceholderText('Search...');
+
+  fireEvent.change(input, { target: { value: 'world' } });
+  fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' });
+
+  expect(mockOnSearch).toHaveBeenCalledWith('world'); // Behavior expectation
+});
+
+
+// SearchInput.js
+import { useState } from 'react';
+
+export default function SearchInput({ onSearch }) {
+  const [value, setValue] = useState('');
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      onSearch(value);
+    }
+  };
+
+  return (
+    <input
+      placeholder="Search..."
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+      onKeyDown={handleKeyDown}
+    />
+  );
+}
+
+
+
+Core Principles for Testable Component Design
+✅ 1. Keep Component Pure (Avoid Hidden Side Effects)
+
+Pure components = same input → same output.
+
+Makes it easy to test render + behavior without complex setups.
+
+Avoid: making API calls or localStorage operations directly inside components.
+Instead: inject such logic via props or custom hooks.
+
+✅ 2. Separate Logic from UI
+
+Business logic (data transformation, state manipulation) should be separated into custom hooks or utility functions.
+
+Your component becomes just a visual wrapper, making logic tests and UI tests independent.
+
+Example:
+
+// Instead of calculating values in JSX directly:
+const total = prices.reduce(...)
+
+
+👉 Move that logic into a separate function or hook that can be unit tested easily.
+
+✅ 3. Use Behavior-Focused Props
+
+Pass functions like onChange, onSubmit, onSearch rather than embedding side effects.
+
+This makes your component testable because you can mock those behaviors.
+
+✅ 4. Avoid Testing Implementation Details
+
+Design your component so consumers (and tests) interact with it through public-facing behavior:
+
+Use data-testid, ARIA attributes, and semantic HTML.
+
+Avoid requiring tests to “dig” into state, hooks, or DOM traversal.
+
+✅ 5. Avoid Over-Coupling
+
+Don’t make the component responsible for too many things (SRP - Single Responsibility Principle).
+
+Smaller, focused components are easier to test.
+
+✅ 6. Control Asynchronous Behavior
+
+Handle loading, success, and error states clearly.
+
+Expose clear UI states so tests can assert transitions predictably.
+
+✅ 7. Make State Deterministic
+
+Avoid randomness or time-based changes without control.
+
+If you use debounce, timers, or timeouts — expose options to mock time in tests.
+
+Example: Good vs Bad Component (Testability)
+❌ Bad (Hard to Test)
+function Search() {
+  const [value, setValue] = useState('');
+  useEffect(() => {
+    fetch(`/api/search?q=${value}`).then(...); // API tied to component
+  }, [value]);
+
+  return <input onChange={e => setValue(e.target.value)} />;
+}
+
+✅ Good (Easy to Test)
+// Logic separated in hook
+function useSearch(api) {
+  const [results, setResults] = useState([]);
+  const search = async (query) => {
+    const data = await api(query);
+    setResults(data);
+  };
+  return { results, search };
+}
+
+function Search({ api, onSearch }) {
+  const { results, search } = useSearch(api);
+  return (
+    <div>
+      <input
+        placeholder="Search..."
+        onChange={(e) => search(e.target.value)}
+      />
+      {results.map(r => <p key={r.id}>{r.title}</p>)}
+    </div>
+  );
+}
+
+
+In tests, you can now:
+
+Mock api
+
+Test hook logic separately
+
+Test rendering behavior separately
+
+
+Test for Good Component
+// Search.test.js
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import Search from './Search';
+
+test('calls search API and renders results', async () => {
+  const mockApi = jest.fn().mockResolvedValue([
+    { id: 1, title: 'Apple' },
+    { id: 2, title: 'Banana' },
+  ]);
+
+  render(<Search api={mockApi} />);
+
+  const input = screen.getByTestId('search-input');
+
+  fireEvent.change(input, { target: { value: 'a' } });
+  expect(mockApi).toHaveBeenCalledWith('a'); // ✅ behavior-based
+
+  await waitFor(() => {
+    expect(screen.getByText('Apple')).toBeInTheDocument();
+    expect(screen.getByText('Banana')).toBeInTheDocument();
+  });
+});
+
+🔥 Why this is easy:
+
+We mock the api function → no real network.
+
+Component reacts to user behavior.
+
+UI state is directly asserted → clear, predictable, and isolated.
+
+
+Test for Bad Component (Complicated & Brittle)
+// BadSearch.test.js
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import BadSearch from './BadSearch';
+
+// Need to mock the *global fetch* which affects other tests
+beforeEach(() => {
+  global.fetch = jest.fn().mockResolvedValue({
+    json: () =>
+      Promise.resolve([
+        { id: 1, title: 'Apple' },
+        { id: 2, title: 'Banana' },
+      ]),
+  });
+});
+
+afterEach(() => {
+  jest.restoreAllMocks(); // Must restore to avoid breaking other tests
+});
+
+test('fetches results on input change', async () => {
+  render(<BadSearch />);
+
+  const input = screen.getByPlaceholderText('Search...');
+  fireEvent.change(input, { target: { value: 'a' } });
+
+  expect(global.fetch).toHaveBeenCalledWith('/api/search?q=a'); // Test tied to URL structure (implementation detail)
+
+  await waitFor(() => {
+    expect(screen.getByText('Apple')).toBeInTheDocument();
+    expect(screen.getByText('Banana')).toBeInTheDocument();
+  });
+});
+
+😵 Why this is hard:
+
+Must mock global fetch — affects other tests.
+
+Test depends on exact URL and fetch logic (implementation).
+
+Any refactor breaks test even if behavior stays the same.
+
+Hard to simulate failures, timeouts, loading states.
+
+
+
+
+
+🎯 Page Requirements Recap
+
+A page showing groups of items (grouped by type)
+
+Each group has:
+
+A title
+
+A list of items
+
+A delete group action (trash icon)
+
+Each item has:
+
+A name or data
+
+A delete item action
+
+An on-click to open detail modal
+
+Search and filter functionality at the page level
+
+Header displaying page name
+
+
+✅ Core Principles for Structure
+
+Separate UI, logic, and data fetching
+
+Keep components focused and pure
+
+Use custom hooks for business logic
+
+Write unit tests per component/hook
+
+Use MSW for API mocking in integration tests
+
+Use Cypress/Playwright for e2e flow
+
+
+/src/pages/ItemsPage/
+│
+├── index.jsx                      // Page entry – orchestrates everything
+├── ItemsPage.test.jsx             // Page-level integration tests
+│
+├── components/                   // Pure UI components (behavior tested via UI interactions)
+│   ├── Header/
+│   │   ├── Header.jsx
+│   │   └── Header.test.jsx
+│   │
+│   ├── SearchBar/
+│   │   ├── SearchBar.jsx
+│   │   └── SearchBar.test.jsx
+│   │
+│   ├── FilterDropdown/
+│   │   ├── FilterDropdown.jsx
+│   │   └── FilterDropdown.test.jsx
+│   │
+│   ├── Group/
+│   │   ├── Group.jsx             // Receives data & event handlers via props
+│   │   └── Group.test.jsx
+│   │
+│   ├── Item/
+│   │   ├── Item.jsx
+│   │   └── Item.test.jsx
+│   │
+│   └── ItemModal/
+│       ├── ItemModal.jsx
+│       └── ItemModal.test.jsx
+│
+├── hooks/                        // Business logic - easily unit testable
+│   ├── useItemsData.js          // Fetch, group logic
+│   ├── useSearchFilter.js       // Search + filter logic
+│   ├── useModal.js              // Manage modal open/close, selected item
+│   └── hooks.test.js            // Unit tests for hooks
+│
+├── services/
+│   ├── itemsService.js          // All API calls (fetch, delete item, delete group)
+│   └── itemsService.test.js     // Unit test (using MSW or mocked fetch)
+│
+├── utils/
+│   ├── groupItemsByType.js      // Pure functions
+│   └── utils.test.js
+│
+└── __e2e__/                     // End-to-End tests
+    └── itemsPage.e2e.cy.js
+
+🔄 Component Interaction Flow (Testable Design)
+Page
+ ├── Header
+ ├── SearchBar (updates search state from hook)
+ ├── FilterDropdown (updates filter state from hook)
+ ├── Groups (rendered from hook's processed data)
+ │    └── Each Group renders multiple Items
+ │           └── On item click -> useModal hook opens ItemModal
+ └── ItemModal (receives selected item from hook)
+
+
+ “I organize by feature, not by technical layer. Each page has its own folder containing UI components, hooks for logic, service files for API calls, and utilities. UI components are dumb and pure, receiving everything via props, making them easy to unit test. Business logic lives in custom hooks, allowing independent tests with mocked services. This structure enables scalable development, clean separation of concerns, and effortless test coverage at all levels.”
+
+import React from 'react';
+import Header from './components/Header/Header';
+import SearchBar from './components/SearchBar/SearchBar';
+import FilterDropdown from './components/FilterDropdown/FilterDropdown';
+import Group from './components/Group/Group';
+import ItemModal from './components/ItemModal/ItemModal';
+
+import { useItemsData } from './hooks/useItemsData';
+import { useSearchFilter } from './hooks/useSearchFilter';
+import { useModal } from './hooks/useModal';
+
+export default function ItemsPage() {
+  // Hook for loading items, deleting items/groups
+  const { groups, handleDeleteItem, handleDeleteGroup } = useItemsData();
+  
+  // Hook for search + filter state
+  const {
+    filteredGroups,
+    searchValue,
+    filterValue,
+    setSearchValue,
+    setFilterValue
+  } = useSearchFilter(groups);
+  
+  // Hook for modal logic (open/close, selected item)
+  const {
+    isModalOpen,
+    selectedItem,
+    openModal,
+    closeModal
+  } = useModal();
+
+  return (
+    <div className="page-container">
+      {/* 🔹 Page Header */}
+      <Header title="Items Dashboard" />
+
+      {/* 🔹 Search & Filter Section */}
+      <div className="controls">
+        <SearchBar value={searchValue} onChange={setSearchValue} />
+        <FilterDropdown value={filterValue} onChange={setFilterValue} />
+      </div>
+
+      {/* 🔹 Group List */}
+      <div className="groups">
+        {Object.keys(filteredGroups).length === 0 ? (
+          <p>No items found.</p>
+        ) : (
+          Object.entries(filteredGroups).map(([type, items]) => (
+            <Group
+              key={type}
+              type={type}
+              items={items}
+              onDeleteGroup={() => handleDeleteGroup(type)}
+              onItemClick={openModal}
+              onDeleteItem={handleDeleteItem}
+            />
+          ))
+        )}
+      </div>
+
+      {/* 🔹 Modal Section */}
+      <ItemModal
+        isOpen={isModalOpen}
+        item={selectedItem}
+        onClose={closeModal}
+      />
+    </div>
+  );
+}
+
+
+What Goes Where?
+✅ Component Test (Unit)
+
+Tests UI behavior in isolation:
+
+Does clicking delete icon call onDeleteItem prop?
+
+Does it render title correctly?
+
+✅ Hook Test (Unit)
+
+Tests business logic:
+
+When delete is called, is the list updated?
+
+✅ Page Integration Test
+
+Tests how multiple units work together:
+
+When I type in search bar, do groups filter correctly?
+
+When I click an item, does modal appear?
+
+This uses mocked hooks/services with React Testing Library.
+
+✅ E2E Test
+
+Tests actual flow:
+
+Open page, search, filter, click group delete
+
+Modal opens → data shown → backend is hit
+
+This uses real endpoints (or MSW in a staging environment)
+
+
+Interview-Ready One-Liner:
+
+"Yes, individual component and hook test files are unit tests only. For cross-component interaction and real user journeys, I keep integration tests at the page level and end-to-end tests in a separate folder. This layered approach ensures isolation, coverage, and prevents redundancy."
+
+
+📄 Integration Test: ItemsPage.integration.test.jsx
+It sits between unit and e2e, ensuring components work correctly in collaboration — without mocking the DOM or implementation details.
+
+
+// ItemsPage.integration.test.jsx
+import { render, screen, fireEvent } from '@testing-library/react';
+import ItemsPage from './index';
+
+// Mock hooks that power data, search/filter, and modal
+jest.mock('./hooks/useItemsData');
+jest.mock('./hooks/useSearchFilter');
+jest.mock('./hooks/useModal');
+
+import { useItemsData } from './hooks/useItemsData';
+import { useSearchFilter } from './hooks/useSearchFilter';
+import { useModal } from './hooks/useModal';
+
+describe('ItemsPage Integration Test', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  test('renders groups and items, and opens modal on item click', () => {
+    // ✅ Mock items data
+    useItemsData.mockReturnValue({
+      groups: {
+        fruit: [
+          { id: 1, type: 'fruit', title: 'Apple' },
+          { id: 2, type: 'fruit', title: 'Banana' },
+        ],
+      },
+      handleDeleteItem: jest.fn(),
+      handleDeleteGroup: jest.fn(),
+    });
+
+    // ✅ Mock search/filter hook
+    useSearchFilter.mockReturnValue({
+      filteredGroups: {
+        fruit: [
+          { id: 1, type: 'fruit', title: 'Apple' },
+          { id: 2, type: 'fruit', title: 'Banana' },
+        ],
+      },
+      searchValue: '',
+      filterValue: '',
+      setSearchValue: jest.fn(),
+      setFilterValue: jest.fn(),
+    });
+
+    // ✅ Mock modal hook
+    const openModalMock = jest.fn();
+    useModal.mockReturnValue({
+      isModalOpen: false,
+      selectedItem: null,
+      openModal: openModalMock,
+      closeModal: jest.fn(),
+    });
+
+    // ✅ Render page
+    render(<ItemsPage />);
+
+    // ✅ Check header
+    expect(screen.getByText('Items Dashboard')).toBeInTheDocument();
+
+    // ✅ Group title
+    expect(screen.getByText(/fruit/i)).toBeInTheDocument();
+
+    // ✅ Items rendered
+    expect(screen.getByText('Apple')).toBeInTheDocument();
+    expect(screen.getByText('Banana')).toBeInTheDocument();
+
+    // ✅ Click item => modal should open
+    fireEvent.click(screen.getByText('Apple'));
+    expect(openModalMock).toHaveBeenCalledWith({ id: 1, type: 'fruit', title: 'Apple' });
+  });
+
+  test('deletes group when group trash button clicked', () => {
+    const deleteGroupMock = jest.fn();
+
+    useItemsData.mockReturnValue({
+      groups: { fruit: [] },
+      handleDeleteItem: jest.fn(),
+      handleDeleteGroup: deleteGroupMock,
+    });
+
+    useSearchFilter.mockReturnValue({
+      filteredGroups: { fruit: [] },
+      searchValue: '',
+      filterValue: '',
+      setSearchValue: jest.fn(),
+      setFilterValue: jest.fn(),
+    });
+
+    useModal.mockReturnValue({
+      isModalOpen: false,
+      selectedItem: null,
+      openModal: jest.fn(),
+      closeModal: jest.fn(),
+    });
+
+    render(<ItemsPage />);
+
+    // Simulate delete group button click (assuming button has aria-label)
+    const deleteGroupButton = screen.getByLabelText('delete-group-fruit');
+    fireEvent.click(deleteGroupButton);
+
+    expect(deleteGroupMock).toHaveBeenCalledWith('fruit');
+  });
+});
+
+
+✅ Cypress Test: itemsPage.e2e.cy.js
+describe('Items Page - Full Flow E2E', () => {
+  beforeEach(() => {
+    // Intercept API calls to return mock data
+    cy.intercept('GET', '/api/items', {
+      statusCode: 200,
+      body: [
+        { id: 1, type: 'fruit', title: 'Apple', description: 'Red fruit' },
+        { id: 2, type: 'fruit', title: 'Banana', description: 'Yellow fruit' },
+        { id: 3, type: 'vegetable', title: 'Carrot', description: 'Orange root' }
+      ],
+    }).as('getItems');
+    
+    cy.intercept('DELETE', '/api/items/1', {
+      statusCode: 200,
+      body: { success: true },
+    }).as('deleteItem');
+
+    cy.visit('http://localhost:3000/items');
+    cy.wait('@getItems'); // Wait for data to load
+  });
+
+  it('search → view item modal → delete item', () => {
+    // ✅ Verify page header
+    cy.contains('Items Dashboard').should('be.visible');
+
+    // ✅ Search for "App"
+    cy.get('[data-testid="search-input"]').type('App');
+    cy.contains('Apple').should('be.visible');
+    cy.contains('Banana').should('not.exist');
+
+    // ✅ Click item to open modal
+    cy.contains('Apple').click();
+    cy.get('[data-testid="item-modal"]').should('be.visible');
+    cy.contains('Red fruit').should('be.visible');
+
+    // ✅ Delete item from modal
+    cy.get('[data-testid="delete-item-button"]').click();
+    cy.wait('@deleteItem');
+    
+    // ✅ Modal closes and item disappears from list
+    cy.get('[data-testid="item-modal"]').should('not.exist');
+    cy.contains('Apple').should('not.exist');
+  });
+});
+
+
+“For end-to-end testing, I use Cypress to simulate real user flows. I stub backend APIs using cy.intercept to keep tests deterministic. In the test, I validate the entire journey — searching, viewing details in a modal, and deleting an item — ensuring the frontend, routing, modal state, and API interactions all work correctly in production-like behavior.”
+
+“My testing strategy is layered. For unit and integration tests I stub APIs to isolate frontend behavior and keep tests deterministic. For critical end-to-end flows like login, payments, or delete operations, I run tests against a real staging API to ensure contract correctness and production readiness. This gives both speed in development and confidence before release.”
+
+
+✅ Key Insight:
+
+E2E is defined by user behavior simulation in a real browser context — not by whether APIs are stubbed or real.
+
+Stubbing only affects how data is provided, not what level of the stack you're testing.
+
+🔥 Think of It Like This:
+Stubbed E2E
+
+Browser is opened
+
+User types in search box
+
+Frontend calls API — but response is stubbed
+
+Page updates accordingly
+
+✅ Full UI + routing + browser behavior tested
+✅ Deterministic, fast
+✅ Still E2E because you're simulating a real user journey end-to-end within the frontend
+
+Integration Test
+
+You render components in a test environment (not real browser)
+
+You mock API calls at function or hook level
+
+You test logic between UI + state
+
+✅ No browser
+✅ Tests integration of frontend parts only (UI + services + hooks)
+
+🧠 How to Answer in an Interview
+
+“Even when APIs are stubbed, Cypress tests can still be considered E2E because they execute the full user workflow inside a real browser environment — including navigation, URL changes, local storage, network interception, and UI behavior. What makes it E2E is the end-user perspective. Stubbing only affects the data source, not the scope of testing.”
+
+🚀 One-Liner Summary:
+
+“Stubbed E2E tests are still E2E because the front-end is being tested end-to-end from the user’s perspective. Integration tests don’t involve the browser or full page rendering — they test combined logic in isolation.”

@@ -129,41 +129,23 @@ Flowchart 1: Service Worker Background Sync (Offline Message Queue)
 This flow explains how a message sent while the network is down is reliably queued and delivered later.
 
 Start (User Action): User hits 'Send Message' in the React App.
-
 Condition Check (Client): Is the Network Offline?
-
 If YES (Offline Path):
-
 Save Payload: React App saves the message data to a local, persistent store (e.g., IndexedDB).
-
 Register Sync: React App calls serviceWorkerRegistration.sync.register('tag-name').
-
 Wait for Connection: The Service Worker goes to sleep; the Browser's Sync Manager takes over, monitoring the network.
-
 Condition Check (Browser): Network comes back Online?
-
 If YES (Online Path):
-
 SW Wake-up: Browser wakes up the Service Worker and fires the sync event with the matching tag (tag-name).
-
 Fetch Queued Data: Service Worker retrieves all unsent messages from local storage.
-
 Network Request: SW attempts to transmit the message data to the backend API via fetch.
-
 Condition Check (SW): Was the Network Request successful (HTTP 200)?
-
 If YES (Success):
-
 Clear Queue: SW deletes the messages from the local store.
-
 End.
-
 If NO (Failure):
-
 Retry: SW throws an error, signaling the Browser to automatically schedule a retry for the sync event later.
-
 End.
-
 --------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------
 

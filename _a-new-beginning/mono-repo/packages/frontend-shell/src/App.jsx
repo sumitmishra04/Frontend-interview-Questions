@@ -14,8 +14,19 @@ function ProtectedRoute({ children }) {
 
 function App() {
   const [message, setMessage] = useState("Loading...");
+  const [products, setProducts] = useState([]);
+  const [err, setErr] = useState(null);
     const { user, logout } = useAuth();
 
+ useEffect(() => {
+    fetch('http://localhost:5000/api/products')
+      .then((r) => {
+        if (!r.ok) throw new Error('Network response was not ok');
+          return r.json();
+        })
+      .then(setProducts)
+      .catch((e) => setErr(e.message));
+}, []);
 
   useEffect(() => {
     axios.get('http://localhost:5000/api/hello')
@@ -41,7 +52,21 @@ function App() {
           <Route path="/profile" element={<ProtectedRoute><ProfileWrapper /></ProtectedRoute>} />
         </Routes>
       </React.Suspense>
-      {/* <p>Backend says: {message}</p> */}
+      <p>Backend says: {message}</p>
+      {err && <div style={{ color: 'red' }}>Fetch error: {err}</div>}
+      <ul>
+         {products.map((p) => (
+          <li key={p.id} style={{ marginBottom: 12 }}>
+            <strong>{p.title}</strong>
+            <div>
+            {/* If CSP blocks the third-party image, you will see a broken image and a CSP violation in browser console */}
+              <img src={p.image} alt={p.title} style={{ maxWidth: 240, display: 'block', marginTop: 6 }} />
+            </div>
+            <div style={{ fontSize: 12, color: '#666' }}>{p.image}</div>
+          </li>
+          ))}
+          </ul>
+      <div id="status-local"></div>
     </div>
   );
 }

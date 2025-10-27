@@ -1,3 +1,7 @@
+role attributes on non-semantic elements
+must be keyboard accessible
+text not too small or low in contrast
+Use aria-* to communicate the dynamic state of a component
 
 ACCESSIBILITY:: 
 1. must be keyboard accessible and text not too small or low in contrast. Should use standard html elements so that it can be interpreted correctly by screen reader agents.
@@ -6,7 +10,7 @@ ACCESSIBILITY::
 6. The first rule of ARIA is to not use ARIA. If you can achieve the same result with standard semantic HTML, do it. ARIA is for bridging the gap where native HTML is insufficient
 7. How do you test for accessibility? Axe DevTools. Manual Keyboard Testing (manually tabbing) and Screen Reader Testing like VoiceOver to check if the content is read out correctly,
 8. What is a focus trap, and how do you handle it? A focus trap is a design pattern used primarily in modal dialogs. When a modal opens, we want to restrict the user's keyboard focus only to elements inside that modal, preventing them from tabbing to content behind it.
-9. Explain the importance of color contrast.WCAG requires a minimum contrast ratio of 4.5:1 for normal text and 3:1 for large text (at least 18pt). If the contrast is insufficient, users can't distinguish the text from the background, making the content unreadable."
+9. Explain the importance of color contrast.WCAG requires a minimum contrast ratio of 4.5:1 for normal text and 3:1 for large text (at least 24px). If the contrast is insufficient, users can't distinguish the text from the background, making the content unreadable.
 10. explain tabIndex? By adding tabindex="0" and key event handlers, you are transforming a non-semantic element into a usable interactive widget for keyboard-only users. However, it is always best practice (the "First Rule of ARIA") to use the native semantic element (<button>) instead, as it provides all this functionality for free.
 11: Focus Indication: Keyboard User's Anchor: The rule states: Never remove the visual focus indicator (the outline) unless you replace it with a clear, custom style. The focus indicator is a vital part of the Perceivable WCAG principle. It is the visual clue that shows a user which element on the screen currently has keyboard focus.
 /* For better UX, you can use :focus-visible to only show the outline 

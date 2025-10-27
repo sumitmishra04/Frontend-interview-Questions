@@ -2,7 +2,6 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ModuleFederationPlugin from 'webpack/lib/container/ModuleFederationPlugin.js';
-import { DefinePlugin } from 'webpack';
 import TerserPlugin from 'terser-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 
@@ -59,10 +58,6 @@ export default {
         collapseWhitespace: true,
         removeComments: true,
       }
-    }),
-    new DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production'),
-      'process.env.API_URL': JSON.stringify('https://api.myapp.com'), // Example env
     }),
     new ModuleFederationPlugin({
       name: 'host',

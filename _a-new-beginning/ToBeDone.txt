@@ -1,19 +1,52 @@
+why? HTTP-Only Cookie	Sent automatically with requests	Protected from XSS	Need CSRF protection
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Web fundamentals
+
+React 
+JS problems revisions
+SD
+
+Machine Code
+DS
+
 Web fundamentals:
-ssr implementation 
-integrate https with the Backend
-integrate securiy aspects
-learn testing strategies
-evaluate web vitals
-integrate monitoring tools
-integrate service workers
-integrate web workers 
 webpack prod config with threeshaking, lazy loading, minification and uglification.
 deploy apps using ci/cd github actions
 
-System Design:
+System Design: 1 each day until monday.
 5 most popular designs 
 
-React:
+React: 24th oct
 All interview question
 All polyfills
 All performance based questions
@@ -21,17 +54,17 @@ All monitoring related questions
 React fibre, reconcilliation algorithm
 
 
-JS:  (include uber)
+JS:  (include uber) 23rd Oct & 24th oct
 Basics revision
 All problems ever solved
 Promises and timeout based questions
 
 
-Machine Code:
+Machine Code: 24th oct onwards 2 everyday
 Practice 2-3 everyday to remain fast (include uber)
 
 
-Neetcode 150
+Neetcode 150 [Revise 20 problems + add 10 new everyday until wednesday]
 
 Uber DS
 Maximize Amount After Two Days of Conversions

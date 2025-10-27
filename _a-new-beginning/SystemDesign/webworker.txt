@@ -1,5 +1,6 @@
 
 Web Workers: Offloading Work from the Main Thread
+A Web Worker is a JavaScript script that runs in a completely separate, background operating system thread.
 A Web Worker is a JavaScript script that runs in a separate thread in the background, entirely isolated from the main thread where the UI and DOM are handled.
 
 1. How Web Workers Work (The Isolation)
@@ -34,7 +35,6 @@ Communication	Sender Code	Listener Code
 Main → Worker	worker.postMessage({ data: 'hello' });	self.addEventListener('message', (e) => { console.log(e.data); });
 Worker → Main	self.postMessage({ result: 42 });	worker.addEventListener('message', (e) => { console.log(e.data); });
 
-Export to Sheets
 Web Workers vs. Service Workers
 While both are types of "workers" and run on separate threads, their purpose, scope, and lifespan are fundamentally different.
 
@@ -45,7 +45,6 @@ Lifespan	Starts when created by the main script. Stops when the tab is closed or
 Scope	Tab-specific. Only active for the tab that created it.	Origin/Domain-wide. Can intercept requests from any page/tab under its defined scope.
 Key Use Case	Performance (non-blocking processing).	Reliability (caching, offline support, push notifications).
 
-Export to Sheets
 Analogy:
 
 Web Worker: A dedicated assistant hired by a single person (a tab) to handle heavy paperwork so the person can focus on talking (the UI).

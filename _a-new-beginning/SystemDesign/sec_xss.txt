@@ -1,0 +1,57 @@
+xss xan be prevented using neutralising input by not using innterHTML but textContent or using do mPurify.sanitize and csp headers. Csp will prevent any inline js or extenral js to be downloaded and executed. 
+
+1. Cross-Site Scripting (XSS) – The No.1 UI Threat
+
+Attackers inject malicious JavaScript into your UI (via input fields, search bars, comments, URLs, etc.), which then executes in the victim's browser.
+
+Impact: User cookies, tokens, session data stolen, full account takeover.
+
+Happens When: You render unescaped user input, dangerouslySetInnerHTML in React, or expose query params without sanitization.
+
+✅ Mitigation: Never trust user input, use proper encoding, Content Security Policy (CSP), React auto-escaping.ß
+
+
+Case 1: 
+<div id="bio"></div>
+<script>
+  const userBio = getFromQuery('bio')  // user-controlled 
+
+  const bioNode = document.getElementById('bio')
+  document.getElementById('bio').innerHTML = `<p>${userBio}</p>`
+
+use
+  bioNode.textContent = userBio // safe: renders as text, not HTML
+or
+ const clean = DOMPurify.sanitize(userBio)
+ bioNode.innerHTML = clean
+
+</script>
+
+
+Case 2:
+function Profile({ htmlSummary }) {
+  return <div dangerouslySetInnerHTML={{ __html: htmlSummary }} />
+}
+
+solution:
+either use proper jsx or sanitise htmlSummary
+  const clean = DOMPurify.sanitize(htmlSummary)
+    return <div dangerouslySetInnerHTML={{ __html: clean }} />
+
+
+BAD::
+import React, { useRef, useEffect } from "react";
+
+export default function RefInnerHTML({ content }) {
+  const ref = useRef();
+
+  useEffect(() => {
+    // Direct DOM write — content might be attacker-controlled
+    ref.current.innerHTML = content;
+    //solution:
+      ref.current.innerHTML = DOMPurify.sanitize(content);
+
+  }, [content]);
+
+  return <div ref={ref} />;
+}

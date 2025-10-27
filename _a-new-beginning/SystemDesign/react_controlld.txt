@@ -1,0 +1,82 @@
+🔵 Controlled vs 🟠 Uncontrolled Components in React
+Feature	Controlled Component	Uncontrolled Component
+Who owns the state?	React (Parent Component)	DOM element (Browser)
+Value source	Comes from props (value={...})	Stored internally by the DOM
+How to update?	Via callback like onChange → parent updates state	Use ref to manually read value when needed
+Predictable?	✅ Very predictable	❌ Less predictable
+Preferred in React apps?	✅ Yes (recommended)	😐 Only for simple or performance-critical cases
+Best for?	Forms, filters, inputs with validation or API calls	Quick forms, legacy integrations, uncontrolled file inputs
+🔵 Controlled Component (React in FULL control)
+➤ State lives in React, input just displays it
+function ControlledInput() {
+  const [value, setValue] = useState("");
+
+  return (
+    <input
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+    />
+  );
+}
+
+
+React always knows the current value
+
+You can validate, debounce, call API, modify on the fly
+
+✅ Best for real apps and unit testing
+
+🟠 Uncontrolled Component (DOM in control)
+➤ Input manages its own state internally, you read it only when needed
+function UncontrolledInput() {
+  const inputRef = useRef();
+
+  const handleSubmit = () => {
+    alert(inputRef.current.value);
+  };
+
+  return (
+    <div>
+      <input ref={inputRef} defaultValue="Hello" />
+      <button onClick={handleSubmit}>Show Value</button>
+    </div>
+  );
+}
+
+
+No React state involved
+
+You only read the value when you need it (like form submission)
+
+Useful for non-critical inputs, file uploads, or performance optimizations
+
+🧠 Visual Metaphor:
+Component Type	Metaphor
+Controlled	React is driving the car. It controls speed, direction, everything.
+Uncontrolled	The car drives itself, and React only checks where it ended up when needed.
+✅ When to Use Which?
+✅ Use Controlled when:
+
+You need to validate input
+
+You want live search filtering
+
+You need real-time API calls
+
+You want to reset value from parent
+
+You care about unit testing
+
+🟡 Use Uncontrolled when:
+
+You only need the input value at the end (e.g., form submit)
+
+You want less code / faster performance
+
+You're dealing with file inputs (which are naturally uncontrolled)
+
+🎯 Ultimate Summary:
+
+Controlled = input value is driven by React state.
+
+Uncontrolled = input value is stored in the DOM and accessed via ref.

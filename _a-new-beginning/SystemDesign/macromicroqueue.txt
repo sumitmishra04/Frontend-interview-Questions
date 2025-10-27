@@ -1,8 +1,5 @@
 https://frontendmasters.com/courses/frontend-system-design/
 
-|------------------------------------------------------------------------------------------------------------------|
-|------------------------------------------------------------------------------------------------------------------|
-
 MICROQUEUE & MACROQUEUE:
 That is the final piece of the puzzle for the Event Loop! The introduction of Microtasks and Macrotasks organizes the Callback Queue into a priority system, making the execution order even more precise.
 When an asynchronous task completes, its callback function is not just thrown into a single queue anymore; it's sorted into one of two queues based on its type, which determines its priority.
@@ -63,3 +60,17 @@ B: The Microtask Queue is empty. The Event Loop checks the Macrotask Queue and r
 
 E: The Call Stack is now empty again. The Event Loop ticks one final time, running Macrotask 2 (E).
 
+
+console.log('A'); // Sync 1
+setTimeout(() => { console.log('B'); }, 0); // Macrotask 1
+Promise.resolve().then(() => {
+    console.log('C'); // Microtask 1
+    new Promise(resolve => resolve()).then(() => {
+        console.log('D');
+        setTimeout(() => { console.log('G'); }, 0)// Microtask 2
+    });
+});
+setTimeout(() => { console.log('E'); }, 0); // Macrotask 2
+console.log('F'); // Sync 2
+
+G runs last because new macrotasks added during microtask execution go to the end of the macrotask queue.

@@ -27,14 +27,14 @@ function foo() {
 console.log(foo());
 
 // 3)
-function parent() {
-  var hoisted = "I'm a variable";
-  function hoisted() {
-    return "I'm a function";
+  function parent() {
+    var hoisted = "I'm a variable";
+    function hoisted() {
+      return "I'm a function";
+    }
+    return hoisted();
   }
-  return hoisted();
-}
-console.log(parent());
+  console.log(parent());
 
 
 // 4)

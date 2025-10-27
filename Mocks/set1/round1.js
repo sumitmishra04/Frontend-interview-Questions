@@ -30,7 +30,6 @@ const obj = {
 }
 
 
-
 const deepClone = function (obj, seen = new WeakMap()) {
     let result = {}
     for (let key in obj) {

@@ -1,0 +1,32 @@
+Server-Side Rendering (SSR) Process
+The process you described accurately captures the core mechanism of SSR, which is designed to improve initial page load performance and SEO.
+
+Server-Side Generation (Initial Render):
+
+The server receives a request for a page.
+
+It executes the React component logic, fetching the necessary data and rendering the components on the server.
+
+Instead of rendering to a virtual DOM in a browser, React renders the components to a string of HTML. This HTML already includes the data fetched on the server.
+
+The server sends this HTML string as the initial response to the browser.
+
+Simultaneously, the server also prepares and sends the necessary JavaScript bundles (which include React, the component code, and the application logic).
+
+Client-Side Download and Display (Browser):
+
+The browser receives the HTML string and immediately starts parsing and displaying the page. The user sees the fully rendered content quickly because it's plain HTML, which is a major advantage for perceived performance.
+
+The browser also starts downloading the JavaScript bundles sent by the server.
+
+Hydration (Making it Interactive):
+
+Once the JavaScript is downloaded and executed, React takes over on the client side.
+
+Instead of rendering the entire application from scratch (which would overwrite the existing HTML), React performs hydration.
+
+Hydration is the process where React traverses the existing HTML (the DOM generated on the server) and "attaches" its internal component tree structure, event handlers, and application state to it.
+
+This is the step that makes the previously static HTML interactive and allows the application to respond to user input, completing the transformation into a fully-functional Single-Page Application (SPA).
+
+Your phrase "superimpose the react component tree on the dom which was sent as html string and attaches events" is an excellent, concise way to describe the hydration phase.
