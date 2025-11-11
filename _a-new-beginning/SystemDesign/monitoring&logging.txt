@@ -7,17 +7,21 @@ Monitoring, Logging, and Alerting Summary
 1. Monitoring: Data Collection Strategy (RUM)
 The core of monitoring is implementing Real User Monitoring (RUM) to collect Field Data from actual user sessions.
 
-Tool	            Sentry React SDK	Injects a small script to capture real-time user session data.
-Error Monitoring	Automatic Tracking	Captures unhandled exceptions, promise rejections, and network failures with full stack traces.
-Performance Monitoring	Core Web Vitals & Tracing	Automatically monitors LCP, INP, and CLS directly from the browser's APIs. Captures Transaction Traces (e.g., the time taken for the checkout route or the place_order API call).
-Context	Breadcrumbs & Tags	Attaches user-specific context (user ID, browser, device, navigation history) to every event for easier debugging.
+Injects a small script to capture real-time user session data.
+
+Captures unhandled exceptions, promise rejections, and network failures with full stack traces.
+
+Core Web Vitals & Tracing	Automatically monitors LCP, INP, and CLS directly from the browser's APIs. Captures Transaction Traces (e.g., the time taken for the checkout route or the place_order API call).
+
+Attaches user-specific context (user ID, browser, device, navigation history) to every event for easier debugging.
 
 2. Logging: Error and Performance Visualization
 Logging in this context refers to the persistent storage and organization of all captured data within the Sentry platform.
 
-Log Type	Sentry Feature	Value in Debugging
-Error Grouping	Issue Grouping	Sentry automatically groups similar stack traces into a single "Issue", preventing notification spam and focusing development efforts.
-Transaction Logs	Performance Dashboard	Visualizes the distribution of key metrics (e.g., the 90th percentile LCP time) over time, allowing easy detection of regressions.
+Sentry automatically groups similar stack traces into a single "Issue", preventing notification spam and focusing development efforts.
+
+Performance Dashboard	Visualizes the distribution of key metrics (e.g., the 90th percentile LCP time) over time, allowing easy detection of regressions.
+
 Session Replays	(Advanced RUM)	Allows developers to replay the user session leading up to an error or a slow transaction, providing exact steps to reproduce the issue.
 
 3. Alerting: Proactive Incident Management

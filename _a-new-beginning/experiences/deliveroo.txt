@@ -1,0 +1,8 @@
+r1: was asked to create a food delivery ui where i render food items from api,
+and use group them by tags to filter them. Asked testing on it as well.
+
+r2: frontend system design, gave a problem on restautant page with order screen, menu, description and desktop and mobile view.
+asked how to design the ui. what is the difference between mobile and desktop view.
+optiimising long list. images.
+
+r3: asked about how i mentor junior, how i improve, challenging project i did, how to resolve conflicts

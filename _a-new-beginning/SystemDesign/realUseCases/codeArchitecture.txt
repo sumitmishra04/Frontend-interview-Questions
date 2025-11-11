@@ -1,0 +1,211 @@
+┌──────────────────────────────────────────────┐
+│                 UI Layer                     │
+│──────────────────────────────────────────────│
+│  SearchBox   FiltersPanel   SortBar          │
+│  PaginationBar  HotelList / HotelCard        │
+└───────────────┬──────────────────────────────┘
+                │ emits events:
+                │   onSearch(query)
+                │   onFilterChange(filters)
+                │   onSortChange(sort)
+                │   onPageChange(page)
+                ▼
+┌──────────────────────────────────────────────┐
+│         Container: ListingsPage.jsx          │
+│──────────────────────────────────────────────│
+│ • Holds local state:                         │
+│     query, filters, sort, page               │
+│ • Calls: useSearchHotels({query, filters,    │
+│                          sort, page})        │
+│ • Gets: { data, isFetching, error }          │
+│ • Passes data down as props:                 │
+│     → HotelList(items=data.results)          │
+│     → PaginationBar(currentPage, onChange)   │
+│     → FiltersPanel(filters, onChange)        │
+└───────────────┬──────────────────────────────┘
+                │ calls React Query hook
+                ▼
+┌──────────────────────────────────────────────┐
+│           Hook: useSearchHotels.js           │
+│──────────────────────────────────────────────│
+│ • Wraps React Query’s useQuery()             │
+│ • Defines query key: ['hotels', query, ...]  │
+│ • Fetches data via api.searchHotels(params)  │
+│ • Handles onError (toast)                    │
+│ • Returns cached data, error, isFetching     │
+└───────────────┬──────────────────────────────┘
+                │ network call
+                ▼
+┌──────────────────────────────────────────────┐
+│            API Layer (api.js)                │
+│──────────────────────────────────────────────│
+│ • api.searchHotels(params)                   │
+│   -> apiClient.get('/hotels/search', params) │
+│ • Pure: no UI or toast logic                 │
+│ • Returns parsed JSON                        │
+└───────────────┬──────────────────────────────┘
+                │ response
+                ▼
+┌──────────────────────────────────────────────┐
+│          React Query Cache Layer             │
+│──────────────────────────────────────────────│
+│ • Stores server data per query key           │
+│ • Handles caching, deduping, refetch         │
+│ • Source of truth for listings data          │
+└───────────────┬──────────────────────────────┘
+                │ supplies data to hook
+                ▼
+┌──────────────────────────────────────────────┐
+│            Container (ListingsPage)          │
+│──────────────────────────────────────────────│
+│ Uses hook result to update UI:               │
+│  → Passes data, isFetching, error as props   │
+│    to HotelList, Pagination, etc.            │
+└───────────────┬──────────────────────────────┘
+                │ re-renders children
+                ▼
+┌──────────────────────────────────────────────┐
+│                UI Layer                      │
+│──────────────────────────────────────────────│
+│ HotelList renders list of hotels             │
+│ Pagination updates current page              │
+│ Filters modify parameters                    │
+└──────────────────────────────────────────────┘
+
+
+
+User Input (UI)
+      ↓
+Container (state management)
+      ↓
+Custom Hook (React Query)
+      ↓
+API Layer (fetch)
+      ↓
+React Query Cache (data source)
+      ↓
+Hook → Container → UI (re-render)
+
+
+
+Each page:
+has its own useXyz hook,
+fetches independently,
+optionally benefits from cache reuse if user comes from a prior page.
+
+User → ListingsPage → useSearchHotels() ─→ API (listings)
+        │
+        │ select hotel
+        ▼
+Router → DetailsPage(hotelId) → useHotelDetails(hotelId) ─→ API (details)
+        │
+        │ book now
+        ▼
+Router → BookingPage(hotelId) → useBooking(hotelId) ─→ API (booking)
+
+
+
+with service worker:
+UI component → React Query hook → fetch (window.fetch)
+                          ↓
+                   [Service Worker]
+                          ↓
+             If SW has cached response -> return cache
+             Else -> network -> response -> (SW caches per rules) -> return
+                          ↓
+                   React Query receives response
+                   React Query updates its cache -> UI updates
+
+Important: React Query triggers the request and receives the response; SW simply intercepts and may serve a cached response. React Query remains the single source of truth for the app’s runtime data.
+
+SW caches HTTP responses, but has no built-in refetch semantics, deduplication, mutation management, optimistic updates, or component-bound lifecycle conveniences.
+
+SW cannot easily manage invalidations tied to UI actions (e.g., after a successful booking, your UI must immediately reflect the change — optimistic update + invalidate queries are React Query’s job).
+
+SW is excellent for persistence across reloads/offline, but the app still needs a runtime cache (React Query) to orchestrate UI behavior.
+
+
+
+
+
+
+
+Concrete recommended strategy (production-ready)
+
+Keep React Query as the app-level server-state library. Use it everywhere for GET data and mutations.
+
+Install a Service Worker (Workbox recommended) that:
+
+Precaches shell assets (JS/CSS/index.html).
+
+Runtime-caches GET requests to crucial endpoints with strategies depending on endpoint characteristics (see table below).
+
+Exposes background sync / queue for failed POST/PUT/DELETE if you want offline mutation retries.
+
+Align React Query config with SW behavior:
+
+Set staleTime to a sensible value so React Query won't refetch on every mount if SW serves a cached copy (e.g., listings staleTime = 30s-2m for interactive UIs; details maybe longer).
+
+Still call refetchOnWindowFocus / refetchOnMount according to UX needs.
+
+Server & CDN: add Cache-Control, ETag, Vary to let SW/CDN and browser caches work properly. For sensitive endpoints, set Cache-Control: no-store or use authenticated-memo strategies.
+
+For mutations:
+
+Use React Query optimistic updates + mutation() that attempts network call.
+
+If offline or network fails, queue the mutation in SW via Background Sync (or local queue in IndexedDB + retry) — but maintain the optimistic UI state through React Query until the mutation is confirmed or fails.
+
+On mutation success, queryClient.invalidateQueries() or queryClient.setQueryData() to update caches.
+
+
+
+5) Endpoint-level caching strategy (practical table)
+| Endpoint type                      | Cache strategy (SW)                                                                                   | React Query config                                                       | Notes                                                                      |
+| ---------------------------------- | ----------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ | -------------------------------------------------------------------------- |
+| `/hotels/search` (listings)        | **Stale-while-revalidate** runtime cache (Workbox) — serve cached while fetching update in background | `staleTime: 30s-2m`, `keepPreviousData: true`                            | Good UX for searches. Use query keys including filters.                    |
+| `/hotel/:id` (details)             | **Network-first** with fallback to cache (or stale-while-revalidate)                                  | `staleTime: 5-10m` for details; prefetch on list click                   | Details change less often — caching longer is ok.                          |
+| `/booking` (create booking — POST) | **Do not cache**; use SW background-sync queue for retries                                            | React Query `useMutation` with optimistic update and rollback on failure | SW can retry network if offline; ensure idempotency or server side dedupe. |
+| Auth/user endpoints                | **No-store** or very short TTL; never cached in SW unless anonymized                                  | React Query with secure fetchFn; mark sensitive data accordingly         | Avoid caching PII in SW.                                                   |
+| Static assets (images)             | Precaching or long-term cache                                                                         | n/a                                                                      | Use CDN + cache-busting.                                                   |
+
+
+Mutations & offline sync — recommended pattern
+UI triggers useMutation with optimistic update (React Query).
+Mutation attempts network call.
+If online and success: React Query updates cache and invalidates queries as needed.
+If offline or fails: push mutation to SW queue (Workbox Background Sync) or local IndexedDB queue.
+SW processes queued mutations and, on success, optionally post a message to the page (via postMessage) so the app can invalidateQueries() and reconcile final state.
+This keeps UX snappy (optimistic updates) and ensures eventual consistency without losing user actions.
+
+
+
+Developer ergonomics & testing
+Use Workbox to generate SW + runtime caching config — easier than hand-rolling.
+Tests:
+Unit test React Query hooks with mocked fetch (msw).
+E2E: run Cypress with cy.exec('simulate offline') or toggle navigator.serviceWorker to test offline flows.
+Integration: test optimistic updates + rollback scenarios.
+Monitor: add analytics for cache hit/miss rates and SW queue failures.
+
+
+What the CDN Does Exactly
+Caches static assets (JS, CSS, images, HTML shell) aggressively.
+Can also cache API GET responses if configured (e.g., /hotels/search?city=goa).
+Serves content from a geographically close edge server.
+Reduces latency and load on origin (your backend).
+So when your frontend or SW makes a fetch('/api/hotels/search?city=goa'):
+The CDN may return a cached JSON immediately.
+The Service Worker can still cache that response locally for offline mode.
+React Query receives it, updates UI instantly.
+
+
+
+🏎️ Performance Chain
+Next user with same query → CDN serves from edge → low latency.
+Same user reopening app → SW serves cached JSON → instant load.
+Navigating between components → React Query cache → zero network call.
+
+CDN = global shared cache (multi-user)
+SW = per-browser disk cache (per user)
+React Query = in-memory session cache (per tab)

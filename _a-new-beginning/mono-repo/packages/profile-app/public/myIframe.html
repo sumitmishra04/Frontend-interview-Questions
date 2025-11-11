@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>IFrame Content (The Secure Domain)</title>
+</head>
+<body>
+    <h1>IFrame: Payment Gateway Content</h1>
+    <p>This is the content from the "secure" origin.</p>
+    <div id="data-display">Loading secure data...</div>
+    
+    <script>
+        // 1. This script runs *inside* the IFrame's context.
+        
+        // This is a publicly available, HTTPS API (a different origin than your localhost:3000)
+        const PG_API_URL = 'https://jsonplaceholder.typicode.com/todos/1';
+
+        fetch(PG_API_URL)
+            .then(response => response.json())
+            .then(data => {
+                const dataDisplay = document.getElementById('data-display');
+                // 2. The IFrame successfully fetches data from a third-party API.
+                dataDisplay.innerHTML = `
+                    <p style="color: green; font-weight: bold;">API Call Succeeded!</p>
+                    <p>User ID: ${data.userId}</p>
+                    <p>Title: ${data.title}</p>
+                    <p>Completed: ${data.completed}</p>
+                    <input type="text" id="sensitive-input" value="1234 5678 9012 3456" style="border: 2px solid red;">
+                    <p> (Simulated Card Input) </p>
+                `;
+            })
+            .catch(error => {
+                document.getElementById('data-display').innerText = 'API Call Failed inside IFrame.';
+                console.error("IFrame API Error:", error);
+            });
+            
+        // 3. Expose a variable *inside* the IFrame that the parent will try to access
+        window.secretData = "SOP-TEST-SUCCESS";
+    </script>
+</body>
+</html>

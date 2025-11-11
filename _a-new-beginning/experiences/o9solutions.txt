@@ -1,0 +1,6 @@
+asked to introduce myself and srive the interview too. 
+I started with a list view and click on list item.
+asked if it can be optimised wrt event delegation.
+asked created custom hooks
+asked vdom and how dom manipulation happen. 
+state management

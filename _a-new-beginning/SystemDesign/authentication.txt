@@ -349,3 +349,27 @@ If API returns 401 Unauthorized:
   → Backend validates refreshToken from cookie
   → Backend issues new accessToken
   → Frontend retries original request
+
+
+// Pseudocode
+api.interceptors.response.use(null, async (error) => {
+  const status = error.response?.status;
+  const errorCode = error.response?.data?.error;
+
+  if (status === 401 && errorCode === 'token_expired') {
+    // Try refreshing token
+    const refreshed = await refreshAccessToken();
+    if (refreshed) {
+      // retry original request
+      return api.request(error.config);
+    } else {
+      logoutUser();
+    }
+  }
+
+  if (status === 403 && errorCode === 'refresh_expired') {
+    logoutUser();
+  }
+
+  return Promise.reject(error);
+});

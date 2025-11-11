@@ -1,0 +1,6 @@
+1. pub sub
+2. react hook polyfills
+3. redux implementation
+4. promises polyfill and promises based questions
+5. all timer related machine coding
+6. general machine coding

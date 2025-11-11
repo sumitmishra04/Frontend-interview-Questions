@@ -1,0 +1,203 @@
+https://medium.com/expedia-group-tech/images-on-web-part-2-implementing-responsive-images-ca1d30f533f8
+https://medium.com/expedia-group-tech/images-on-the-web-part-1-responsive-images-5dc0066461bd
+https://web.dev/articles/choose-the-right-image-format
+
+Blurry images on high-DPI (“Retina”) screens
+→ A 1× image looks pixelated on 2× density devices.
+
+Single image used across all screen sizes
+→ Big image = wasted bandwidth on mobile; small image = blurry on desktop.
+
+Cropping and art-direction issues
+→ Key parts of an image (like a hotel’s main feature) got cut off on smaller viewports.
+
+Bandwidth vs quality trade-off
+→ Need to balance image sharpness and file size without overloading the network.
+🧩 Their Solutions
+
+1️⃣ Use srcset for resolution switching
+→ Provide multiple versions of the same image (1×, 2×, 3×).
+→ Browser automatically picks the one matching device pixel ratio.
+
+<img 
+  src="hotel-400.jpg"
+  srcset="
+    hotel-400.jpg 1x,
+    hotel-800.jpg 2x,
+    hotel-1200.jpg 3x"
+  alt="Beautiful hotel view"
+/>
+
+
+2️⃣ Use srcset + sizes for responsive layout switching
+→ Helps browser choose the right image based on viewport width.
+
+<img 
+  src="hotel-small.jpg"
+  srcset="
+    hotel-small.jpg 480w,
+    hotel-medium.jpg 800w,
+    hotel-large.jpg 1200w"
+  sizes="(max-width: 600px) 480px,
+         (max-width: 900px) 800px,
+         1200px"
+  alt="Resort by the beach"
+/>
+
+
+✅ Browser decides automatically:
+
+Mobile → loads hotel-small.jpg
+
+Tablet → loads hotel-medium.jpg
+
+Desktop → loads hotel-large.jpg
+
+3️⃣ Use <picture> for art-direction changes
+→ When you want different crops or compositions for different devices.
+
+<picture>
+  <source media="(max-width: 600px)" srcset="hotel-portrait.jpg">
+  <source media="(min-width: 601px)" srcset="hotel-landscape.jpg">
+  <img src="hotel-landscape.jpg" alt="Hotel pool and view">
+</picture>
+
+
+✅ Mobile users see a vertical crop
+✅ Desktop users see a wide image
+
+4️⃣ Compress & optimize intelligently
+→ Use modern formats (WebP, AVIF) for smaller files.
+→ Lazy-load below-the-fold images.
+→ Serve through a CDN with caching and device-based resizing.
+
+<img
+  src="hotel.webp"
+  loading="lazy"
+  decoding="async"
+  alt="Hotel exterior"
+/>
+
+🎯 Quick Takeaways
+
+✅ Don’t serve one image to all screens — let the browser choose.
+✅ Use srcset/sizes for resolution and responsive switching.
+✅ Use <picture> when layout or crop needs differ.
+✅ Compress, lazy-load, and cache for performance.
+✅ Combine this with CDN transformations for global delivery speed.
+
+
+🧠 Key points & concerns
+
+The article revisits the issues of resolution switching, art-direction, and bandwidth usage when dealing with images. 
+Medium
+
+It emphasises that knowing how the image will be rendered (size, aspect ratio, viewport) is crucial so you can supply the correct variant. 
+Medium
+
+Two main HTML tools for responsive images: <img> (with srcset + sizes) when the aspect ratio/content stays the same; and <picture> when you need full control over which image is used (e.g., for art direction) because aspect ratio or content changes for different devices. 
+Medium
++1
+
+If you’re using CSS background images (not <img> tags), you can apply image-set (and media queries) to achieve resolution switching + art direction for CSS backgrounds. 
+Medium
+
+They caution about over-using <picture> when you don’t need art direction—if the image is just the same content in different sizes, <img> is sufficient (and simpler). 
+Medium
+
+🔧 Code snippets & patterns
+1. <img> tag with srcset + sizes (same aspect ratio/content)
+<img
+  src="image-small.jpg"
+  srcset="
+    image-small.jpg 375w,
+    image-medium.jpg 768w,
+    image-large.jpg 1024w"
+  sizes="(min-width: 768px) 50vw, 100vw"
+  alt="Example image"
+/>
+
+
+What it does:
+
+Provides three image widths (375 px, 768 px, 1024 px).
+
+sizes tells browser: if viewport width ≥768px, image will render at ~50% viewport width; otherwise full width.
+
+Browser selects the best image among those based on the device’s width and pixel density. 
+Medium
+
+2. <img> tag with resolution descriptors when image size is fixed
+<img
+  src="logo-1x.png"
+  srcset="
+    logo-1x.png 1x,
+    logo-2x.png 2x"
+  alt="Company Logo"
+/>
+
+
+What it does:
+
+Useful when the rendered size doesn’t change (e.g., a fixed-size icon/logo).
+
+Provides a high-density version for retina screens. 
+Medium
+
+3. <picture> tag for art direction / different aspect ratios
+<picture>
+  <source
+    media="(max-width: 600px)"
+    srcset="image-mobile-crop.jpg 600w"
+  />
+  <source
+    media="(min-width: 601px)"
+    srcset="image-desktop-wide.jpg 1200w"
+  />
+  <img
+    src="image-desktop-wide.jpg"
+    alt="Hotel pool view"
+/>
+</picture>
+
+
+What it does:
+
+For mobile (≤600px) use the mobile-cropped variant.
+
+For desktop use a wider version.
+
+Lets you control which crop/aspect ratio is shown at different breakpoints (art direction). 
+Medium
+
+4. CSS background images with image-set and media queries
+.example {
+  background-image: url("bg-small.jpg");
+}
+
+@media (min-width: 768px) {
+  .example {
+    background-image: image-set(
+      url("bg-large.jpg") 1x,
+      url("bg-large-2x.jpg") 2x
+    );
+  }
+}
+
+
+What it does:
+
+Fallback background for narrow viewports.
+
+For larger viewports, applies image-set giving options for standard vs high-density (2x) displays. 
+Medium
+
+📝 Easy-to-read bullet summary (for your notes)
+
+Supply multiple image resolutions so devices pick the best match.
+Use sizes attribute so browser knows how large the image will render.
+Use <picture> only when art-direction (crop/aspect ratio/content) changes.
+For CSS background images use image-set + media queries for responsive + high-density support.
+Avoid overcomplicating markup—use simplest tool that covers your use-case.
+Always include a fallback (src attribute for <img> and regular property for background-image).
+Consider both viewport width and display pixel ratio when choosing which image to serve.

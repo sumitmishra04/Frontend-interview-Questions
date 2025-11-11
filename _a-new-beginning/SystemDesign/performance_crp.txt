@@ -13,7 +13,7 @@ Optimizing CRP = faster page load → better user experience.
 When a browser loads a page:
 
 Step 1: Construct the DOM
-
+byte => tokens => characters => dom nodes
 Browser parses HTML into the DOM tree.
 
 Example: <div><p>Hello</p></div> → DOM nodes for div and p.
@@ -105,8 +105,11 @@ RUM tools, like Sentry, DataDog RUM, or New Relic, work by injecting a small Jav
 
 Component	Role	How it Works
 Sentry SDK (Frontend)	Data Collector	Sentry's SDK initializes with a unique project key (DSN). It hijacks the browser's native Web Vitals APIs and event listeners.
+
 Data Collection	Tracking Session	1. When a real user loads your page, the SDK starts tracking. 2. It records the LCP time based on the browser's API. 3. It records interaction latency (INP) for every click/tap. 4. It measures CLS during the session.
+
 Error Context	Adding Context	Sentry is famous for linking performance events (e.g., a slow transaction) directly to any code errors that occurred during that session. You see the entire stack trace, the user's breadcrumbs, and device info.
+
 Reporting	Aggregation	The SDK sends this data back to the Sentry server. Sentry aggregates millions of user sessions to show you performance distribution (e.g., "90% of users have an LCP better than 2.0s").
 
 Key Advantage: RUM shows you the true experience of users on slow Wi-Fi in Brazil on an old Android phone, which a fixed Lab Test can never replicate.

@@ -1,0 +1,42 @@
+step 1 [Requirement gathering]: 
+What are the main use cases we should be focusing on?
+
+Step 2 [Jira Epics]:
+Functional Requirements: Feature around the decided scope
+Non Functional Requirements: Performance, scalability, good UX
+
+NFR: Device support, offline capabilities, users of the product, i18n, accessibility, security,
+performance aspects
+
+Step 3 [Draw]: 
+- identifying the key components of the product, 
+- how the components interact with each other,
+- how they are related
+UI components with index.js
+index.js => useHooks => api layer  => backend
+response => store data in the useReducer with context
+
+Step 4 [component props]:
+- for each component discuss what kind of data it will require to render mainly props it needs. 
+
+Step 5 [protocols, payload and responses]: 
+- design api interface for each of them. also discuss the protocol like web socket, polling or simple rest call
+- the payload and response structure
+
+
+Step 6 [performance, optimisation and supports and analytics]:
+- network optimisation: like smaller chunks, fewer api calls, lazy loading module and data, throttling, debounce,
+- scroll optimisation: infinite scrolling, cursor vs offset based pagination, 
+- image optimisation: image format, device specific image size, lazy loading images
+- accessibility: key things to make accessible
+- service worker for offline capabilities and caching static resources
+- react query to cache api responses or web worker to handle heavy computation 
+- i18n and l10n
+- security like xss, csp, csrf, sandboxing, https
+- multi-device Support
+- monitoring and logging
+
+
+
+
+

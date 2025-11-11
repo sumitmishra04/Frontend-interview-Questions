@@ -1,0 +1,37 @@
+In short polling, each request is short-lived. When you unmount, you simply stop the setInterval, and that’s that.
+
+In long polling, each request can hang for 30 seconds. If you navigate away frequently, you could easily leave multiple open connections hanging if you don’t abort them.
+
+useEffect(() => {
+  let active = true;
+
+  async function longPoll() {
+    const controller = new AbortController();
+    try {
+      const res = await fetch('/api/long-updates', { signal: controller.signal });
+      const data = await res.json();
+      if (!active) return;
+      console.log('Update:', data);
+      longPoll(); // restart
+    } catch (err) {
+      if (!active && err.name === 'AbortError') return;
+      setTimeout(longPoll, 2000);
+    }
+  }
+
+  longPoll();
+
+  return () => {
+    active = false;
+    controller.abort(); // 🚀 cancel open request
+  };
+}, []);
+
+
+For a live cricket scoreboard, here’s your decision tree:
+
+Want quick and dirty → short poll every few seconds.
+
+Want near real-time (like Cricbuzz updates) → long poll.
+
+Want broadcast-level, push updates (commentary, highlights) → WebSocket/SSE.

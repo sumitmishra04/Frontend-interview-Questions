@@ -148,7 +148,8 @@ class MyPromise {
 
     finally(cb) {
         // finally do not return any value hence call with empty cb and then pass on the result to the chain next
-        return this.then(result => {
+        return this.then(
+            result => {
             cb()
             return result
         }, result => {

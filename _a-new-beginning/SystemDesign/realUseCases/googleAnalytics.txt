@@ -1,0 +1,45 @@
+Metric/logging 
+
+FR: the functionalities user interacts with actively or passively
+NFR: that helps system perform well, speed, availability, optimise performance 
+
+FR:
+- platform agnostic
+- data be configurable. eg onboarding process: track start to end of onboarding funnel to see where user drop off.
+  dashboard: where u wanna see which elements is interacting with.
+  login form: is the form too big and user is dropping off.
+  base on use case the nature of data that can be collected varies.
+- visualization of data
+
+
+NFR:
+- highly available
+- low latency (need real time info like live matches or money related to make quick decisions.)
+- validation of data 
+
+
+Data collection:
+post api 
+{
+    page: 
+    timestamp:
+    event: click | pageview | scroll | cancel | submit | appCrash {stack trace}
+    auxiliary data
+    user:
+    location:
+    session
+}
+
+System Architecture
+user =>[api request]=> Load balancer => queue => validation service => [data enrichment + [DB]] => NoSql dB
+visualition tool => NoSql DB
+serving cached results like daily active users.
+
+for billion of user collect a sample smaller Amount
+data retention policy of 90 days
+for data longer than 90 days we can use a long db that will be slower but will provide the historical data
+feed the data to amplitude for visualisation
+
+we could make the system self-serve to make sure all users can use it
+sharding by product categories or days to improve latency
+

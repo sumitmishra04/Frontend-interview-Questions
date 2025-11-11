@@ -1,0 +1,12 @@
+hackerrank:
+https://leetcode.com/discuss/post/7279135/microsoft-senior-software-engineer-onlin-yxeo/
+
+r1: find kth smallest in two sorted arrays, design pub sub
+r2: design task scheduler: a: [] 1000ms, b: [] 200ms, c: [a,b] 100ms, d: [c,b] 400ms
+    design custombind
+    find the output: 
+    for(var i = 0 -> 6) {
+        settimeout(console.log(i), i*100)
+    }
+    console.log(i--)
+    settimeout(console.log(--i), 0)

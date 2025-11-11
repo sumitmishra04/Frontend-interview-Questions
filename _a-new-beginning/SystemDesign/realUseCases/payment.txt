@@ -1,0 +1,65 @@
+The UI uses a PG-provided SDK/Library (e.g., Stripe Elements) to collect card details.
+NEVER let your React app touch the raw card number. The PG's SDK handles encryption and submission directly to the PG.
+The PG verifies the details and returns a single-use, non-sensitive Token (or Payment ID) back to the React UI.
+This token represents the card details but cannot be used for fraud.
+The React app sends the Token and the Order ID (from step 2) to Your Backend.
+Your client-side app has successfully handled the sensitive data without ever storing it.
+The entire site must be served over HTTPS.
+This encrypts all communication between the user's browser and your server/PG. This is a non-negotiable fundamental security requirement.
+? Validate card number length, expiry date format, and CVV before sending to the PG.
+NEVER log or store the full card number, CVV, or expiry date in browser storage (cookies, local storage, Redux state, etc.).
+Prevents compromise if the user's machine is attacked (Cross-Site Scripting - XSS).
+
+More on this:
+Is an iframe needed?
+Yes, often. Using an iframe or a similar technology called Hosted Fields is a popular and secure way to implement the card input fields.
+
+Why? The input fields (card number, CVV) are actually served directly from the Payment Gateway's server inside the iframe. Your React application's code cannot read the keystrokes entered into those fields, even if your app is compromised with an XSS attack. This is a huge security win.
+
+
+Issues
+Your server and your client-side React code have touched, processed, or stored unencrypted Credit Card data (the 16-digit number and CVV).
+You are immediately responsible for full PCI Data Security Standard (PCI DSS) Compliance. This involves annual audits, building highly secure network environments, penetration testing, and costs millions for large companies. It's practically impossible for a small/medium application.
+If your React app has any Cross-Site Scripting (XSS) vulnerability, a hacker can inject a script that listens to the input field and steals the credit card number the moment the user types it.
+Major financial and reputational damage. The card data is compromised before it even leaves the user's browser.
+If the user's computer is compromised with simple malware, that malware can read all data submitted via a regular form post.
+The secure IFrame prevents this, as the data bypasses your potentially compromised application context.
+
+
+The security of IFrames in this context relies on a foundational web security model called the Same-Origin Policy (SOP).
+The Same-Origin Policy is a critical security mechanism built into all modern web browsers. It dictates that a script running on a page can only access data (like form inputs, storage, or documents) from another page if both pages share the same origin
+
+Let's use Agoda's example:
+https://agoda.com: Contains all your vulnerable React code.
+https://secure.agoda.com/payment/: The key difference! A different subdomain or completely different domain.
+Because the IFrame is loaded from a different origin than your main React application, the browser enforces the following security barrier:
+Isolation: Your JavaScript code running on agoda.com cannot reach into the IFrame's Document Object Model (DOM) to read the values typed into the card number or CVV fields.
+Keystroke Protection: Even if a malicious script (from an XSS attack) were running in your React app, it would be blocked by the browser from accessing the input events or field values inside the IFrame.
+HTTPS: The IFrame URL itself is always served over HTTPS, guaranteeing encryption for the transmission of the raw card data to the PG's server.
+
+Think of the browser as a security guard who has two security tags: one for your React code (agoda.com) and one for the IFrame code (secure.payment-gateway.com).
+Your React App asks: "Hey, I need to see what the user typed in that text field in the IFrame."
+The Browser Security Guard checks: "Wait, your security tag (agoda.com) doesn't match the IFrame's security tag (secure.payment-gateway.com). Access denied."
+
+You generally cannot see the network details of the transaction that contains the raw card data (the 16-digit number, expiry, and CVV).
+The Transmission: When the user clicks "Pay" and the IFrame's code submits the card data, that form submission or AJAX request goes directly from the IFrame's domain (e.g., secure.adyen.com) to the Payment Gateway's server.
+The Isolation: Because of the Same-Origin Policy (SOP), your main page's context (agoda.com) is completely isolated from the IFrame's network activity. Your main page's JavaScript and most browser developer console tabs (like the Network tab) are scoped to the parent window's origin. They do not automatically log the network traffic originating from a different domain within an IFrame.
+Encryption: Even if you somehow managed to intercept the traffic at a lower level (like a proxy), the traffic is sent over HTTPS, meaning the raw card data is encrypted and unreadable.
+
+
+Chrome/Edge: In the Network tab, there is often a "Frames" section, or you can use a filter dropdown. You can select the specific IFrame URL (e.g., secure.agoda.com/payment/...) to switch the Network tab's context and view only that IFrame's traffic.
+Even when you filter the network tab to the IFrame's context, you will see the POST request that sends the card details, but you will not be able to read the raw card number, expiry, or CVV in clear text in the payload.
+Why? Because the entire communication is over HTTPS. The data is encrypted before it leaves the user's browser, and it can only be decrypted by the Payment Gateway's server.
+What you see: You will see the encrypted, scrambled binary or string data in the "Request Payload" section.
+
+STEPS:
+so basically for payment flow we can razorpay or stripe's sdk to integrate with react and these sdk will manage payment info inside iframe which will be secure from getting accessed and then when submitted will be https backed and we cannot see any useful info. they will talk to thier backend n not app's backend and return token to ui and ui will send this token to backend with order detail to confirm the booking and payment.
+
+
+
+These SDKs (like Stripe.js or Razorpay Checkout) are designed to handle the complex security and browser-specific interactions necessary for PCI compliance.
+The most critical security step. The iFrame creates a security boundary, preventing your React app's JavaScript from ever touching or reading the sensitive card data, even in the event of an XSS attack.
+Guarantees that the data is encrypted during transmission to the Payment Gateway (PG), making it unreadable by eavesdroppers. "No useful info" means the raw card data is not visible in clear text.
+The raw card data goes Card $\rightarrow$ PG Server first. This keeps your application's servers out of the highly regulated scope of PCI-DSS compliance.
+The PG replaces the sensitive card data with a secure, single-use, non-sensitive Token. This token is safe for your client-side React app to handle.
+This is the final, essential step. Your backend uses the safe token to call the PG's server-side API, confirming the payment amount and completing the financial transaction, which is the only way to prevent client-side price tampering.

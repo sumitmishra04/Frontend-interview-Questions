@@ -1,0 +1,5 @@
+r1: machine coding 2hr 3-5 oclock
+    create quizzes. user need to take the quiz. score gets updated.
+SSR: concept and implementation
+
+tech depth: from resume

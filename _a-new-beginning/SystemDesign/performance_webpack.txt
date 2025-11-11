@@ -60,7 +60,9 @@ module.exports = {
 3. Other Key Optimizations
 Optimization	Technique	Benefit
 CSS/Asset Optimization	Use the MiniCssExtractPlugin to extract CSS into separate files (prevents render blocking) and use CSS Nano for CSS minification.	Better LCP score by making CSS non-blocking and smaller CSS payloads.
+
 Hashed Filenames	Use [contenthash] in output filenames (e.g., bundle.[contenthash].js).	Allows for aggressive caching (long cache times) of static assets. When code changes, the hash changes, forcing the browser to download the new file.
+
 Gzip/Brotli Compression	Use plugins like CompressionWebpackPlugin to pre-compress assets during the build process.	Reduces file size further. The client's server serves the smaller, pre-compressed files directly to the browser.
 
 // webpack.config.js

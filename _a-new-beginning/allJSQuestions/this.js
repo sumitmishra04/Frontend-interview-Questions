@@ -14,7 +14,7 @@ const obj = {
     show() {
         console.log(this.name);
     },
-
+}
 obj.show();
 
 In a method call, this always points to the object before the dot (.).

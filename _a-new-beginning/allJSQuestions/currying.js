@@ -62,7 +62,6 @@ function curry(fn) {
                    return curried(...args, ...nextArgs)
                 }
             }
-
     }
 }
 

@@ -1,8 +1,0 @@
-How to Minimize Reflows:
-Keep changes low in the DOM tree: Modify smaller, contained elements rather than top-level containers.
-Avoid inline styles: These can trigger unnecessary reflows.
-Optimize animations: When animating elements, avoid frequent reflows by minimizing complex changes.
-Use transforms for animations: Animating properties like transform and opacity is less expensive than changing position/size.
-Avoid table layouts: Tables inherently cause reflows when resizing cells, which affects all other cells.
-Use efficient DOM manipulation: Frameworks like React, Angular, and Ember handle state updates and minimize reflows automatically.
-Debounce resize events: Instead of reacting to every window resize event, batch them to reduce the frequency of reflows.

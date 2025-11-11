@@ -180,9 +180,43 @@ This synchronization is handled entirely by the Slack Backend Server acting as t
 
 Aspect	Mechanism	Explanation
 Server as Source	Database State	All message history, read status, and sent messages are finalized and stored in the Slack server database.
-Sent Message Sync	Server Acknowledgement	When you send a message from Device A (e.g., mobile), the server sends an acknowledgment. It then sends a "Message Sent" Push Notification to all your other active devices (Desktop, Web).
-Read Status Sync	Read Receipt API	When you view a message on Device A, Device A immediately sends a "Read Receipt" API call to the server. The server then updates the last read pointer in its database.
-Client Polling/WebSockets	Live Updates	All active devices (Desktop/Web) maintain a persistent WebSocket connection to the server. When the server updates the read pointer (because you read on your mobile), it instantly broadcasts that change over the WebSocket to your desktop/web client, updating the unread count in real-time.
+When you send a message from Device A (e.g., mobile), the server sends an acknowledgment. It then sends a "Message Sent" Push Notification to all your other active devices (Desktop, Web).
+When you view a message on Device A, Device A immediately sends a "Read Receipt" API call to the server. The server then updates the last read pointer in its database.
+All active devices (Desktop/Web) maintain a persistent WebSocket connection to the server. When the server updates the read pointer (because you read on your mobile), it instantly broadcasts that change over the WebSocket to your desktop/web client, updating the unread count in real-time.
 
 Export to Sheets
 In short, the Service Worker handles the persistence and delivery guarantee on the web, while the Slack Backend handles the canonical state and distribution across all devices.
+
+
+--------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------
+
+
+Here are concise bullet points on how Booking.com applied different caching strategies using service workers:
+
+They identified four primary caching strategies: cacheFirst, cacheOnly, networkFirst, and networkOnly. 
+Medium
++1
+
+For static assets (CSS, JS, images) that rarely change, they used cacheFirst—serve from cache if available, else fetch network and update cache. 
+Medium
+
+For HTML documents like confirmation, booking-history pages (which must stay fairly fresh but offline fallback is valuable), they used networkFirst with a timeout (e.g., 10 seconds) and then fallback to cache. 
+Medium
+
+For user-tracking or analytics requests where caching makes no sense, they used networkOnly—always go to network, never serve from cache. 
+Medium
+
+They implemented a special case: for the “/confirmation” URL they used networkFirst to fetch the fresh content, and in addition forged a 302 redirect response saved in a dedicated cache namespace, serving that via cacheOnly for a simpler bookmarkable redirect to the last-confirmation. 
+Medium
+
+They separated caching scopes/namespaces: e.g., a dedicated cache named 'last-confirmation' for their custom redirect logic, so as not to mix with normal caches. 
+Medium
+
+They recognized a domain-scope challenge: because the booking flow spans two domains (e.g., www.booking.com and secure.booking.com), a service worker tied to one domain couldn’t cover the other. Their resolution: unify under one domain to allow a single service worker to handle the full journey. 
+Medium
+
+From a process view, they emphasised-- for large scale site like theirs you implement gradually, A/B test, experiment small steps, don’t try to do everything at once. 
+Medium
+
+If you like, I can pull out code excerpts and cache configuration parameters they used (e.g., maxEntries, maxAgeSeconds) for more detail.

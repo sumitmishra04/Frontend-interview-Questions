@@ -33,3 +33,16 @@ aria-label is used for icons as no visible text is available for icons
 while live are the attributes signal that tells a part of the page is likely to be updated dynamically and that the screen reader should pay attention and announce the change without needing the user to move focus.
 eg: Used on a shopping cart total that updates automatically when an item is added: aria-live="polite".
 By using role (what it is) and aria-* (what its status is), you ensure your application is fully understandable by all users.
+
+Payment A11y:
+inputmode="numeric" doesn’t enforce numeric data — it’s a user experience enhancement for mobile devices that shows a number keypad instead of a full keyboard.
+Phone number fields (when you don’t want browser’s auto-formatting of <input type="tel">)
+
+PIN codes, OTPs, or numeric IDs
+
+Price, quantity, or score inputs that should be numbers but aren’t strictly numeric data types
+
+Add appropriate autocomplete values for your payment form controls to ensure browsers offer autofill. Use autocomplete="cc-name" for the name, autocomplete="cc-number" for the card number, and autocomplete="cc-exp" for the expiry date.
+
+Ensure users only enter numbers for the card number and security code. Use pattern="[0-9 ]+" to allow users to include spaces when entering a card number, since this is how the numbers are displayed on the physical cards.
+
