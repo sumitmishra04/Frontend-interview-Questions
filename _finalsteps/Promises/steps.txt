@@ -1,0 +1,14 @@
+PROMISES:
+Learn promises and setTimeout combined objectives: https://betterprogramming.pub/10-javascript-promise-challenges-before-you-start-an-interview-c9af8d4144ec
+All of promises: https://www.freecodecamp.org/news/how-to-implement-promises-in-javascript-1ce2680a7f51
+Concurrency: https://medium.com/free-code-camp/how-to-limit-concurrent-operations-in-javascript-b57d7b80d573
+Promises then and catch: https://medium.com/frontend-canteen/10-code-challenges-to-master-promise-then-and-promise-catch-3da2bdea1d97https://medium.com/frontend-canteen/10-code-challenges-to-master-promise-then-and-promise-catch-3da2bdea1d97
+DOC Promises: https://promisesaplus.com/
+Mypromise :https://medium.com/swlh/implement-a-simple-promise-in-javascript-20c9705f197a
+
+CLOSURES & SCOPING:
+https://betterprogramming.pub/10-javascript-closure-challenges-explained-with-diagrams-c964110805e7
+
+
+BUNDLES AND WEBPACKS
+https://github.com/AfzalH/react-drag-and-drop-list-re-order/tree/completed

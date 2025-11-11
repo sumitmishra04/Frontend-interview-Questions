@@ -1,0 +1,47 @@
+promisify
+event bubbling
+cors
+authentication
+get vs post
+common numbers
+partition
+
+My PayPay Senior Frontend Engineer Interview Experience
+
+At the beginning of my job search, I was approached by PayPay’s HR team. PayPay is a Japan-based fintech company offering a remote position, but it required relocation to Japan. While I hadn’t planned on relocating, I decided to go through the interview process to see how it would unfold. Eachround is about 1hour 30 minutes.
+
+Technical Round 1:
+
+- React Questions: I was asked to dive into advanced React patterns, including higher-order components (HOCs), render props, and React Hooks for managing complex state. We also discussed various techniques to optimize React performance, such as code splitting, dynamic imports, and memoization.
+
+- Coding Tasks:
+- Implemented a custom version of React.useReducer from scratch.
+- Performance Optimization: This round included an in-depth discussion on web performance optimization techniques:
+- Implementing lazy loading for images and components.
+- Reducing JavaScript bundle size through tree shaking and minification.
+- Utilizing service workers for caching and improving load times.
+
+Result: Passed
+
+Technical Round 2:
+
+- Coding Task: I was tasked with building two functions:
+
+1.  virtualize(element): Converts an HTMLElement into an object literal representation.
+2.  render(obj): Converts an object literal representation back into an HTMLElement. Similar to ReactDOM.render()
+
+- DSA Problem: I was asked to design a Least Recently Used (LRU) cache with optimized get and put operations to ensure efficient time complexity.
+
+- JavaScript Concepts: We covered topics such as the intricacies of prototypal inheritance and implementing custom promises with a focus on error handling and chaining.
+
+- Design Patterns: I was asked to explain and implement design patterns like the Singleton, Observer, and Factory patterns in JavaScript, and to discuss their practical use cases in frontend development.
+
+Result: Passed
+
+Cultural Fit Round:
+
+The final round focused on cultural fit. We discussed my previous work experience, the challenges I’ve faced in past projects, and how my values and work style would align with PayPay’s environment.
+
+Result: Unfortunately, I received a rejection two months after completing all rounds. The feedback indicated that I wasn’t a cultural fit, though no specific reasons were provided.
+
+For preparation, I revised the material I had created from past experiences and updated them with insights from this interview. If you’re looking for a comprehensive frontend interview preparation kit that includes DSA, JavaScript, React, HTML, and CSS interview questions, check out the link in my profile.

@@ -1,0 +1,13 @@
+R1 DS: Was asked 2 question 1 easy and one medium. 1: Falling aircraft game problem . 
+2: find anagram in a sentence and find out multiple sentences with the anagram variations. 
+
+R2: Was asked on how https works, csp, polling, authentication, browser storage, micro and macro queue code snippet output,
+monitoring and web vitals, performance, xss attack, usememo, usecallback, sop, cors, 
+sandbox, vdom, react fibre, indexdb usage, websocket, polling vs websocket usage, testing strategy,
+web worker, event loop, dom manipulation, crp, state management.
+
+R3: asked about usememo vs shouldupdatecomponent, why custom hooks are needed and not normal functions,
+when useeffect render? liitle about ai chatbot tool and mf webpack versioning.
+
+
+

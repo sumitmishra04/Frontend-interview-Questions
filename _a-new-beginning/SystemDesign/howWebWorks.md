@@ -1,0 +1,21 @@
+# DNS
+When you type `https://www.example.com` in your browser, the process begins by resolving the domain name through a **DNS lookup** (checking local caches first) to obtain the server’s **IP address**, which is then used by **IP routing** to direct the request;
+
+# TCP
+next, the browser establishes the foundational **TCP connection** with the server via the three-step handshake: the Client sends **SYN** (requests connection), the Server responds with **SYN-ACK** (acknowledges and agrees), and the Client confirms with **ACK** (connection established). 
+ 
+# HTTPS:SSL
+This channel is still unencrypted, but because **HTTPS** uses **SSL/TLS encryption** to secure communication, adding authentication, data integrity, and encryption on top of HTTP, the browser immediately initiates the TLS handshake by sending a "Client Hello," which includes a **Client Random** number used for session entropy. The server replies with its validated Certificate (containing the **Server's Public Key [SPK]**) and its own **Server Random** number, both of which will be inputs for the final key derivation. 
+
+After certificate verification, the client generates the secret **Pre-Master Secret (PMS)**, encrypting it *only* with the **SPK** (relying on asymmetric encryption where only the Server's secret Private Key can decrypt the PMS) and sends this ciphertext over the insecure channel . An attacker who intercepts this message cannot extract the PMS because they lack the Server's Private Key, confirming the transfer's security.
+
+Once the Server uses its Private Key to extract the PMS, **both parties** independently derive the unique, high-speed **Symmetric Session Key (SSK)** by applying a **Key Derivation Function (KDF)** to the PMS, the Server Random, and the Client Random. 
+
+
+To verify this SSK is identical, both the client and the server switch to the new cipher state and exchange **"Finished" messages**, which are cryptographic hashes of the *entire handshake transcript* encrypted using the **new SSK**; each party decrypts the other's hash with its SSK and compares it to its own locally calculated hash, confirming the successful key exchange. 
+
+
+The channel is now secure, and the client sends the actual **HTTP Request** encrypted using the SSK (which an attacker intercepts only as meaningless ciphertext), and upon receiving the encrypted response, the browser decrypts the HTML using the SSK. 
+
+# CRP
+Finally, the browser initiates the **Critical Rendering Path (CRP)**: it parses the HTML by extracting characters(random bytes) => tokens(<, >, div) => nodes(<div>) and then into the **DOM** tree, fetches and parses CSS into the **CSSOM** tree, combines them into the **Render Tree**, calculates the position and size of every element during **Layout**, and finally performs **Painting** to draw the pixels onto the user interface, displaying the webpage to the user .

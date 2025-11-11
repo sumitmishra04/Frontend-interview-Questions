@@ -1,0 +1,144 @@
+Problem,Topic,Source(s)
+Contains Duplicate,Hashing / Maps,LeetCode75/Top150/NeetCode150
+Valid Anagram,Arrays & Strings / Hashing,LeetCode75/Top150/NeetCode150
+Two Sum,Arrays & Strings / Hashing,LeetCode75/Top150/NeetCode150
+Group Anagrams,Arrays & Strings / Hashing,LeetCode75/Top150/NeetCode150
+Top K Frequent Elements,Heaps / Priority Queues / Hashing,LeetCode75
+Encode and Decode Strings,Hashing / Design,LeetCode75
+Product of Array Except Self,Arrays & Strings / Prefix Products,LeetCode75/Top150/NeetCode150
+Valid Sudoku,Arrays & Strings / Hashing,LeetCode75
+Longest Consecutive Sequence,Arrays & Strings / Hashing,LeetCode75
+Valid Palindrome,Arrays & Strings / Two Pointers,LeetCode75/Top150/NeetCode150
+Two Sum II Input Array Is Sorted,Arrays & Strings / Two Pointers / Binary Search,LeetCode75/Top150
+3Sum,Arrays & Strings / Two Pointers,LeetCode75/Top150/NeetCode150
+Container With Most Water,Arrays & Strings / Two Pointers / Greedy,LeetCode75/Top150/NeetCode150
+Trapping Rain Water,Arrays & Strings / Two Pointers / Stack,LeetCode75/NeetCode150
+Best Time to Buy And Sell Stock,Arrays & Strings / Dynamic,LeetCode75/Top150/NeetCode150
+Longest Substring Without Repeating Characters,Strings / Sliding Window,LeetCode75/Top150/NeetCode150
+Longest Repeating Character Replacement,Strings / Sliding Window / Hashing,LeetCode75
+Permutation In String,Strings / Sliding Window / Hashing,LeetCode75
+Minimum Window Substring,Strings / Sliding Window / Two Pointers,LeetCode75/Top150/NeetCode150
+Sliding Window Maximum,Arrays & Strings / Deque / Window,LeetCode75
+Valid Parentheses,Stacks / Strings,LeetCode75/Top150/NeetCode150
+Min Stack,Stacks / Design,LeetCode75
+Evaluate Reverse Polish Notation,Stacks / Expression,LeetCode75
+Generate Parentheses,Backtracking / Recursion,LeetCode75/Top150/NeetCode150
+Daily Temperatures,Stacks / Monotonic,LeetCode75/Top150
+Car Fleet,Arrays / Greedy,LeetCode75
+Largest Rectangle In Histogram,Stack / Monotonic,LeetCode75
+Binary Search,Binary Search,LeetCode75
+Search a 2D Matrix,Binary Search / Matrix,LeetCode75/Top150
+Koko Eating Bananas,Binary Search / Greedy,LeetCode75/Top150
+Find Minimum In Rotated Sorted Array,Binary Search,LeetCode75/Top150
+Search In Rotated Sorted Array,Binary Search,LeetCode75/Top150
+Time Based Key Value Store,Design / Hashing,LeetCode75
+Median of Two Sorted Arrays,Divide & Conquer / Binary Search,LeetCode75/Top150
+Reverse Linked List,Linked Lists,LeetCode75/Top150/NeetCode150
+Merge Two Sorted Lists,Linked Lists,LeetCode75/Top150/NeetCode150
+Linked List Cycle,Linked Lists / Two Pointers,LeetCode75/Top150/NeetCode150
+Reorder List,Linked Lists,LeetCode75
+Remove Nth Node From End of List,Linked Lists / Two Pointers,LeetCode75/Top150
+Copy List With Random Pointer,Linked Lists / Design,LeetCode75/Top150
+Add Two Numbers,Linked Lists / Math,LeetCode75/Top150/NeetCode150
+Find The Duplicate Number,Arrays & Hashing,LeetCode75
+LRU Cache,Design,LeetCode75/Top150
+Merge K Sorted Lists,Heaps / Divide & Conquer,LeetCode75/Top150
+Reverse Nodes In K Group,Linked Lists,LeetCode75
+Invert Binary Tree,Trees,LeetCode75/Top150/NeetCode150
+Maximum Depth of Binary Tree,Trees / DFS,LeetCode75/Top150/NeetCode150
+Diameter of Binary Tree,Trees / DFS,LeetCode75
+Balanced Binary Tree,Trees,LeetCode75/Top150
+Same Tree,Trees / DFS,LeetCode75
+Subtree of Another Tree,Trees,LeetCode75
+Lowest Common Ancestor of a Binary Search Tree,Trees / BST,LeetCode75/Top150
+Binary Tree Level Order Traversal,Trees / BFS,LeetCode75/Top150
+Binary Tree Right Side View,Trees,LeetCode75/Top150
+Count Good Nodes in Binary Tree,Trees,LeetCode75/Top150
+Validate Binary Search Tree,Trees / BST,LeetCode75/Top150/NeetCode150
+Kth Smallest Element In a BST,Trees / BST,LeetCode75
+Construct Binary Tree From Preorder And Inorder Traversal,Trees,LeetCode75/Top150
+Binary Tree Maximum Path Sum,Trees / DFS,LeetCode75/Top150
+Serialize And Deserialize Binary Tree,Trees / Design,LeetCode75/Top150
+Kth Largest Element In a Stream,Heaps / Design,LeetCode75
+Last Stone Weight,Heaps,LeetCode75
+K Closest Points to Origin,Heaps / Geometry,LeetCode75
+Kth Largest Element In An Array,Heaps / Selection,LeetCode75/Top150/NeetCode150
+Task Scheduler,Greedy / Scheduling,LeetCode75/Top150
+Design Twitter,Design / System,LeetCode75/Top150
+Find Median From Data Stream,Heaps / Design,LeetCode75
+Subsets,Backtracking / Recursion,LeetCode75/Top150/NeetCode150
+Combination Sum,Backtracking / Recursion,LeetCode75/Top150/NeetCode150
+Combination Sum II,Backtracking / Recursion,LeetCode75/Top150
+Permutations,Backtracking / Recursion,LeetCode75/Top150/NeetCode150
+Subsets II,Backtracking / Recursion,LeetCode75/Top150
+Word Search,Backtracking / DFS,LeetCode75/Top150/NeetCode150
+Palindrome Partitioning,Backtracking / Recursion,LeetCode75/Top150
+Letter Combinations of a Phone Number,Backtracking / Recursion,LeetCode75/Top150/NeetCode150
+N Queens,Backtracking,LeetCode75/Top150/NeetCode150
+Implement Trie (Prefix Tree),Design / Trie,LeetCode75/Top150/NeetCode150
+Design Add And Search Words Data Structure,Design / Trie,LeetCode75/Top150
+Word Search II,Backtracking / DFS,NeetCode150 / Top150
+Number of Islands,Graphs / DFS / BFS,LeetCode75/Top150/NeetCode150
+Max Area of Island,Graphs / BFS,LeetCode75
+Clone Graph,Graphs,LeetCode75/Top150/NeetCode150
+Walls And Gates,Graphs / BFS / Multi-source,LeetCode75
+Rotting Oranges,Graphs / BFS,LeetCode75/Top150/NeetCode150
+Pacific Atlantic Water Flow,Graphs,LeetCode75
+Surrounded Regions,Graphs / DFS,LeetCode75/Top150
+Course Schedule,Graphs / Topo Sort,LeetCode75/Top150/NeetCode150
+Course Schedule II,Graphs / Topo Sort,Top150 / NeetCode150
+Graph Valid Tree,Graphs / Union-Find,Top150
+Number of Connected Components In An Undirected Graph,Graphs / Union-Find / DFS,Top150 / NeetCode150
+Redundant Connection,Graphs / Union-Find,Top150
+Word Ladder,Graphs / BFS,Top150 / NeetCode150
+Network Delay Time,Graphs / Dijkstra,Top150
+Reconstruct Itinerary,Graphs / Backtracking,Top150
+Min Cost to Connect All Points,Graphs / MST / Kruskal / Prim,Top150
+Swim In Rising Water,Graphs / BFS / Binary Search / Dijkstra,Top150 / NeetCode150
+Alien Dictionary,Graphs / Topo Sort,Top150
+Cheapest Flights Within K Stops,Graphs / Bellman-Ford / Dijkstra,Top150
+Climbing Stairs,DP / Recursion,LeetCode75/Top150/NeetCode150
+Min Cost Climbing Stairs,DP,Top150 / NeetCode150
+House Robber,DP,LeetCode75/Top150/NeetCode150
+House Robber II,DP,Top150
+Longest Palindromic Substring,DP / Expand from center,Top150 / NeetCode150
+Palindromic Substrings,DP / Expand,NeetCode150
+Decode Ways,DP,Top150 / NeetCode150
+Coin Change,DP,Top150 / NeetCode150
+Unique Paths,DP,Top150 / NeetCode150
+Longest Common Subsequence,DP,Top150 / NeetCode150
+Target Sum,DP,Top150
+Interleaving String,DP / Backtracking,Top150
+Longest Increasing Path In a Matrix,DP / DFS,Top150
+Distinct Subsequences,DP,Top150
+Edit Distance,DP,Top150 / NeetCode150
+Burst Balloons,DP / Greedy,Top150
+Regular Expression Matching,DP,Top150
+Jump Game,Arrays / DP,NeetCode150 / Top150
+Jump Game II,Arrays / DP,NeetCode150 / Top150
+Gas Station,Arrays / Greedy / DP,NeetCode150 / Top150
+Hand of Straights,Greedy / Hashing,NeetCode150
+Merge Triplets to Form Target Triplet,Greedy,NeetCode150
+Partition Labels,Strings / Greedy,NeetCode150
+Valid Parenthesis String,Stacks / DP,NeetCode150
+Insert Interval,Intervals / Greedy,NeetCode150
+Merge Intervals,Intervals / Greedy,NeetCode150
+Non Overlapping Intervals,Intervals / Greedy,NeetCode150
+Meeting Rooms,Intervals,NeetCode150
+Meeting Rooms II,Intervals,NeetCode150
+Minimum Interval to Include Each Query,Intervals,NeetCode150
+Rotate Image,Matrix,NeetCode150
+Spiral Matrix,Matrix,NeetCode150
+Set Matrix Zeroes,Matrix,NeetCode150
+Happy Number,Math / Hashing,NeetCode150
+Plus One,Math / Arrays,NeetCode150
+Pow(x, n),Math / Recursion,NeetCode150
+Multiply Strings,Math / Strings,NeetCode150
+Detect Squares,Math / Design,NeetCode150
+Single Number,Bit Manipulation,NeetCode150
+Number of 1 Bits,Bit Manipulation,NeetCode150
+Counting Bits,Bit Manipulation / DP,NeetCode150
+Reverse Bits,Bit Manipulation,NeetCode150
+Missing Number,Math / Bit Manipulation,NeetCode150
+Sum of Two Integers,Bit Manipulation / Math,NeetCode150
+Reverse Integer,Math / Strings,NeetCode150

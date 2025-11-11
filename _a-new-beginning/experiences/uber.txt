@@ -1,0 +1,5 @@
+was asked to created a voting poll bar of different height and color. 
+It's height and width must be dynamic. It must show total vote % on each bar.
+
+Machine coding was asked to create progress bar with in a container centrally placed to close within 3 sec and be scalable
+use requestanimationframe to build progress bar

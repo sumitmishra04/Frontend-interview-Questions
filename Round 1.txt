@@ -1,0 +1,67 @@
+Part 1
+1. Debounce theory and implementation (https://github.com/sudheerj/javascript-interview-questions#what-is-debouncing)
+2. Throttle theory and implementation (https://github.com/sudheerj/javascript-interview-questions?tab=readme-ov-file#what-is-throttling)
+3. Call, apply & bind theory and polyfills 
+4. Array's map, reduce & filter polyfills
+5. event delegation, event bubbling & event capturing theory and usage (https://www.30secondsofcode.org/articles/s/javascript-event-bubbling-capturing-delegation)
+6. function currying (https://medium.com/@pranjali.roy/currying-interview-questions-2a6823867551)  
+7. implement caching in js
+BREAK(TICKETS BOOK)
+
+8. implement own http methods
+9. implement own state management in js
+10. Closure based problems (https://dmitripavlutin.com/javascript-closures-interview-questions/)
+11. this & prototype inheritance 
+12. polyfills of isNaN, isInt
+BREAK(...)
+
+13. Object based problems: deepCopy, merge objects
+14. implement keyValuePrinter such that it iterates over all key value pair of object
+15. var,let,const based problems and differences
+BREAK(...)
+
+
+16. promises, settimeout, setinterval based problems (https://github.com/sadanandpai/javascript-code-challenges/blob/main/web/src/pages/challenges/async.mdx)
+17. toptal 37 questions (https://www.toptal.com/javascript/interview-questions)
+18. promise.all polyfills
+BREAK(...)
+
+19. eventloop & virtual dom, diffing algorithm
+20. async vs defer (https://flaviocopes.com/javascript-async-defer/)
+21. hoisting (https://www.freecodecamp.org/news/function-hoisting-hoisting-interview-questions-b6f91dbc2be8/)
+BREAK(...)
+
+Part 2
+1. make api call of an array of urls with maxApiCall cap such that nt more than
+ maxApiCall(eg: 2) will be fired.
+2. flatten array upto a certain limit
+3. memo, once, myInstanceof, logger, genericCurry
+4. content visibility
+5. serving critical css
+6. resource hints
+7. caching using service worker, cdn
+8. csr, ssr
+9. compression techniques
+10. layout shifts and repainting
+11. http response methods and their use cases wrt to security as well
+12. offline caching
+13. browser-caches
+14. what are the steps one can take for security in frontend
+15. img type and wht happens when we fetch a different resource
+16. web worker/service workers
+17. local storage questions and events
+18. best ways to optimise long running sync code
+19. Critical Rendering Path (https://medium.com/@luisvieira_gmr/understanding-the-critical-rendering-path-rendering-pages-in-1-second-735c6e45b47a)
+20. what happens when u hit a url (https://www.freecodecamp.org/news/what-happens-when-you-hit-url-in-your-browser/)
+21. web performance (https://markoskon.com/performance/#1-first-paint-fp)
+
+Part 3
+1. https://www.frontendinterviewhandbook.com/javascript-questions
+2. https://github.com/sudheerj/javascript-interview-questions
+3. https://github.com/ganqqwerty/123-Essential-JavaScript-Interview-Questions/blob/master/README.md
+4. https://github.com/lydiahallie/javascript-questions
+5. https://github.com/topics/javascript-interview-questions
+6. https://betterprogramming.pub/10-javascript-promise-challenges-before-you-start-an-interview-c9af8d4144ec
+
+
+

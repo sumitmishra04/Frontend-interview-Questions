@@ -1,0 +1,134 @@
+
+HTTPS1/HTTP2/3::
+httponly, methods, preflight, headers 
+1. How to See the Protocol Version in DevTools
+You can easily verify which protocol was used for any resource request by looking at your browser's Network Tab.
+
+Open DevTools (F12 or Ctrl+Shift+I).
+
+Go to the Network Tab.
+
+Load your application.
+
+In the table listing all resources (JS, CSS, images, API calls), there is usually a column labeled Protocol or Scheme.
+
+This column will show one of three values:
+
+http/1.1 (or just http)
+
+h2 (for HTTP/2)
+
+h3 (for HTTP/3)
+
+This is the definitive way to confirm which protocol your browser and server negotiated.
+
+2. Can the App Dictate Which Protocol to Use?
+No, the client-side application (your React code, JavaScript, etc.) cannot directly dictate the HTTP version.
+
+The protocol version is a negotiation handled automatically between the browser (client) and the web server.
+
+Client (Browser): The browser starts the connection and sends a list of supported protocols (e.g., "I support HTTP/1.1, HTTP/2, and HTTP/3").
+
+Server: The server checks its own configuration and selects the highest version it supports (e.g., if it supports HTTP/2 and the client does too, it chooses HTTP/2).
+
+Connection: The connection proceeds using the agreed-upon version.
+
+Therefore, to use HTTP/2 or HTTP/3, the web server hosting the application must be configured to support it.
+
+3. What is Head-of-Line (HOL) Blocking? (The HTTP/1.1 Problem)
+Definition: HOL Blocking occurs when packets or data requests must wait behind a slower packet or request in a queue, even if they could be processed immediately, because they are using the same connection line.
+
+Example (HTTP/1.1): The Slow Image
+HTTP/1.1 uses a design where the client must wait for the full response to Request 1 before it can send Request 2 on the same TCP connection.
+
+Scenario: Your browser opens one TCP connection to the server to download four resources:
+
+Request 1 (CSS): 10KB (Fast)
+
+Request 2 (Image): 5MB (Slow)
+
+Request 3 (JS): 50KB (Fast)
+
+Request 4 (API Data): 2KB (Fast)
+
+The Blocking: Request 2 (the 5MB image) is slow. Even though the browser could have sent Requests 3 and 4 immediately and gotten their responses back, they are blocked behind Request 2. The entire pipeline stalls.
+
+The Fix in HTTP/1.1: Browsers had to resort to a crude workaround: opening multiple parallel TCP connections (typically 6 per origin) to bypass HOL blocking, but this is inefficient and resource-heavy.
+
+4. What is Multiplexing? (The HTTP/2 Solution)
+Definition: Multiplexing is the process of sending and receiving multiple independent streams of data concurrently over a single, persistent TCP connection.
+
+Example (HTTP/2): Concurrent Downloads
+HTTP/2 maintains only one TCP connection to the server.
+
+Scenario: Same four requests (CSS, Image, JS, API Data).
+
+The Solution: The browser breaks each request/response into smaller frames and labels them with a Stream ID. It then sends all these frames over the single connection without waiting for any response.
+
+No Blocking: Since the slow Image frames are interleaved with the fast CSS, JS, and API data frames, the browser can reconstruct and deliver the fast resources immediately upon receiving their final frame, without waiting for the large image to finish.
+
+Key Benefit: This is far more efficient, reduces connection overhead, and eliminates the HOL blocking caused by request/response serialization.
+
+5. Is There a Limit on How Many Parallel Calls Can Be Made?
+The answer depends entirely on the protocol:
+
+Protocol	Parallel Limit	Reasoning
+HTTP/1.1	Limited (Typically 6)	Limited by the browser's need to open multiple independent TCP connections to avoid HOL blocking. You can't open infinite connections; 6 is the standard limit per origin.
+HTTP/2	No Effective Limit	Since it uses a single TCP connection with multiplexing, it can technically handle hundreds or thousands of concurrent streams (requests) at the same time on that one connection.
+
+
+PREFLIGHT:
+Preflight Request: The Security Knock
+Imagine your browser is trying to visit a neighbor's house (a different domain) to ask for a cup of sugar (make an API call). Because it's a security risk to have websites randomly demanding things from other servers, the browser doesn't just barge in.
+
+1. What is a Preflight Request?
+A Preflight Request is an automatic, temporary request sent by your browser before the actual, main API request you intended to make.
+
+It uses the OPTIONS HTTP method.
+
+Purpose: To ask the server for explicit permission for the upcoming action. It's like the browser knocking before opening the main connection.
+
+2. When Does it Get Triggered? (The "Complex" Rule)
+A preflight is triggered automatically by the browser when your main request is considered "Complex" or "Non-Simple."
+
+A request is "Complex" if it could potentially have unintended or harmful side effects on the server, such as:
+
+Condition	Example	Why it's Complex
+Method	Using PUT, DELETE, or PATCH.	These methods inherently change or delete data, so permission is required first.
+Custom Headers	Adding a header like X-API-Key or a custom Content-Type.	Browsers want to make sure the receiving server is prepared to handle custom data formats or security keys.
+Content Type	Sending data as application/json (standard for most modern APIs).	This is a complex content type that requires explicit server authorization.
+
+
+If your request is a simple GET, HEAD, or a basic POST with standard form data, no preflight is sent.
+
+3. What is its Use? (The Knock-Knock Dialogue)
+The preflight request is purely a security measure required by the CORS standard to protect servers from unauthorized cross-origin requests.
+
+It follows this dialogue:
+
+Step	Sender	Request/Header	Meaning
+1. Knock	Browser (Client)	OPTIONS /api/data Headers: Access-Control-Request-Method: PUT, Access-Control-Request-Headers: X-Auth-Token	"Hello, I'm from yoursite.com. I want to make a PUT request and send an X-Auth-Token. Is that allowed?"
+2. Permission	Server (API)	200 OK Headers: Access-Control-Allow-Origin: *, Access-Control-Allow-Methods: PUT, Access-Control-Allow-Headers: X-Auth-Token	"Yes, I allow PUT and X-Auth-Token from your origin. Proceed."
+3. Main Request	Browser (Client)	PUT /api/data (Actual request body)	The browser now sends the actual data.
+
+
+If the server responds in Step 2 saying, "No, I don't allow PUT," the browser immediately cancels the main request and throws a CORS error in your console. The actual data never leaves your computer.
+
+4. Access-Control-Max-Age (Optimization)
+The browser knows that asking for permission every time is slow. The server can tell the browser, "You don't need to ask permission for the next 24 hours."
+
+It does this by adding the header Access-Control-Max-Age: 86400 (86,400 seconds = 24 hours) to the preflight response. The browser then caches the permission, eliminating the need for subsequent preflights for that endpoint within the time limit.
+ In summary, the Preflight exists because modern complex requests are so powerful that the browser cannot risk sending them without the server's explicit, immediate, and positive confirmation that the originating domain is allowed to perform that specific action (method, headers) against that resource. It prevents CSRF attack
+
+
+No, a preflight request never happens when the request is made to the same origin.
+
+Here's the quick breakdown why:
+
+The browser's default security rule is the Same-Origin Policy (SOP).
+
+If the request is Same-Origin (same protocol, domain, and port), the SOP allows it immediately.
+
+CORS (Cross-Origin Resource Sharing) is the mechanism used to ask permission to bypass the SOP.
+
+Since you don't need to ask permission for a Same-Origin request, CORS is not invoked, and therefore, the CORS preflight (OPTIONS request) is not sent.

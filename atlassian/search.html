@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Search component with accessibility features">
+    <title>Search Component</title>
+    <style>
+        /* CSS Reset and Base Styles */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.5;
+            background-color: #f5f5f5;
+            color: #1a1a1a;
+            padding: 2rem 1rem;
+        }
+
+        /* Container Styles */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Search Component */
+        .search-container {
+            margin-bottom: 2rem;
+        }
+
+        .search-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #4a4a4a;
+        }
+
+        .search-wrapper {
+            display: flex;
+            gap: 0.5rem;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            border: 2px solid #e2e2e2;
+            border-radius: 0.5rem;
+            background-color: white;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+        }
+
+        .search-button {
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: white;
+            background-color: #4a90e2;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        .search-button:hover {
+            background-color: #357abd;
+        }
+
+        .search-button:active {
+            transform: translateY(1px);
+        }
+
+        .search-button:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.3);
+        }
+
+        /* Results Section */
+        .results {
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 640px) {
+            .search-wrapper {
+                flex-direction: column;
+            }
+
+            .search-button {
+                width: 100%;
+            }
+        }
+
+        /* High Contrast Mode Support */
+        @media (forced-colors: active) {
+            .search-input {
+                border: 2px solid CanvasText;
+            }
+            
+            .search-button {
+                border: 2px solid ButtonText;
+            }
+        }
+
+        /* Loading State */
+        .search-button.loading {
+            position: relative;
+            color: transparent;
+        }
+
+        .search-button.loading::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 1.25rem;
+            height: 1.25rem;
+            border: 2px solid white;
+            border-right-color: transparent;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <main>
+            <div class="search-container">
+                <label for="search" class="search-label">Search:</label>
+                <div class="search-wrapper">
+                    <input 
+                        type="search"
+                        id="search"
+                        class="search-input"
+                        placeholder="Enter your search term..."
+                        aria-label="Search input"
+                    >
+                    <button 
+                        type="button" 
+                        class="search-button"
+                        id="search-button"
+                        aria-label="Perform search"
+                    >
+                        Search
+                    </button>
+                </div>
+            </div>
+            <div id="results" class="results" role="region" aria-live="polite"></div>
+        </main>
+    </div>
+
+    <script>
+        // // DOM Elements
+        // const domIds = ['search', 'search-button', 'results'];
+        // const [ searchInput, searchButton, resultsContainer ] = domIds.map((id) => {
+        //    return document.getElementById(id);
+        // });
+
+        // // Utility Functions
+        // function sanitizeHTML(str) {
+        //     const escapeMap = {
+        //         '&': '&amp;',
+        //         '<': '&lt;',
+        //         '>': '&gt;',
+        //         '"': '&quot;',
+        //         "'": '&#039;'
+        //     };
+        //     return str.replace(/[&<>"']/g, m => escapeMap[m]);
+        //     // const div = document.createElement('div');
+        //     // div.textContent = str;
+        //     // return div.innerHTML;
+        // }
+
+        // function debounce(func, wait) {
+        //     let timeout;                              // Keep track of the timer
+            
+        //     return function executedFunction(...args) {
+        //         const later = () => {                 // Define what to do later
+        //             clearTimeout(timeout);            // Clear the old timer
+        //             func(...args);                    // Finally execute the function
+        //         };
+                
+        //         clearTimeout(timeout);                // Cancel the previous timer
+        //         timeout = setTimeout(later, wait);    // Start a new timer
+        //     };
+        // }
+
+
+        // // Search Functionality
+        // async function performSearch() {
+        //     const searchTerm = searchInput.value.trim();
+            
+        //     if (!searchTerm) {
+        //         resultsContainer.textContent = 'Please enter a search term';
+        //         return;
+        //     }
+
+        //     // Show loading state
+        //     searchButton.classList.add('loading');
+        //     searchButton.disabled = true;
+            
+        //     try {
+        //         // Simulate API call with timeout
+        //         await new Promise(resolve => setTimeout(resolve, 200));
+                
+        //         // Display results (replace with actual search logic)
+        //         resultsContainer.textContent = `Search results for: ${sanitizeHTML(searchTerm)}`;
+        //     } catch (error) {
+        //         resultsContainer.textContent = 'An error occurred while searching. Please try again.';
+        //         console.error('Search error:', error);
+        //     } finally {
+        //         searchButton.classList.remove('loading');
+        //         searchButton.disabled = false;
+        //     }
+        // }
+
+        // // Event Listeners
+        // searchButton.addEventListener('click', performSearch);
+
+        // searchInput.addEventListener('keypress', (e) => {
+        //     if (e.key === 'Enter') {
+        //         performSearch();
+        //     }
+        // });
+
+        // // Initialize
+        // resultsContainer.textContent = 'Enter a search term and click Search';
+
+
+        async function parallelLimit(tasks, limit) {
+  const results = [];
+  let runningTasks = 0;
+  let taskIndex = 0;
+
+  return new Promise((resolve, reject) => {
+    function runNext() {
+      if (taskIndex >= tasks.length && runningTasks === 0) {
+        return resolve(results); // All tasks are done
+      }
+
+      while (runningTasks < limit && taskIndex < tasks.length) {
+        const task = tasks[taskIndex];
+        taskIndex++;
+        runningTasks++;
+
+        console.log('task()', taskIndex, task())
+        task().then((result) => {
+           console.log('result', result)
+          results.push(result); // Store based on completion order
+          runningTasks--;
+          runNext();
+        }).catch(err => {
+            reject('Error thrown', err)
+        }) ;
+      }
+    }
+
+    runNext(); // Start execution
+  });
+}
+
+
+// Test cases
+const tasks = [
+  () => fetch('https://dummyjson.com/todos/1'),
+  () => fetch('https://dummyjson.com/todos/2'),
+  () => fetch('https://dummyjson.com/todos/3'),
+  () => fetch('https://dummyjson.com/todos/4'),
+  () => fetch('https://dummyjson.com/todos/5')
+];
+
+// Run with limit of 2 concurrent tasks
+parallelLimit(tasks, 2).then(results => {
+  console.log(results); // Expected Output: [1, 4, 2, 5, 3]
+});
+
+    </script>
+</body>
+</html>

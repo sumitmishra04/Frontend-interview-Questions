@@ -1,0 +1,11 @@
+Q1> what is your recommendation of working style:
+Ans> Do your work in half the time to 4/5th of the time allotted. this helps a cleaner code, better work-life, low burn-out, no deadline troubles and some time for personal care
+     Resolve your dependencies first. Being Blocked should be the last thing.
+     Take some calls on your own and back it. if they sound logical to you.
+     Always be aware of the accountability. It is quiet common to get accountable for someone elses lapses.
+
+Q2> what do you do outside work?
+Ans> fitness, book reading and continously looking ways to learn better coding
+
+Q3> What are the tenets of a clean code?
+Ans> Reliability(correctness, stability, resilience), efficiency, maintainability, usability

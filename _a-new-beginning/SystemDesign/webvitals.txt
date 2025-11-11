@@ -1,0 +1,167 @@
+https://medium.com/airbnb-engineering/creating-airbnbs-page-performance-score-5f664be0936
+https://medium.com/airbnb-engineering/measuring-web-performance-at-airbnb-122da8d3ea3f
+
+TTFB → FCP → LCP → INP
+
+WEB VITALS::
+Largest Contentful Paint (LCP)
+What it is:
+Measures loading performance.
+Specifically, the time it takes for the largest visible element (image, video, text block) to render on the screen.
+Good Threshold:
+≤ 2.5 seconds → good
+2.5–4.0 → needs improvement
+4.0 → poor
+Why it matters:
+Users perceive the page is ready once the main content loads.
+Slow LCP → users bounce.
+Use case:
+Homepage hero image, main article text, product images on e-commerce.
+Optimize by lazy-loading non-critical assets, compressing images, and using fast server responses.
+🧠 What counts as the “largest contentful paint”?
+
+The browser automatically picks whichever of these appears last and largest above the fold:
+
+<img> elements
+
+<image> inside SVG
+
+Background image (background-image: url(...)) on block element
+
+<video> poster frame
+
+Large text block (<h1>, <p>, etc.)
+
+Example (hotel listing page):
+
+Hero banner image or hotel thumbnail → often the LCP element.
+
+If no big image, then the main heading (Hotels in Goa) becomes LCP.
+
+
+
+⚙️ When it’s measured
+
+LCP is recorded when that largest element:
+
+Appears in the viewport,
+
+Is rendered and visible on screen,
+
+Stops changing (e.g., image fully loaded).
+
+If the element changes later (e.g., replaced by bigger hero), LCP updates.
+
+| Cause                              | Why it hurts LCP                         | Fix                                          |
+| ---------------------------------- | ---------------------------------------- | -------------------------------------------- |
+| 🐢 **Slow server response**        | HTML takes too long to reach browser     | Use CDN, caching, preconnect                 |
+| 🎢 **Render-blocking CSS/JS**      | Browser can’t paint until CSSOM is ready | Inline critical CSS, defer non-critical JS   |
+| 🖼️ **Unoptimized hero images**    | Big image = slow decode/render           | Compress, resize, preload                    |
+| 🌐 **Late web fonts**              | Text invisible until font loads          | Use `font-display: swap`                     |
+| 🧩 **Client-side rendering delay** | JS-heavy frameworks delay first paint    | Use SSR for landing pages or pre-render HTML |
+| 🕸️ **Slow third-party scripts**   | Analytics, ads delay main thread         | Defer or lazy-load them                      |
+
+
+LCP = when your page feels loaded.
+Focus on server response, hero image, CSS, and JS blocking.
+
+First Input Delay (FID)
+What it is:
+Measures interactivity.
+Time from user’s first interaction (click, tap, keypress) → browser is able to respond.
+Good Threshold:
+≤ 100ms → good
+100–300ms → needs improvement
+300ms → poor
+Why it matters:
+Users feel frustrated if the page looks interactive but doesn’t respond.
+Use case:
+Buttons, links, forms, search boxes.
+Optimize by splitting heavy JS, using web workers, and minimizing main-thread blocking.
+
+Cumulative Layout Shift (CLS)
+What it is:
+Measures visual stability.
+Sum of all unexpected layout shifts during the page lifecycle.
+Good Threshold:
+≤ 0.1 → good
+0.1–0.25 → needs improvement
+0.25 → poor
+Why it matters:
+Sudden shifts frustrate users (like a button moving before click).
+Impacts perceived quality and trust.
+Use case:
+Ads, images without width/height, dynamic content.
+Optimize by reserving space for images, ads, and fonts.
+
+4️⃣ First Contentful Paint (FCP)
+What it is:
+Time until first visible content appears on the screen (text, image, canvas).
+Good Threshold:
+≤ 1.8s → good
+1.8–3s → needs improvement
+3s → poor
+Why it matters:
+Gives first feedback to the user that something is happening.
+Helps reduce bounce rate.
+Use case:
+Critical above-the-fold content.
+Optimize by minimizing render-blocking CSS/JS, inlining critical CSS.
+
+5️⃣ Time to Interactive (TTI)
+What it is:
+Time until page is fully interactive (ready for input without lag).
+Good Threshold:
+≤ 3.8s → good
+Why it matters:
+Page may look loaded (FCP/LCP), but user cannot interact yet → frustration.
+Use case:
+React-heavy apps, SPAs, e-commerce checkout pages.
+Optimize by code-splitting, lazy-loading non-critical JS, reducing main-thread work.
+
+6 Interaction to Next Paint (INP)
+What it is:
+Measures responsiveness for every interaction, newer alternative to FID.
+Why it matters:
+FID only measures first input; INP gives full picture of UX interactivity.
+good: ≤ 200 ms
+
+⚙️ How INP is measured
+Browser tracks all user interactions (clicks, taps, keydowns).
+For each one:
+Measures time from input event → next visual paint.
+Final INP = the worst (slowest) interaction over the page lifetime.
+So if everything’s fast except one laggy dropdown → that’s your INP.
+
+
+| Problem                                    | Why it hurts INP             | Fix                                              |
+| ------------------------------------------ | ---------------------------- | ------------------------------------------------ |
+| Long JS tasks (main thread blocked)        | UI can’t respond             | Split code, use Web Workers, async logic         |
+| React re-renders too much                  | Large VDOM diff blocks paint | Memoize components, use `useCallback`, `useMemo` |
+| Heavy CSS/layout recalculation             | Browser can’t repaint fast   | Minimize forced reflows, avoid layout thrashing  |
+| Expensive third-party scripts              | They hog main thread         | Defer or remove unused ones                      |
+| Synchronous APIs (`alert`, `localStorage`) | Block rendering              | Replace with async equivalents                   |
+
+
+🧰 How to optimize INP practically
+
+Prioritize interactivity over heavy rendering
+Don’t block clicks waiting for expensive state updates.
+
+Defer non-critical JS
+Load analytics or widgets after first paint.
+
+Use React.lazy + Suspense for below-the-fold components.
+
+Offload heavy logic
+Move data parsing, JSON transforms, or image manipulation off the main thread.
+
+Pre-render known states
+For buttons, dropdowns, tabs — render minimal skeleton first, hydrate later.
+
+Keep event handlers light
+No complex loops or synchronous network calls in onClick/onChange.
+
+Measure and fix the slowest interaction
+Don’t chase averages — fix the single worst-case event.
+

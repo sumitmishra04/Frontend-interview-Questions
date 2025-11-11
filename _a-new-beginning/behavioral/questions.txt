@@ -1,0 +1,170 @@
+🔥 Interview-Ready Self Introduction (1 Minute Version)
+
+"Hi, I’m Sumit, a Senior Frontend Engineer with 8.5 years of experience building scalable, high-performance web applications across companies like PayPal, Adobe, and early-stage startups. My expertise lies in frontend architecture, UI platform development, and building reusable design systems using React, TypeScript, and modern state management patterns."
+
+"At PayPal, I led the development of an in-house analytics dashboard that replaced a million-dollar Amplitude subscription, improving performance and saving significant operational cost. At Adobe, I worked on AI-driven features and search optimization to improve product navigation and user engagement. Most recently, as a founding frontend engineer at a startup, I built the entire frontend architecture from scratch, integrated an AI-powered email builder, and mentored junior developers to scale delivery."
+
+⚡ 30-Second Shorter Version (For HR or Fast Intros)
+
+"I’m a frontend architect with 8+ years of experience across PayPal, Adobe, and early-stage startups. I specialize in building scalable UI systems, performance optimization, and AI-integrated user experiences. I’ve led teams, built platforms from scratch, and replaced large vendor products with in-house solutions. I’m passionate about solving real-world problems through frontend engineering while driving product impact and developer efficiency."
+
+//==============================================================================================================================
+
+“What are the most important problems the team is solving in the next 6 months?”
+“Can you share an example of a recent technical decision that had a significant impact on scalability or performance?”
+“What are the biggest challenges in your frontend architecture right now that you’re expecting this role to help solve?”
+“How is engineering success measured beyond just delivery timelines? Are there metrics tied to performance, user adoption, or business impact?”
+“What does growth look like for someone in this role over the next year? Are there opportunities to lead initiatives or mentor engineers?”
+“How is the team currently leveraging AI or automation to enhance user experience or internal engineering velocity?”
+“What qualities make someone successful on this team?”
+“How often do engineers collaborate directly with product and design to iterate on user experience?”
+“If I were to join, what’s one challenge you would expect me to take ownership of immediately?”
+
+//==============================================================================================================================
+
+
+1. Navigation Redesign (PayPal)
+
+Technical Vision • Leadership Pushback • High Impact • Architecture Decision
+
+2. Design System Conflict (Nexie)
+
+Conflict Resolution • Technical Conviction • Collaboration • Influencing Peers
+
+3. React Query Adoption (Nexie)
+
+Strategic Technical Choice • Long-term Thinking • Cost & Performance Impact
+
+4. Scope Management (Startup)
+
+Handling Ambiguity • Product Alignment • Prioritization • Fast Iteration
+
+5. Architecture Failure (Folder Structure)
+
+Failure • Learning • Improvement Mindset • Developer Productivity
+
+
+//==============================================================================================================================
+
+Why delveroo??
+
+I want to join Deliveroo because it sits at the intersection of real-world logistics, consumer experience, and cutting-edge technology. Unlike generic food delivery apps, Deliveroo has built one of the most sophisticated real-time logistics engines—optimizing for speed, cost, and quality simultaneously. I’m especially excited about the scale and complexity of the product—handling millions of orders with dynamic routing and personalisation—which aligns directly with my passion for building highly performant, user-centric applications. I want to contribute to a product that not only solves a daily user need but does so with innovation, efficiency, and empathy towards both customers and riders
+
+Features:
+Provided learning resources and career mentoring which helps accelerate career growth.
+There is flexibility at work it seems.
+Employee benefits are taken care.
+Its values favours innovation and opinion which makes you heard.
+Deliveroo mission: To transform the way you shop and eat, bringing the neighbourhood to your door by connecting consumer, restaurants, shops and riders’
+This is where software meets the messiness and complexity of the physical world. We might be optimising the algorithms that match riders to deliveries, using ML models to predict how long it will take, building great delivery app experiences for our riders and customers or streamlining our rider processes. We obsess over the details. Every order counts.
+
+
+
+//==============================================================================================================================
+
+
+“Have you ever had to convince others of a technical decision they initially disagreed with? What was your approach?”
+or
+“Describe a time when you had a disagreement with a teammate or product manager. How did you handle it?”
+
+
+
+
+S – Situation
+
+On our team, we were building a scalable UI architecture. I proposed using the Atomic Design pattern to create reusable, composable components. One of my teammates disagreed and preferred building large, monolithic components with all styles embedded, arguing it was faster in the short term.
+
+T – Task
+
+My goal was not just to get my way, but to ensure the team aligned on a scalable design system that would support future development without causing technical debt or slowdowns.
+
+A – Action
+
+Instead of dismissing his approach, I initiated a discussion where we both presented pros and cons objectively.
+I created a quick prototype demonstrating how Atomic Design reduces duplication and improves maintainability.
+I highlighted measurable benefits — such as reduced CSS bloat, easier testing, and speed of future feature development.
+I also acknowledged his concern about speed and showed how we could build initial atoms and molecules quickly, then scale.
+To resolve the stalemate, I suggested a data-backed experiment: We’d each build the same module using our approaches, and we compared effort, readability, and reusability.
+
+R – Result
+
+The experiment clearly showed that the atomic design approach reduced repeated code by 30% and improved reusability across upcoming features.
+The teammate agreed, and we adopted the component-based architecture.
+Long term, this decision reduced new feature development time by 20–25% and became the standard across our frontend codebase.
+Importantly, it strengthened our collaboration — instead of a win/lose, it became a shared decision backed by data.
+
+
+SHORTER:
+"We were building a frontend design system, and I proposed using Atomic Design to ensure reusability and long-term scalability. A teammate strongly disagreed and preferred putting all styles and logic into large monolithic components, believing it would be faster.
+Instead of pushing my view, I suggested we objectively compare both approaches. I built a small module using atomic principles while he built his using a single-component structure. We measured code duplication, flexibility, and ease of extension.
+The results clearly showed a 30% reduction in repeated code and much easier extensibility with the atomic approach. He saw the benefits himself, and we aligned on that architecture moving forward. This not only improved future development speed by about 20% but also helped build mutual respect, because we made the decision based on data—not opinion."
+
+
+LEARNING: Technical correctness alone is not enough. How you bring people along the journey determines adoption. you focused on collaboration, not personal attacks. Decision through data, not opinion. Long-term system thinking
+
+
+//==============================================================================================================================
+
+
+When did you last disagree with leadership and still push your idea through?
+
+At paypal: We had a complex navigation system nested into each other with different actions on differnt nodes of the navigation tree.
+Manager pushed for adding new features in the exsiting complex hard to scale d3 code over 900 lines. I took a call of taking a step back and redesign the navigation system in house using reactjs so that we all can understand how the code is working and could always easily extend it without any learning curve. It was easier to maintain and scale and debug. Manager was unsure about timeline but convinced him that even if it takes a couple of days extra its worth it in the long run considering how critical the current feature was. We finally agreed and i discarded the old code and created a modular reusable navigation system which can be extended the way we wanted.
+
+At nexie: i pushed for using react query over simple api fetching. The push back was due to learning curve and adding extra layer of 
+complexity not realising its benefit over time. Eventually we saw the get api calls for some of the important pages needed n*m api calls taking more than 20s in first fetch. But then all subsequent fetches were served from cache. Hence setting up react query early and building architecture around it proved beneficial. Otherwise it would have been a lot of rework and regression testing if later we decided to do so.
+
+//==============================================================================================================================
+
+“What’s the hardest feedback you’ve ever received, and what did you do about it?”
+“Early in my career, I received feedback that my components were functional but tightly coupled and not designed for reuse. At the time, I was focused on delivering features quickly, but I wasn’t thinking from a systems or scalability perspective. It was hard to hear because I took pride in speed — but the feedback helped me realize that, as an engineer at scale, velocity comes from reusability and clean architecture, not from quick patches.
+
+I took that seriously and started adopting principles like DRY, Atomic Design, and single responsibility. I began breaking down large components into smaller composable units, writing cleaner contracts between components, and designing with future use cases in mind. Within a few months, this shift not only reduced code duplication but also helped me build reusable UI libraries that other teams adopted. What started as tough feedback actually transformed the way I engineer today — from a feature builder to a system thinker.”
+
+//==============================================================================================================================
+
+Describe a situation where requirements kept changing — how did you handle scope creep?
+At my previous startup, we often faced rapidly changing requirements and shifting UX direction, sometimes even without finalized designs. Instead of building full features and redoing them, I moved to quick prototypes and interactive wireframes to align early. I also categorized changes into must-haves vs nice-to-haves and clearly explained trade-offs in timeline and complexity. This helped product teams visualize impact sooner, reduced rework significantly, and allowed us to deliver on time while still iterating quickly based on real feedback. Eg building custom segment flow.
+
+//==============================================================================================================================
+
+Tell me about a time when you failed or made a wrong call. What did you learn?
+
+Early in one of my projects, I designed a deeply nested component and folder structure inspired by how the UI was visually organized. My intention was to maintain strict separation and scalability. However, after implementing the first full page, it became clear that this structure made component discovery difficult, increased nesting complexity, and slowed down development due to long import paths.
+Rather than continuing down that path, I proactively raised the concern, gathered feedback from the team, and refactored into a flatter, developer-centric structure where all related composable components lived in a single directory per page. This reduced friction, made onboarding easier, and sped up development significantly.
+That experience taught me a critical lesson: scalable architecture is not just about theoretical best practices—it must also optimize developer productivity and real-world maintainability. Since then, I always validate architectural decisions with a ‘developer-first’ lens and ensure ease of adoption is part of the design criteria..
+
+Another instance was to decide on how to build chat like form creation using decision tree. I decided to build it using self implementation that gave me great control but it introduced too much complexity to handle different kind of similar forms with custom components as message bubble. Though it was working fine but i felt using any existing library like react chatbotify would have been better suited.
+
+//==============================================================================================================================
+
+Can you share an example where you took ownership of a project from ideation to delivery?
+I worked on desiging the entire email builder UI, UX and deciding on what tool to use to integrate based on the product requirement.
+Made sure the email builder is reusable and can be plugged n played from any part of the application giving product the flexibility to provide user with easy access without taking them to main page always. 
+
+//==============================================================================================================================
+
+“Tell me about a time when you had to make a technical trade-off. What were the options, and why did you choose one over the others?”
+In one of my projects at PayPal, we had a legacy navigation system built using D3.js. It had grown into more than 900 lines of tightly coupled code, making it very hard to scale or even understand for new developers. My manager initially wanted to just add new features on top of it due to time constraints. I evaluated both options — patching the existing code would give us short-term speed, but it would significantly increase technical debt and make every future change slower and riskier. I proposed an alternative: rebuilding the navigation system using React with a modular, component-based architecture. I presented a proof of concept showing that future features could be added with minimal effort. Even though it required a slightly longer initial timeline, it would drastically improve long-term velocity. Leadership agreed, and we built the new system, which became much easier to maintain, extend, and debug. That decision saved weeks of future development time and enabled other teams to contribute easily without needing to learn D3.
+
+//==============================================================================================================================
+
+“Describe a time you identified a bottleneck in performance or UX and proactively fixed it without being asked.”
+Building new search capabilties in Adobe
+Added: sorting, pinning, recently used, notification, reorderabilty. This required me to collaborate with the platform team working in US timezone. 
+
+//==============================================================================================================================
+
+“Tell me about a time you mentored a teammate or helped someone grow technically.”
+In my roles at PayPal, Adobe, and most recently at Nexie, I actively mentored interns and junior developers, not just by answering questions but by shaping how they think as engineers. I helped them understand frontend architecture, guided them in breaking down complex UIs into reusable composable components, and taught them to think in terms of scalability rather than quick fixes. During code reviews, I would highlight opportunities to eliminate unnecessary state, apply React performance optimizations, and use cleaner design patterns. Rather than giving them solutions directly, I would ask leading questions to help them arrive at the right approach themselves—whether it was about structuring folders, designing middleware integrations, or optimizing render flows. Over time, I saw them progress from writing tightly coupled code to building modular features independently, which was incredibly rewarding and improved our team velocity significantly.
+
+//==============================================================================================================================
+
+1. “Tell me about a time you had to build something from scratch under a tight deadline.”
+2. “Describe a situation where you drove adoption of a new system or tool across teams.”
+3. “Tell me about a time you led a technical initiative or mentored others.”
+4. “What’s a challenging problem you solved that had a big impact on performance or cost?”
+5. “Describe a time when you had to make a technical decision that significantly affected the project’s outcome.”
+6. “Describe a time when you had to make a critical architectural decision with incomplete information.”
+
+

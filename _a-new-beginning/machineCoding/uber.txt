@@ -1,0 +1,121 @@
+[
+    "In this coding challenge, you need to build an autocomplete that will act as a payment page where users can enter their UPI. The autocomplete form should suggest possible UPI handles based on the user input. \r\n\r\nFunctional Spec:\r\n\r\n1. Based on the user input, you need to show the best-matched list of UPI handles.\r\n2. There should be an inline suggestion of the best matched UPI handle.\r\n3. The user should be able to select from the list by clicking on a list item or using the keyboard.\r\n4. If a best-matched suggestion is visible inline and the user clicks on the right arrow, the suggestion should be auto-filled. \r\n5. You need to handle different edge cases.\r\n6. Feel free to add any other functionality you think would be useful for the end user.\r\n\r\nDemo 1:\r\n\r\n<div style=\"position:relative; padding-bottom: 56.25%; height: 0; margin-bottom: 20px;\">\r\n<iframe\r\nstyle=\"position:absolute; top: 0; left: 0; width:100%; height: 100%;\" src=\"https://www.youtube.com/embed/qMkUziVZvzs?start=33\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>\r\n</div>\r\n\r\nDemo 2:\r\n\r\n<video width=\"100%\" height=\"100%\" controls>\r\n<source src=\"https://ik.imagekit.io/devtoolstech/question-images/autocomplete-demo_hEcYZjKQ-.mp4?ik-sdk-version=javascript-1.4.3&updatedAt=1652622094264\" />\r\n</video>\r\n\r\nImage Graphic used in the demo:\r\n\r\nhttps://uploads.codesandbox.io/uploads/user/db72b415-e33f-48d9-ba47-160088dc6c79/78ab-payment-graphic.png",
+    "In this question, you need to implement a custom `mapLimit` function that takes 4 arguments.\r\n\r\n## Arguments\r\n\r\n1. `inputs`: An array of inputs\r\n2. `limit`: The maximum number of operations at any given time.\r\n3. `iterateeFn`: The async function that should be called with each input to generate the corresponding output. It will have two arguments:\r\n    - `input`: The input being processed\r\n    - `callback`: A function that will be called when the input is finished processing. It will be provided with one argument, the processed `output`.\r\n4. `callback`: A function that should be called with the array of outputs once all inputs have been processed.\r\n\r\nAt any given point, your program can make max 2 calls i.e. at any given point your program can process `1, 2` or `2, 3` or so on user ids.\r\n\r\n## Example\r\n\r\n```js\r\nmapLimit([1,2,3,4,5], 2, getUserById, (allResults) => {\r\n  console.log('output:', allResults) // [\"User1\", \"User2\", \"User3\", \"User4\", \"User5\"]\r\n})\r\n```",
+    "In this challenge, candidate needs to create a Star Rating Widget.\r\n\r\n## Mockup\r\n\r\n![Star Rating Widget](https://ik.imagekit.io/devtoolstech/question-images/star-rating-widget_j85SOUiO_.png?ik-sdk-version=javascript-1.4.3&updatedAt=1667290951705)\r\n\r\n## Demo\r\n\r\n<video width=\"100%\" height=\"100%\" controls>\r\n<source src=\"https://ik.imagekit.io/devtoolstech/question-images/star-widget-demo_WHe42oEu_.mp4?ik-sdk-version=javascript-1.4.3&updatedAt=1667294493682\" />\r\n</video>\r\n\r\n## Functional Spec\r\n\r\n- There could be `n` stars.\r\n- Hovering on each star should change state from outline to fill.\r\n- Clicking on any star should change all stars till the clicked one to filled state and print the number of selected stars on the screen.\r\n\r\n## Code Templates\r\n\r\n### Star Icons\r\n\r\n```html\r\n<i class=\"fa fa-star\"></i>\r\n<i class=\"fa fa-star-o\"></i>\r\n```\r\n\r\n\r\n## Submission\r\n\r\nPlease start the timer before starting and finish your solution within 60 mins. Share your solution with us on [Twitter](https://mobile.twitter.com/devtoolstech) or [LinkedIn](https://in.linkedin.com/in/yomeshgupta).\r\n\r\nThis question is part of DevKode Coding Challenges. Find the original challenge [here](https://github.com/devkodeio/the-dom-challenge/blob/main/star-rating/README.md)",
+    "In this question, the candidate needs to add and animate multiple progress bars on a button click.\r\n\r\nMany users have reported that this question was asked in top companies like Uber and Myntra.\r\n\r\n## Specifications\r\n\r\n- Upon clicking the button, we need to add a progress bar on the screen.\r\n- The progress bar should complete the animation from 0% to 100% in 3 seconds.\r\n- Upon clicking the button multiple times, the progress bars should be queued. Loading/Animation of `Nth` bar should only start when `N-1` animation is complete. \r\n\r\n## Demo\r\n\r\n<div style=\"position:relative; padding-bottom: 56.25%; height: 0; margin-bottom: 20px;\">\r\n<iframe\r\nstyle=\"position:absolute; top: 0; left: 0; width:100%; height: 100%;\" src=\"https://www.youtube.com/embed/xKM07oEBGoE\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>\r\n</div>\r\n\r\n## Mockups\r\n\r\n- Single Progress Bar\r\n\r\n![Single Progress Bar](https://ik.imagekit.io/devtoolstech/question-images/Sequence_Progress_Bar_Animation/Screenshot_2023-04-04_at_9.15.51_PM_pj6T2eYsF.png?updatedAt=1680623268516)\r\n\r\n- Multiple Queued Progress Bars\r\n\r\n![Multiple Queued Progress Bar](https://ik.imagekit.io/devtoolstech/question-images/Sequence_Progress_Bar_Animation/Screenshot_2023-04-04_at_9.16.52_PM_6AFpC_xRP.png?updatedAt=1680623274778)\r\n\r\n## Submission\r\n\r\nStart the timer, complete your solution, test your solution against the test cases provided by the platform, and submit it. Ideally, you should finish this question within 30 mins. \r\n\r\nShare your solution with us on [Twitter](https://mobile.twitter.com/devtoolstech) or [LinkedIn](https://in.linkedin.com/in/yomeshgupta).",
+    "In this question, the candidate needs to create a shape (Grid Lights) based on a given 2D array. A shape is a collection of empty boxes placed at values that are true in the provided array.\r\n\r\nMany users have reported that this question was asked in the frontend coding round of companies like Uber.\r\n\r\nYou might be given a 2D array and needs to create the shape and along with interactivity or shape would be created as part of the initial code.\r\n\r\n## Functional Requirement\r\n\r\n- Create an empty box where array value is `1`.\r\n- User can select a box. Upon selection the box background color should change to `#0bcc59`.\r\n- Once all boxes are selected then the boxes should auto-deselect based on the order of selection.\r\n- Deselection should be non-interruptible as in once started, we can't stop it.\r\n- During de-selection, user should not be able to select a new box as in disable any box interaction.\r\n\r\n## Mockup\r\n\r\n- Shape with empty boxes\r\n\r\n![Shape with empty boxes](https://ik.imagekit.io/devtoolstech/question-images/create-shape/Screenshot%202024-06-01%20at%2012.31.09%20PM_aZn_eozTF.png?updatedAt=1717225358119)\r\n\r\n- Shape with some filled boxes\r\n\r\n![Shape with some filled boxes](https://ik.imagekit.io/devtoolstech/question-images/create-shape/Screenshot%202024-06-01%20at%2012.31.20%20PM_gWlmujaC5.png?updatedAt=1717225358119)\r\n\r\n## Demo & Solution\r\n\r\n<div style=\"position:relative; padding-bottom: 56.25%; height: 0; margin-bottom: 20px;\">\r\n<iframe\r\nstyle=\"position:absolute; top: 0; left: 0; width:100%; height: 100%;\" src=\"https://www.youtube.com/embed/DCoIeGt4g7M\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>\r\n</div>\r\n\r\n\r\n## Submission\r\n\r\nStart the timer, complete your solution, test your solution against the test cases provided by the platform, and submit it. Ideally, you should finish this question within 30 mins. \r\n\r\nShare your solution with us on [twitter](https://twitter.com/devtoolstech) or [linkedin](https://linkedin/in/yomeshgupta).\r\n",
+    "In this coding challenge, we need to build an interactive feature where circles are drawn on the screen in response to user clicks. The circles will have specific behaviors based on user actions such as dragging, clicking, and overlapping. The application should dynamically update the circle's size during a drag operation and detect when two circles overlap, changing the color of the second circle in such cases.\r\n\r\n## Functional Requirements\r\n\r\n1. **Left Mouse Button (Primary Circle)**:\r\n   - When the user clicks and drags with the left mouse button, a circle should be drawn at the initial click position. The radius of the circle should adjust in real time as the user drags the mouse.\r\n   - Once the user releases the left mouse button, the circle should be finalized.\r\n   - If the user left clicks without dragging, left circle should be cleared from the screen.\r\n\r\n2. **Right Mouse Button (Secondary Circle)**:\r\n   - The same functionality should apply to the right mouse button, allowing the user to place a second circle by clicking and dragging. \r\n   - The circle should adjust in real time as the user drags the mouse and be finalized upon releasing the right mouse button.\r\n   - If the user right clicks without dragging, right circle should be cleared from the screen.\r\n\r\n3. **Circle Overlap Detection**:\r\n   - If circles overlap, the later circle in the sequence (the one that was created second) should change its color.\r\n   - The overlap should be recalculated every time a circle is created or updated.\r\n\r\n4. **Replacing Circles**:\r\n   - Each time the user draws a circle with the left or right mouse button, the existing circle for that button should be replaced with the new one.\r\n\r\n## Mockups\r\n\r\n- Non-overlapping circles\r\n\r\n![non-overlapping circles](https://ik.imagekit.io/devtoolstech/question-images/overlapping-circles/Screenshot%202024-12-14%20at%201.45.03%E2%80%AFPM_apu7KkXkwV.png?updatedAt=1734164213166)\r\n\r\n- Overlapping circles\r\n\r\n![overlapping circles](https://ik.imagekit.io/devtoolstech/question-images/overlapping-circles/Screenshot%202024-12-14%20at%201.45.18%E2%80%AFPM_b7Jo45-8U9.png?updatedAt=1734164213210)\r\n\r\n## Demo and Solution\r\n\r\n<div style=\"position:relative; padding-bottom: 56.25%; height: 0; margin-bottom: 20px;\">\r\n<iframe\r\nstyle=\"position:absolute; top: 0; left: 0; width:100%; height: 100%;\" src=\"https://www.youtube.com/embed/bgKMaqk2WKw\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>\r\n</div>\r\n\r\n## Submission\r\n\r\nStart the timer, complete your solution, test your solution against the test cases provided by the platform, and submit it. Ideally, you should finish this question within 90 mins. \r\n\r\nShare your solution with us on [twitter](https://twitter.com/devtoolstech) or [linkedin](https://linkedin/in/yomeshgupta).\r\n",
+    "## Problem Statement\r\n\r\nIn this question, the candidate needs to build an interactive word search game application (Boggle Dictionary). You would be provided with a list of pre-defined words. Each character of the word needs to randomly place in a grid. The user of the game should be able to select characters in a sequence (horizontally, vertically, or diagonally). They can check if the selected sequence of characters form a valid word from the pre-defined list. The game should go on till they are able to identify all the words in the grid.\r\n\r\n## Requirements\r\n\r\n### Core Functionality\r\n\r\n1. **Grid Generation**\r\n   - Create a dynamic N×N grid where N is user-configurable (default: 8×8)\r\n   - Randomly place all the words on the grid. You can select a subset of the words based on the grid size i.e. use 4 words if grid is 8x8 and so on. \r\n   - Remaining cells should contain a random letter (A-Z)\r\n   - Grid should be visually appealing and responsive\r\n\r\n3. **User Input**\r\n   - Provide an input field where users can specify grid size (N)\r\n   - Add a \"Generate Grid\" button to create a new grid\r\n   - Include a \"Check Word\" button\r\n\r\n4. **Word Selection**\r\n   - Users can click on cells to select letters\r\n   - Selected cells should be visually highlighted\r\n   - Display the currently selected word as user clicks\r\n   - Support word selection in multiple directions:\r\n     - Horizontal (left-to-right)\r\n     - Vertical (top-to-bottom)\r\n     - Diagonal (both directions)\r\n\r\n5. **Word Validation**\r\n   - When \"Check Word\" is clicked, validate if the selected word exists in the dictionary\r\n   - Provide visual feedback (success/error states)\r\n   - Keep track of found words\r\n\r\n6. **Reset Functionality**\r\n   - \"Reset Selection\" button to clear current selection\r\n   - \"Reset Grid\" button to generate a new grid\r\n   - \"Reset Game\" button to clear all found words\r\n\r\n## Mockups\r\n\r\n- Initial Screen\r\n\r\n![Initial Screen](https://ik.imagekit.io/devtoolstech/question-images/word-search/Screenshot%202025-06-25%20at%203.40.28%E2%80%AFPM_BCBZeN9Eyd.png?updatedAt=1750851408630)\r\n\r\n- Word/Characters Selection\r\n\r\n![Word Selection](https://ik.imagekit.io/devtoolstech/question-images/word-search/Screenshot%202025-06-25%20at%203.40.56%E2%80%AFPM_zaCGblj39.png?updatedAt=1750846397010)\r\n\r\n- Correct Word Confirmation\r\n\r\n![Correct Word](https://ik.imagekit.io/devtoolstech/question-images/word-search/Screenshot%202025-06-25%20at%203.41.10%E2%80%AFPM_NhLWKuDHI.png?updatedAt=1750846396976)\r\n\r\n- Incorrect Word Selection\r\n\r\n![Incorrect Word Selection](https://ik.imagekit.io/devtoolstech/question-images/word-search/Screenshot%202025-06-25%20at%205.08.32%E2%80%AFPM_GpKLZVkMTW.png?updatedAt=1750851523546)\r\n\r\n- Consecutive Words\r\n\r\n![Second Word Selection](https://ik.imagekit.io/devtoolstech/question-images/word-search/Screenshot%202025-06-25%20at%203.41.33%E2%80%AFPM_DJ_NoS3iw.png?updatedAt=1750846396936)\r\n\r\n- End of Game\r\n\r\n![End of Game](https://ik.imagekit.io/devtoolstech/question-images/word-search/Screenshot%202025-06-25%20at%203.42.02%E2%80%AFPM_W7xK4Ac8z6.png?updatedAt=1750846397001)\r\n\r\n## Demo\r\n\r\n<iframe width=\"100%\" height=\"315\" src=\"https://imagekit.io/player/embed/devtoolstech/question-images/word-search/Screen%20Recording%202025-06-25%20at%203.45.22%E2%80%AFPM_0N6hgJyC0.mp4?updatedAt=1750851647730&thumbnail=https%3A%2F%2Fik.imagekit.io%2Fdevtoolstech%2Fquestion-images%2Fword-search%2FScreen%2520Recording%25202025-06-25%2520at%25203.45.22%25E2%2580%25AFPM_0N6hgJyC0.mp4%2Fik-thumbnail.jpg%3FupdatedAt%3D1750851647730&updatedAt=1750851647730\" title=\"ImageKit video player\" frameBorder=\"0\" allow=\"accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen\"> </iframe>\r\n\r\n## Submission\r\n\r\nStart the timer, complete your solution, test your solution against the test cases provided by the platform, and submit it. Ideally, you should finish this question within 90-120 mins. \r\n\r\nShare your solution with us on [twitter](https://twitter.com/devtoolstech) or [linkedin](https://linkedin/in/yomeshgupta).",
+    "## Problem Statement\r\n\r\nYou are tasked with building a function to validate organizational hierarchy data. Given a dataset of direct reporting relationships between individuals, you need to determine whether these relationships represent a valid organizational structure.\r\n\r\n## Requirements\r\n\r\nYour solution must verify that the reporting relationships satisfy all of the following conditions:\r\n\r\n1. **Single Ultimate Leader**: There should be exactly one person who doesn't report to anyone.\r\n2. **No Circular Reporting**: No individual can directly or indirectly report to themselves (no cycles in the hierarchy)\r\n3. **Connected Organization**: Every individual must be part of the same organizational structure (all nodes should be reachable from the root)\r\n\r\n## Function Signature\r\n\r\n```javascript\r\nfunction isValidOrganization(relationships) {\r\n    // Your implementation here\r\n    // Return true if valid, false otherwise\r\n}\r\n```\r\n\r\n## Input Format\r\n\r\n- `relationships`: An array of pairs `[manager, subordinate]`\r\n- Each pair indicates that `manager` directly manages `subordinate`\r\n- Names are represented as strings\r\n\r\n## Output\r\n\r\n- Return `true` if the relationships form a valid organizational hierarchy\r\n- Return `false` otherwise\r\n\r\n## Examples\r\n\r\n### Example 1: Valid Organization\r\n```javascript\r\nconst relationships1 = [\r\n    [\"Alice\", \"Bob\"],\r\n    [\"Alice\", \"Charlie\"],\r\n    [\"Bob\", \"David\"],\r\n    [\"Bob\", \"Eve\"]\r\n];\r\n\r\nconsole.log(isValidOrganization(relationships1)); // true\r\n```\r\n\r\n**Explanation**: Alice is the ultimate leader, no cycles exist, and all individuals are connected in a tree structure.\r\n\r\n### Example 2: Invalid Organization (Circular Reporting)\r\n```javascript\r\nconst relationships2 = [\r\n    [\"Alice\", \"Bob\"],\r\n    [\"Bob\", \"Charlie\"],\r\n    [\"Charlie\", \"Alice\"]\r\n];\r\n\r\n// false\r\nconsole.log(isValidOrganization(relationships2));\r\n```\r\n\r\n**Explanation**: There's a cycle where Alice → Bob → Charlie → Alice, violating the \"no circular reporting\" rule.\r\n\r\n### Example 3: Invalid Organization (Multiple Leaders)\r\n```javascript\r\nconst relationships3 = [\r\n    [\"Alice\", \"Bob\"],\r\n    [\"Charlie\", \"David\"]\r\n];\r\n\r\n // false\r\nconsole.log(isValidOrganization(relationships3));\r\n```\r\n\r\n**Explanation**: Both Alice and Charlie are leaders (no one manages them), violating the \"single ultimate leader\" rule.\r\n\r\n### Example 4: Invalid Organization (Disconnected)\r\n```javascript\r\nconst relationships4 = [\r\n    [\"Alice\", \"Bob\"],\r\n    [\"Alice\", \"Charlie\"],\r\n    [\"David\", \"Eve\"]\r\n];\r\n\r\n // false\r\nconsole.log(isValidOrganization(relationships4));\r\n```\r\n\r\n**Explanation**: The organization is split into two separate hierarchies (Alice's group and David's group).\r\n\r\n## Edge Cases to Consider\r\n\r\n- Empty relationships array\r\n- Single person organization\r\n- Duplicate relationships\r\n- Self-reporting (person managing themselves)\r\n\r\n## Constraints\r\n\r\n- 1 ≤ relationships.length ≤ 1000\r\n- All names are non-empty strings\r\n- Names are case-sensitive. Same names with different casing should be considered separate employees.\r\n\r\n## Hints\r\n\r\nThink about this problem in terms of graph theory:\r\n- Each person is a node\r\n- Each reporting relationship is a directed edge\r\n- A valid organization forms a tree structure\r\n- Consider using DFS/BFS for cycle detection and connectivity checking\r\n\r\n## Submission\r\n\r\nStart the timer, complete your solution, test your solution against the test cases provided by the platform, and submit it. Ideally, you should finish this question within 60 mins. \r\n\r\nShare your solution with us on [twitter](https://twitter.com/devtoolstech) or [linkedin](https://linkedin/in/yomeshgupta)."
+]
+
+Here’s the content neatly formatted into **bullet points by question**:
+
+---
+
+### **1. Autocomplete Payment Page (UPI)**
+
+* Build an autocomplete form that acts as a payment page for UPI entry.
+* Show the best-matched list of UPI handles based on user input.
+* Provide **inline suggestion** of the closest match.
+* User can select suggestions via **mouse click or keyboard**.
+* If inline suggestion is visible and user presses **right arrow**, it should auto-fill.
+* Handle **edge cases** gracefully.
+* You may add additional features for better user experience.
+* Includes **Demo 1 (YouTube)** and **Demo 2 (Video)**.
+* Image graphic provided for UI reference.
+
+---
+
+### **2. Implement `mapLimit` Function**
+
+* Create a custom `mapLimit` with 4 parameters:
+
+  * `inputs`: Array of values.
+  * `limit`: Max number of concurrent operations.
+  * `iterateeFn`: Async function taking (`input`, `callback`).
+  * `callback`: Final function executed when all inputs are processed.
+* Program should ensure no more than `limit` tasks run at the same time.
+* Example usage provided.
+* Emphasizes control over **concurrency**.
+
+---
+
+### **3. Star Rating Widget**
+
+* Create a widget with **n stars**.
+* **Hovering** on a star changes it from outline to filled.
+* **Clicking** a star fills all stars up to that point.
+* Display the selected rating number.
+* Uses predefined font-awesome star icons.
+* Demo and mockup provided.
+* Must be completed within **60 minutes**.
+
+---
+
+### **4. Queued Progress Bars**
+
+* On button click, add a progress bar.
+* Each bar animates from **0% to 100% in 3 seconds**.
+* Bars should execute **sequentially**, not simultaneously.
+* If button clicked multiple times, new bars are **queued**.
+* Useful for understanding asynchronous sequencing.
+* Demo and mockups included.
+* Target completion: **30 minutes**.
+
+---
+
+### **5. Create Shape from 2D Array (Grid Lights)**
+
+* Render boxes where array values are `1`.
+* User can select boxes; selected box turns **green (`#0bcc59`)**.
+* When **all boxes are selected**, they must be **auto-deselected in order of selection**.
+* Deselection is **automatic and cannot be interrupted**.
+* Disable interaction during deselection.
+* Mockups and demo provided.
+* Target completion: **30 minutes**.
+
+---
+
+### **6. Interactive Circles with Mouse Input**
+
+* **Left-click + drag**: Draw first circle with dynamic radius.
+* **Right-click + drag**: Draw second circle with dynamic radius.
+* Clicking without dragging **clears** the respective circle.
+* If circles overlap, the **second circle changes color**.
+* Each new circle replaces previous one for that button.
+* Mockups and demo provided.
+* Completion time: **90 minutes**.
+
+---
+
+### **7. Word Search Game (Boggle Dictionary)**
+
+* Generate an **N × N grid** with random placement of words.
+* Remaining cells filled with random A–Z letters.
+* Interactive selection of characters (horizontal, vertical, diagonal).
+* Show selected word in real time.
+* Validate selection against dictionary.
+* Include buttons: **Generate Grid, Check Word, Reset Selection, Reset Grid, Reset Game**.
+* Responsive UI with progress tracking.
+* Demo and mockups provided.
+* Completion: **90–120 minutes**.
+
+---
+
+### **8. Validate Organizational Hierarchy**
+
+* Build function `isValidOrganization(relationships)` to validate hierarchy rules:
+
+  * **Exactly one ultimate leader** (no manager above them).
+  * **No circular reporting** (no cycles).
+  * **All nodes connected** (single hierarchical tree).
+* Input: Array of `[manager, subordinate]`.
+* Use graph concepts for verifying.
+* Consider edge cases: self-reporting, duplicates, empty input, disconnected graph.
+* Must return `true` or `false`.
+* Completion time: **60 minutes**.
+
+---
+
+Let me know if you want **sub-bullets**, **icons**, or a more **visual layout (like tables)**!

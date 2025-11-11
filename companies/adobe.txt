@@ -1,0 +1,3 @@
+r1: throttle and object manipulation
+r2: https://codesandbox.io/s/boring-leavitt-6vcf7j?file=/src/folderData.js folder structure
+

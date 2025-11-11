@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>XSS Vulnerability Demo</title>
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+        .comment {
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .vulnerable {
+            color: red;
+        }
+        .safe {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>XSS Vulnerability Examples</h1>
+
+        <!-- Reflected XSS Example -->
+        <section>
+            <h2>1. Reflected XSS (Vulnerable)</h2>
+            <form id="searchForm">
+                <input type="text" id="searchInput" placeholder="Search...">
+                <button type="submit">Search</button>
+            </form>
+            <!-- Vulnerable output -->
+            <div id="searchResult"></div>
+
+            <script>
+                // VULNERABLE CODE - DO NOT USE IN PRODUCTION
+                document.getElementById('searchForm').onsubmit = (e) => {
+                    e.preventDefault();
+                    const input = document.getElementById('searchInput').value;
+                    // Vulnerable: Directly inserting user input
+                    document.getElementById('searchResult').innerHTML = 
+                        `Search results for: ${input}`;
+                };
+            </script>
+        </section>
+
+        <!-- Stored XSS Example -->
+        <section>
+            <h2>2. Stored XSS (Vulnerable)</h2>
+            <div id="comments">
+                <!-- Simulated stored comments -->
+                <div class="comment">Nice post!</div>
+                <div class="comment">
+                    <!-- Malicious stored XSS payload -->
+                    <script>alert('Your cookies: ' + document.cookie)</script>
+                </div>
+            </div>
+        </section>
+
+        <!-- DOM-based XSS Example -->
+        <section>
+            <h2>3. DOM-based XSS (Vulnerable)</h2>
+            <div id="welcome"></div>
+            <script>
+                // VULNERABLE CODE - DO NOT USE IN PRODUCTION
+                const name = new URLSearchParams(window.location.search).get('name');
+                if (name) {
+                    // Vulnerable: Directly using location.search
+                    document.getElementById('welcome').innerHTML = 
+                        `Welcome, ${name}!`;
+                }
+            </script>
+        </section>
+
+        <!-- Safe Implementation Examples -->
+        <section>
+            <h2>4. Safe Implementation</h2>
+            <script>
+                // Safe function to escape HTML
+                function escapeHtml(unsafe) {
+                    return unsafe
+                        .replace(/&/g, "&amp;")
+                        .replace(/</g, "&lt;")
+                        .replace(/>/g, "&gt;")
+                        .replace(/"/g, "&quot;")
+                        .replace(/'/g, "&#039;");
+                }
+
+                // Safe implementation
+                function safeDisplayUserInput(input) {
+                    const escaped = escapeHtml(input);
+                    document.getElementById('safeOutput').textContent = escaped;
+                    // Or for HTML content:
+                    // document.getElementById('safeOutput').innerHTML = escaped;
+                }
+            </script>
+        </section>
+
+        <!-- Prevention Methods -->
+        <section>
+            <h2>5. Prevention Methods</h2>
+            <ul>
+                <li>Content Security Policy (CSP) Header:
+                    <pre>Content-Security-Policy: default-src 'self';</pre>
+                </li>
+                <li>HttpOnly Cookies:
+                    <pre>Set-Cookie: sessionId=abc123; HttpOnly</pre>
+                </li>
+                <li>Input Validation and Sanitization</li>
+                <li>Output Encoding</li>
+                <li>Use of Modern Frameworks' Built-in Protections</li>
+            </ul>
+        </section>
+    </div>
+
+    <!-- Example Malicious Payloads (DO NOT USE IN PRODUCTION) -->
+    <div class="container">
+        <h3>Common XSS Attack Payloads:</h3>
+        <code>
+            &lt;script&gt;alert(document.cookie)&lt;/script&gt;<br>
+            &lt;img src="x" onerror="alert('XSS')"&gt;<br>
+            javascript:alert('XSS')<br>
+            &lt;svg onload="alert('XSS')"&gt;
+        </code>
+    </div>
+</body>
+</html>

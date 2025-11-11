@@ -1,0 +1,131 @@
+// Input string  = This is a test
+
+
+// Output string = This%20is%20a%20test
+
+
+‘Abc’ 
+
+
+function getEncodedStr (str) {
+let outputStr = ‘’
+
+for(let i =0; i<str.length;i++) {
+if(str[i] === ‘ ‘) {
+               outputStr +=  ‘%20’
+}  else {
+                outputStr += str[i] // this%20is
+}
+
+       }
+      return outputStr
+}
+
+getEncodedStr(‘This is a test’)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Input string - ‘abcd’
+Output - a, b, c, d
+	Ab, bc, cd, da
+	Abc, bcd, …
+	Abcd
+
+// [a, ab, abc, abcd, b, bc, bcd,c, cd, d ]
+
+function getSubsets (str) {
+let outputStrs = []
+
+
+for(let i =0; i<str.length;i++) {
+for(let j = 0 ; j<str.length; j++) {
+      outputStrs.push(str.substring(i,j+1)) 
+   }
+ }     
+}
+
+return outputStrs
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Class LRU {
+
+constructor(size) {
+This.size = size
+This.stack = []
+}
+
+getSize () {
+Return this.stack.length
+}
+
+post(value) // insert item {
+if(this.getSize() === This.size) {
+	this.stack.unshift()
+}
+This.stack.push(value)
+
+}
+
+get(key) // {
+for(let i =0;i<this.getSize(); i++) {
+	if(this.stack[i].key === key) {
+  Return this.stack[i]
+  }
+}
+
+}
+
+
+
+Const lru = new LRU(5)
+
+lru.post({key: 1, value: 1})
+lru.post(2)
+lru.post(3)
+lru.post(4)
+lru.post(5)
+
+lru.post(6)
+
+
+

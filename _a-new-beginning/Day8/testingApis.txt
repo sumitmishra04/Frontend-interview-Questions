@@ -1,0 +1,8 @@
+Common testing apis:
+import {fireEvent, render, screen} from "@testing-library/react"
+render(<Todolist />)
+expect(screen.getByText('Todo app')).not.toBeInTheDocuemnt()
+screen.getByTestId('ab-test') >  data-testid=""
+fireEvent.click(btn)
+fireEvent.change(inp, {target: {value: 'Buy shoes'}})
+screen.queryByText('buy shoes).not.toBeInTheDocuemnt()

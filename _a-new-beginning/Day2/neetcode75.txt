@@ -1,0 +1,20 @@
+
+Arrays & Hashmap
+Contains Duplicate (use set)
+isAnagram (use 1 map for add and use it again to remove)
+twoSum (use {diff: index} with map)
+groupAnagrams (use map for {sortedWord: [matching words]} and array.from(map.values()))
+topKFrequent (bucketsort; freqMap; fill bucket by freq; find top k)
+encode|decode (use encode by charcount and pipe and decode by using char count and substring)
+productExceptSelf (leftProd, rightProd; res[i] = leftProd & leftProd *= num[i] & res[i]= rp *res[i] and rp*= num[i])
+longestConsecutive (create a set for nums. and then loop on the set and for each item keep checking if num - 1 is not presnet and then do currNum+1 in set check. get max)
+
+
+Trees
+Invert (swap left & right and recurse again with left and right )
+maxDepth (use bfs, get levelSize, and increase the depth and foreach levelSize, keep pushing left and right in queue)
+isSameTree (check values and null. then return && of left and right subtree)
+isSubTree (anchor main tree and check if its not null and then check for isSametree and then check for maintree left with subtree and then with right)
+isValidBST (create a helper with min and max as infinity and left node must stay within min and node val and right in max and node val. falsy will be when node breach range of min and maxDepth)
+kthSmallest (inOrder traversal and return result of k-1)
+buildTree (Preorder gives the root; inorder tells where to split into left and right subtrees. use hlper to find root from preorder and locate it in inorder using map and carve out the left and right tree)

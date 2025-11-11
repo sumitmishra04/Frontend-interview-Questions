@@ -1,0 +1,61 @@
+System design
+
+FR
+
+NFR
+- [ ] Accessibility
+- [ ] Authentication using access token and refresh token (jwt)
+- [ ] Browser storage for light/dark mode, user preferences or offline storage
+- [ ] http2
+- [ ] i18n & l10n (Intl.DateTimeFormat, NumberFormat for currency)
+- [ ] monitoring and logging using RUM like sentry. Sentry sdk logs error and stack trace and web vitals. Locally can use lighthouse ci to measure FCP, LCP, INP and CLS. captures user data.
+    - [ ] Alerting(Alert if an issue's rate exceeds 50 events in 5 minutes in production eg payment API failure, Alert if LCP for the /home transaction is greater than 3.0 seconds over 30 minutes) 
+- [ ] security (csp(default-src: self, image-src: self or whitelisted domain, script-src: self, helps with xss as well), xss(dompurify, sensitive info not in browser storage), csrf(lax, strict), sandboxing )
+- [ ] Offline support
+- [ ] Testing: (Unit & Integration tests using Jest + React Testing Library, and E2E tests using Cypress.)
+- [ ] Cypress → Slower for large suites; limited true parallel runs (needs dashboard service).
+- [ ] Playwright → Much faster; built-in parallel execution and test isolation via browser contexts.
+
+A booking app usually involves:
+* Multiple pages and routes (home, search, details, payment, confirmation).
+* Cross-origin interactions (payment gateways, APIs, analytics scripts).
+* Pop-ups / modals / multiple browser contexts (date pickers, chat widgets, login windows).
+* Performance-sensitive flows (availability search, filters, pagination).
+* Possible mobile and desktop variations.
+Payment gateways (Stripe, Razorpay, etc.) open new tabs or external URLs — Cypress can’t handle multiple tabs or domains, Playwright can.
+Hotel booking flows can be long. Playwright runs tests in parallel across browsers, cutting CI time massively.
+You can test API + UI + backend in one suite. Example: fetch availability via API, verify same data shows on UI.
+Playwright natively emulates iPhone, Pixel, iPad — great for travel apps where mobile is big.
+If your app is:
+* Purely internal or admin-facing,
+* Has single-domain simple flows,
+* You want instant visual debugging and tighter dev feedback loop,then Cypress is faster to set up and more beginner-friendly.
+
+
+Tech Stack
+- [ ] Polling vs Rest vs Graphql vs Web sockets vs SSE
+- [ ] csr vs ssr
+- [ ] tailwind css
+- [ ] react query
+- [ ] typescript
+- [ ] web pack
+- [ ] react/nextjs
+- [ ] sentry
+- [ ] react window 
+- [ ] jest, rtl, cypress
+ 
+Optimisation
+- [ ] Compression using br accept encoding, content encoding; webp offers more compression. Lossy (video streaming) lossless (files, zip)
+- [ ] Infinite scroll using intersection observer
+- [ ] Defer loading js and css to speed up CRP for better LCP
+- [ ] reduce bundle size(lazy loading modules, components and vendors, magnification, uglification, tree shaking, compression, extract css using MiniCssExtractPlugin as HtmlWebpackPlugin includes it by default with js)
+- [ ] cache bundles (content hashing, extract css)
+- [ ] React (useMemo, useCallback, memo, code splitting n lazy loading)
+- [ ] Network(debounce, throttling, windowing, pagination, web worker, GraphQL)
+- [ ] caching(react query, service worker caching, cdn caching)
+- [ ] Images (responsive images per device size, multiple resolution, webp, lazy loading images, skeleton image or blurry placeholder)
+- [ ] web vitals: LCP (cdn, defer js, css, Compress and resize images, font-display: swap if font download takes time, ssr, lazy load js)
+- [ ]                    INP (Split code, use Web Workers, async logic, Memoize, Minimize forced reflows, avoid layout thrashing, defer)
+
+INP reduce heavy computation and load leaner js, emove blocking items
+LCP load leaner js, remove blocking items

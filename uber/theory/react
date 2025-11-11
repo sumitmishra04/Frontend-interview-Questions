@@ -1,0 +1,294 @@
+1. What is React?
+React is a JavaScript library for building user interfaces. It's maintained by Meta (formerly Facebook) and focuses on component-based architecture for creating reusable UI elements.
+
+2. What is useMemo?
+useMemo is a React hook that memoizes a computed value to optimize performance. It re-evaluates only when its dependencies change.
+
+const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
+
+3. What are the features of React?
+Component-Based: UI is split into reusable components.
+Virtual DOM: Efficient updates and rendering.
+Unidirectional Data Flow: Data flows from parent to child.
+JSX: JavaScript XML syntax for component structure.
+Hooks: Enable state and side effects in functional components.
+
+4. What is JSX?
+JSX is a syntax extension of JavaScript that resembles HTML. It allows writing UI components with a syntax close to HTML.
+
+const element = <h1>Hello, World!</h1>;
+
+5. What is DOM?
+The Document Object Model (DOM) represents the structured HTML elements of a webpage as a tree structure. It allows scripting languages like JavaScript to manipulate and access document content.
+
+6. What is Virtual DOM?
+Virtual DOM is a lightweight representation of the actual DOM. React uses it to efficiently update and re-render UI by comparing virtual DOM with the actual DOM (Diffing) and updating only the necessary parts.
+
+7. What is the component life cycle of React class components?
+Phases:
+
+Mounting: Constructor → getDerivedStateFromProps → render → componentDidMount
+Updating: getDerivedStateFromProps → shouldComponentUpdate → render → getSnapshotBeforeUpdate → componentDidUpdate
+Unmounting: componentWillUnmount
+Error Handling: componentDidCatch
+
+8. What are Fragments in React?
+Fragments let you group multiple elements without adding extra nodes to the DOM.
+
+<>
+  <h1>Title</h1>
+  <p>Paragraph</p>
+</>
+
+9. What are props in React?
+Props (properties) are inputs to components that allow data to flow from parent to child components.
+
+10. What are synthetic events in React?
+Synthetic events are cross-browser wrappers around native events. They ensure consistent behavior across all browsers.
+
+<button onClick={(event) => console.log(event)}>Click Me</button>
+
+11. Difference between Package.json and Package-lock.json?
+Package.json: Lists project dependencies.
+Package-lock.json: Locks the dependency versions for consistent installations.
+
+12. Differences between client-side and server-side rendering?
+Client-Side: Faster navigation, initial load delay.
+Server-Side: Faster initial load, better SEO, more server load.
+
+13. What is state in React?
+State is an object that holds data specific to a component and can change over time.
+
+14. What are props?
+Props are read-only inputs passed from a parent to a child component. They help in data transfer and component communication.
+
+15. Differences between State and Props:
+State	Props
+Mutable	Immutable
+Local to the component	Passed from parent to child
+Used for dynamic rendering	Used for data transfer
+
+16. What is props drilling?
+Passing props through multiple component layers to reach the desired child component.
+
+17. Disadvantages of props drilling & How to avoid it:
+Unnecessary prop passing.
+Harder to maintain. Solution: Use Context API or state management libraries like Redux.
+
+18. What are Pure Components in React?
+Components that prevent unnecessary re-renders by implementing a shallow comparison of props and state.
+
+19. What are Refs in React?
+Refs provide a way to access and manipulate DOM elements or component instances directly.
+
+20. What is forwardRef?
+forwardRef allows parent components to pass refs to child components.
+
+21. What are Error Boundaries?
+Components that catch JavaScript errors in their child components' tree and display a fallback UI.
+
+22. What are Higher Order Components (HOCs)?
+Functions that take a component and return a new component, adding extra functionality.
+
+function withLogging(Component) {
+  return function Enhanced(props) {
+    console.log("Logging...");
+    return <Component {...props} />;
+  };
+}
+
+23. Differences between controlled and uncontrolled components:
+Controlled: Value is controlled via state.
+Uncontrolled: Uses refs for accessing DOM values.
+
+24. What is useCallback?
+Memoizes callback functions to avoid unnecessary re-creations.
+
+25. Differences between useMemo and useCallback:
+useMemo returns a memoized value.
+useCallback returns a memoized function.
+
+26. What are keys in React?
+Unique identifiers for list elements to help React track DOM changes.
+
+27. What is Lazy Loading?
+Loading components or data only when required, using React.lazy().
+
+28. What is Suspense?
+A component that displays a fallback while waiting for code to load.
+
+29. What are custom hooks?
+Reusable logic written as a function that uses React hooks.
+
+30. What is useReducer hook?
+Alternative to useState for managing complex state logic.
+
+31. What are Portals in React?
+Render children into a DOM node outside the parent component.
+
+32. What is Context API?
+A way to manage and share state globally across components.
+
+33. Example of Context API:
+const UserContext = createContext();
+<UserContext.Provider value="User">
+  <Component />
+</UserContext.Provider>
+
+34. Callback function in setState():
+Used for accessing the updated state immediately after a change.
+
+35. Custom hook example:
+function useCounter() {
+  const [count, setCount] = useState(0);
+  return [count, () => setCount(count + 1), () => setCount(count - 1)];
+}
+
+36. Class lifecycle methods replaced by useEffect:
+componentDidMount
+componentDidUpdate
+componentWillUnmount
+
+37. What is Strict Mode in React?
+Identifies potential problems in an application by highlighting unsafe practices.
+
+38. Ways to pass data from child to parent component in React:
+Callback functions: The parent passes a function as a prop that the child can call.
+Using useRef: Pass a ref to the child to directly access data.
+Context API: If deep nesting is involved.
+State management libraries: Like Redux or Zustand for global state.
+
+39. Practical Example: Data from child to parent using callback:
+// Parent Component
+const Parent = () => {
+  const handleData = (data) => {
+    console.log("Data from Child:", data);
+  };
+  return <Child sendData={handleData} />;
+};
+
+// Child Component
+const Child = ({ sendData }) => (
+  <button onClick={() => sendData("Hello Parent!")}>Send Data</button>
+);
+
+40. Sending data using useRef:
+const Parent = () => {
+  const childRef = useRef();
+
+  const handleClick = () => {
+    console.log(childRef.current.value);
+  };
+
+  return (
+    <>
+      <Child ref={childRef} />
+      <button onClick={handleClick}>Get Child Data</button>
+    </>
+  );
+};
+
+const Child = React.forwardRef((props, ref) => (
+  <input ref={ref} placeholder="Enter text" />
+));
+
+41. Optimizing React Applications:
+Use React.memo for component re-rendering control.
+Use useCallback and useMemo for expensive computations.
+Lazy load components using React.lazy().
+Minimize unnecessary renders using keys properly.
+Code-splitting using dynamic import().
+Avoid anonymous functions inside render.
+Optimize bundle size via Webpack.
+
+42. Consuming a RESTful JSON API in React:
+Using fetch:
+
+useEffect(() => {
+  fetch("https://api.example.com/data")
+    .then(res => res.json())
+    .then(data => console.log(data));
+}, []);
+Using Axios:
+
+axios.get("https://api.example.com/data").then((response) => console.log(response.data));
+
+43. Design Patterns in React:
+Container-Presenter Pattern: Separation of logic and UI.
+Higher-Order Components (HOCs): Wrapping components to enhance behavior.
+Render Props: Sharing component logic using render functions.
+Compound Components: Creating components with complex internal relationships.
+Custom Hooks: Encapsulating reusable logic.
+
+44. Context API vs Redux:
+Context API: Simpler, for smaller apps, no boilerplate.
+Redux: Suitable for large-scale apps with complex state logic, supports middleware.
+
+45. PropTypes in React:
+Used for type-checking props in React components.
+
+import PropTypes from 'prop-types';
+
+const MyComponent = ({ name }) => <p>{name}</p>;
+
+MyComponent.propTypes = {
+  name: PropTypes.string.isRequired,
+};
+
+46. What are React Mixins?
+Mixins are methods used in React to share common functionalities between components. They are mostly deprecated now in favor of HOCs and custom hooks.
+
+47. Hooks commonly used in React:
+useState
+useEffect
+useRef
+useMemo
+useCallback
+useReducer
+useContext
+
+48. Render Props in React:
+A technique to share logic using a function as a prop.
+
+const MouseTracker = ({ render }) => {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+
+  return <div onMouseMove={(e) => setPosition({ x: e.clientX, y: e.clientY })}>
+    {render(position)}
+  </div>;
+};
+
+// Usage
+<MouseTracker render={({ x, y }) => <h1>{`X: ${x}, Y: ${y}`}</h1>} />
+
+49. Types of Exports and Imports:
+Named Export & Import:
+export const myFunction = () => {};
+import { myFunction } from './file';
+Default Export & Import:
+export default myFunction;
+import myFunction from './file';
+
+50. createElement vs cloneElement in React:
+createElement: Used to create a new React element.
+cloneElement: Used to clone an existing React element, often with added props.
+
+51. When to use useState vs useReducer:
+useState: Simple state with few updates.
+useReducer: Complex state logic with multiple sub-values.
+
+52. What are protected routes in React?
+Routes that require authentication to access. Typically implemented using React Router.
+
+<Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Login />} />
+
+53. What is React Router's context menu?
+React Router doesn't inherently have a "context menu" feature, but it can be implemented using event handlers and conditional rendering.
+
+
+
+
+
+
+
+

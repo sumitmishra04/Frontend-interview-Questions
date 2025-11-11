@@ -1,0 +1,65 @@
+If you use the sandbox attribute on your iframe:
+
+<iframe src="/flights" sandbox></iframe>
+Then all bets are off — you’ve intentionally isolated it, even if it’s same-origin.
+
+
+To loosen restrictions:
+
+<iframe src="/flights" sandbox="allow-scripts allow-same-origin"></iframe>
+
+Now scripts run, and same-origin access is allowed.
+
+1. Embedding untrusted third-party content
+
+Example:
+You show user-generated HTML, ads, or analytics dashboards from external providers.
+
+Without sandbox:
+
+Malicious JS inside iframe can run in your origin (if same-origin).
+
+It can steal cookies, tokens, or manipulate your DOM.
+
+With sandbox:
+
+It can’t execute scripts, submit forms, or navigate the top window (unless you explicitly allow it).
+
+<iframe src="https://ads.example.com" sandbox></iframe>
+💥 Boom — instant containment. Even if their code is malicious, your main app stays safe.
+
+
+Say your site has a live code editor (like CodePen, StackBlitz, or your in-house playground).
+Users can type arbitrary HTML, JS, and CSS — that’s dangerous.
+So you render their code in a sandboxed iframe:
+<iframe sandbox="allow-scripts"></iframe>
+
+Now scripts run inside the iframe, but:
+
+They can’t touch your parent window.
+
+They can’t open popups.
+
+They can’t change cookies or localStorage.
+
+They can’t make network calls with your credentials.
+
+✅ Perfect for teaching tools, code previewers, markdown renderers.
+
+
+3. Isolating micro-frontends or legacy modules
+
+If you’re working on a large frontend system (say, flight booking dashboard or travel admin portal) and integrating legacy apps or third-party panels, sandboxing helps:
+
+<iframe src="/legacy-dashboard" sandbox="allow-scripts allow-same-origin"></iframe>
+
+
+This ensures the legacy app:
+
+Can run JS,
+
+Can access its own API (same-origin),
+
+But can’t mess with your top-level DOM or cookies.
+
+Think of it as “let the old app live in the backyard, but don’t give it house keys.”

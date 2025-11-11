@@ -1,0 +1,9 @@
+look for unnecessary use of usestates
+look for usecallback and usememo and memo usage
+making sure api call is happening in parent n not child
+if more states are neded then lets use useReducer
+looking for readability avoiding ternary operator
+if accessibility is a concern then focus on tabindex usage and semantic elements
+Testing Difficulty: Components that handle both rendering the UI and managing side effects (like data fetching) are harder to test in isolation. You have to mock the network layer for every component test.
+
+Reusable UI is Harder: A component that has built-in fetching logic is tightly coupled to a specific API endpoint. You can't easily reuse that component to display product details from a different API or a local data source without refactoring.
