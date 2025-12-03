@@ -1,0 +1,43 @@
+what are the memory leak points in promise.race
+
+function promiseRace(promises) {
+    return new Promise((resolve, reject) => {
+        let settled = false;
+        promises.forEach(p => {
+            Promise.resolve(p)
+                .then(value => {
+                    if (!settled) {
+                        settled = true;
+                        resolve(value);
+                    }
+                })
+                .catch(error => {
+                    if (!settled) {
+                        settled = true;
+                        reject(error);
+                    }
+                });
+        });
+    });
+}
+
+
+| Issue                             | Cause                                                                            | Fix                                                             |
+| --------------------------------- | -------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| Memory leak / dangling closures   | All promises retain `.then(resolve)` and `.catch(reject)` even after one settles | Use a `settled` flag or an `AbortController`-style cancellation |
+| Not critical for short-lived code | But accumulates in long-running systems                                          | Add guard logic to clean up references                          |
+
+
+Asked about bug in a model service class like why the older one closes before the newer one.
+stack[0] was used instead of stack.pop()
+
+then asked to use alert service to handle alert show close using subscription model
+
+https://codesandbox.io/p/sandbox/esc-interview-exerise-2-forked-r6rqpm?file=%2Fsrc%2Fservices%2FModalService.ts%3A38%2C47
+
+
+r2: infinite scroll, event bubbling on click, key in react, ai usage, leadership related decisions, security related questions
+
+r3: was asked about my experience with leadership, ai tools, thesys.dev
+
+r4: was asked about previous work, challenging work, strength and weakness

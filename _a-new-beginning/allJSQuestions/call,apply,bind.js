@@ -56,7 +56,6 @@ Function.prototype.myBind = function(context, ...args) {
     }
     const originalFunc = this;
     return function(...newArgs) {
-        // Handle null/undefined context
         const actualContext = context ?? window;
         return originalFunc.apply(actualContext, [...args, ...newArgs]);
     }

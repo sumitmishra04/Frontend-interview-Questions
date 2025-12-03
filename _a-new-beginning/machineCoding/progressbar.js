@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-function ProgressBar({ duration }) {
+function ProgressBar({ durationInSec }) {
     const [progress, setProgress] = useState(0);
     const startTimeRef = useRef(null);
     const animationFrameRef = useRef(null);
@@ -8,8 +8,8 @@ function ProgressBar({ duration }) {
     const updateProgress = (timestamp) => {
         if (!startTimeRef.current) startTimeRef.current = timestamp;
 
-        const elapsedTime = (timestamp - startTimeRef.current) / 1000; // Convert ms to seconds
-        const newProgress = Math.min((elapsedTime / duration) * 100, 100); // Ensure max 100%
+        const elapsedTimeInSec = (timestamp - startTimeRef.current) / 1000; // Convert ms to seconds
+        const newProgress = Math.min((elapsedTimeInSec / durationInSec) * 100, 100); // Ensure max 100%
 
         setProgress(newProgress);
 
@@ -25,7 +25,7 @@ function ProgressBar({ duration }) {
         animationFrameRef.current = requestAnimationFrame(updateProgress);
 
         return () => cancelAnimationFrame(animationFrameRef.current); // Cleanup
-    }, [duration]);
+    }, [durationInSec]);
 
     return (
         <div

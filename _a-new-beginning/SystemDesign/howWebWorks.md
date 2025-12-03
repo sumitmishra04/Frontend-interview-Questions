@@ -3,7 +3,16 @@ When you type `https://www.example.com` in your browser, the process begins by r
 
 # TCP
 next, the browser establishes the foundational **TCP connection** with the server via the three-step handshake: the Client sends **SYN** (requests connection), the Server responds with **SYN-ACK** (acknowledges and agrees), and the Client confirms with **ACK** (connection established). 
- 
+
+Client Hello + client random
+server certificate(origin, expiry, server random + server public key)
+certificate verification by browser
+PMS + public key => server + private key => PMS
+
+ssk: kdf(cr + sr + pms) = ssk: kdf(sr + cr + pms)
+ssk(hash2(transcript)) <=> ssk(hash1(transcript)) 
+hash1 = hash2
+
 # HTTPS:SSL
 This channel is still unencrypted, but because **HTTPS** uses **SSL/TLS encryption** to secure communication, adding authentication, data integrity, and encryption on top of HTTP, the browser immediately initiates the TLS handshake by sending a "Client Hello," which includes a **Client Random** number used for session entropy. The server replies with its validated Certificate (containing the **Server's Public Key [SPK]**) and its own **Server Random** number, both of which will be inputs for the final key derivation. 
 

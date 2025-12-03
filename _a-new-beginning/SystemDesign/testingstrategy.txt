@@ -1,4 +1,3 @@
-
 Unit Testing (Focus: Functions & Small Components)
 
 Component Isolation	Verify a small, stateless component renders correctly given specific props.	Jest, React Testing Library (RTL)	Test the <ProductCardTitle> component to ensure it correctly displays the productName prop and truncates it if it exceeds 50 characters.

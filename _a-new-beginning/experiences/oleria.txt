@@ -1,0 +1,5 @@
+folder structure
+accessibility
+keyboard navigation like up and down 
+search
+make use of context and ref to handle up and down
