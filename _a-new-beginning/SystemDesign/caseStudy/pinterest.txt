@@ -1,0 +1,5 @@
+As much as possible, the pins should be placed respecting their position within the feed, i.e. pins that are at the front of the returned results should appear higher on the page.
+Focus on just images. Exclude videos and GIFs.
+Primarily desktop, but should be usable on mobile and tablet as well.
+Pinterest uses a hybrid rendering strategy that involves SSR with hydration. The initial pins markup and data are included in the initial HTML, but without any positioning data
+

@@ -1,0 +1,188 @@
+Features:
+Browse feed, comment, react and create
+Mobile friendly, responsive, offline capabilties, caching images, SSR + CCR, i18n, accessible
+Supports hashtag
+
+components:
+Post create ui
+Feed component
+Reaction and comment components
+Rich editor text  Draft.js
+
+Models:
+Feed
+New post create
+comment fetch and create (web socket)
+
+API:
+getFeed: payload and response
+createPost: payload
+pagination: cursor based. give n items after id m
+
+
+optimisation:
+infinite scrolling
+Virtualized lists
+Shimmer
+image: CDN, Webp, srcset
+optimistic update on like comment
+for icons: css sprites, SVG (Scalable and crisp. Cacheable.)
+While showing live updates is great, it is not efficient to be fetching updates for posts that have gone out of view in the feed. Clients can subscribe/unsubscribe to updates for posts based on whether the post is visible, which lightens the load on server infrastructure.
+role="article", aria-labelledby="<id>", tabindex="0"
+
+Post create payload:
+{
+  content: [
+    {
+      type: 'HASHTAG',
+      content: '#AboutLastNight',
+    },
+    {
+      type: 'TEXT',
+      content: ' is here... and ready to change ... Dropping 2/10 on ',
+    },
+    {
+      type: 'MENTION',
+      content: 'HBO Max',
+      entityID: 1234,
+    },
+    {
+      type: 'TEXT',
+      content: '!',
+    },
+  ];
+}
+
+Pagination Api:
+{
+  "pagination": {
+    "size": 10,
+    "next_cursor": "=dXNlcjpVMEc5V0ZYTlo"
+  },
+  "results": [
+    {
+      "id": "123",
+      "author": {
+        "id": "456",
+        "name": "John Doe"
+      },
+      "content": "Hello world",
+      "image": "https://www.example.com/feed-images.jpg",
+      "reactions": {
+        "likes": 20,
+        "haha": 15
+      },
+      "created_time": 1620639583
+    }
+    // ... More posts.
+  ]
+}
+
+Feed Response:
+{
+  "id": "124",
+  "author": {
+    "id": "456",
+    "name": "John Doe"
+  },
+  "content": "Hello world",
+  "image": {
+    "src": "https://www.example.com/feed-images.jpg",
+    "alt": "An image alt" // Either user-provided, or generated on the server.
+    // Other useful properties can be included too, such as dimensions.
+  },
+  "reactions": {
+    "likes": 20,
+    "haha": 15
+  },
+  "created_time": 1620639583
+}
+
+
+
+
+Based on the provided images, here is the frontend system design for a News Feed organized using the RADIO framework.
+
+### **R - Requirements**
+
+**Functional Requirements:**
+
+  * **Feed Rendering:** Display a continuous, potentially infinite list of posts.
+  * **Infinite Scrolling:** Automatically load and append more posts as the user scrolls near the bottom of the feed.
+  * **Interactions:** Support actions within posts (e.g., Like) and keyboard navigation.
+
+**Non-Functional & UX Requirements:**
+
+  * **Performance:** Crucial to maintain smooth scrolling despite a growing DOM.
+  * **Perceived Latency:** Use skeleton loading screens instead of generic spinners during data fetching.
+  * **Scroll Restoration:** Maintain the user's scroll position if they navigate away from the feed and return.
+  * **Accessibility:** (From Image 2) Use proper ARIA roles (`feed`, `article`), manage focus for keyboard users, and ensure icon buttons have labels.
+  * **Lazy Loading:** Defer loading of non-crucial features (e.g., emoji pickers, image uploaders) until needed.
+
+-----
+
+### **A - Architecture (Component Structure)**
+
+The design promotes separation of concerns through component composition.
+
+  * **`FeedContainer` (Smart Component):** Handles business logic, data fetching (infinite scroll), state management (pagination cursors, loading status), and event handlers (likes).
+  * **`VirtualList` / Windowing Component:** A wrapper responsible for performance. It calculates which items are visible in the viewport and only renders those DOM nodes, plus a small buffer.
+  * **`Post` (Dumb Component):** Receives data via props and renders the actual UI of a single story. Should be memoized to prevent unnecessary re-renders.
+  * **`LoadingIndicator`:** Renders skeleton screens at the bottom while fetching next page.
+
+-----
+
+### **D - Data Model (Frontend State)**
+
+The text recommends normalizing the state to avoid data duplication and simplify updates.
+
+**State Shape:**
+Instead of a simple array of post objects, the state is split:
+
+1.  **Entities Dictionary:** A map of IDs to post objects for quick lookups and updates (e.g., updating a 'like' count on a specific post).
+    ```javascript
+    entities: {
+      'post_123': { id: 'post_123', content: '...', likes: 5 },
+      'post_124': { id: 'post_124', content: '...', likes: 0 }
+    }
+    ```
+2.  **Feed Order List:** An array of IDs maintaining the visual order.
+    ```javascript
+    feedIds: ['post_123', 'post_124', ...]
+    ```
+3.  **Pagination State:** Tracks current status to manage infinite scrolling.
+    ```javascript
+    pagination: { nextCursor: 'xyz_token', isLoading: false }
+    ```
+
+-----
+
+### **I - Interfaces (Frontend/Backend contract)**
+
+**Data Fetching API:**
+The frontend relies on a paginated API endpoint.
+
+  * **Request:** The client sends a request for posts, optionally including a `cursor` from the previous response to fetch the next page.
+  * **Response:** The server returns a list of post data *and* the `nextCursor` for subsequent requests.
+
+**Internal Component Interface:**
+
+  * The `VirtualList` component requires props such as the item count, item height estimate, and a function to render items at a specific index.
+
+-----
+
+### **O - Optimizations & Deep Dives**
+
+This is the primary focus of the provided documentation.
+
+**1. Virtualization (Windowing)**
+The most critical optimization for long feeds. Instead of rendering thousands of posts into the DOM, the system only renders the subset currently visible to the user (plus a small buffer). This keeps memory usage low and scrolling smooth.
+
+**2. Infinite Scrolling Implementation**
+Utilize the `IntersectionObserver` API to detect when a "sentinel" element at the bottom of the list enters the viewport. This triggers the fetch function for the next page of data using the current cursor.
+
+**3. Rendering Performance (`React.memo`)**
+Individual `Post` components should be wrapped in `React.memo`. This ensures that when the parent feed component re-renders (e.g., when new items are appended), existing post components do not re-render unless their specific props have changed.
+
+**4. Managing New Incoming Posts (UX Deep Dive)**
+If the application receives real-time updates (e.g., via WebSockets) that new posts are available while the user is scrolled down, the feed should *not* automatically shift down to insert them at the top. This is a jarring user experience. Instead, a "New Posts" button should appear, allowing the user to choose when to scroll to the top and view them.  

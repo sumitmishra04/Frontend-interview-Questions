@@ -1,0 +1,87 @@
+browse
+upload photo, caption and filter posts
+infinite scrolling with cursor based
+accessible, hybrid, i18n, mobile friendly
+images must be carousal based
+
+Architecture:
+SSR with hydration
+
+DataModel:
+feed posts and individual post
+create post
+user
+Image
+
+API:
+New Post => select photo from device => edit => add caption => post
+image upload api => returns url from s3 => use that to save the post
+?? why its better
+You want clients to upload directly to S3 (or via a signed URL), not stream big files through your app servers.
+Client asks backend for a pre-signed upload URL.
+Client uploads file directly to S3 using that URL.
+Backend never sees the raw file, only gets the final S3 key/URL.
+Client calls POST /posts with that URL
+This supports draft, editing just the caption
+
+It works for small-scale/simple apps, but:
+Backend now has to stream large payloads and also talk to S3.
+Harder to scale horizontally because app servers become bandwidth-heavy.
+Poor UX (no separate upload progress, no resume, no pre-upload).
+Harder error handling (what if DB fails after upload?).
+
+With the separated flow:
+Upload path can be optimized for big files, retries, direct-to-S3.
+Post path is lightweight and fast.
+It decouples failure modes — if upload fails, you just retry the upload; if post creation fails, you still have the image in S3 and can reuse the same URL without re-uploading.
+
+Upload payload steps:
+1: post request to get upload url
+POST /upload/init
+{
+  "type": "image",
+  "mimeType": "image/jpeg",
+  "size": 2450180
+}
+2: get uploda url
+{
+  "uploadUrl": "...",
+  "assetUrl": "https://instagram.cdn/uuid.jpg",
+  "uploadId": "abc123"
+}
+
+3: actual image upload
+PUT uploadUrl
+Content-Type: image/jpeg
+
+(binary bytes)
+
+4: final post
+POST /media/configure
+{
+  "uploadId": "abc123",
+  "caption": "Beach day 🌴"
+}
+“For large apps, image uploads use a pre-signed URL. The payload is a raw binary PUT body — no multipart, no JSON. The client first asks for a pre-signed URL with JSON metadata (name, type, size), then uploads the file bytes directly to S3 using that URL. The final post API receives only the image URL.”
+
+
+Optimisation:
+infinite scrolling
+react window
+cursor based pagination
+cdn cached images
+code splitting
+shimmer
+preserve scroll feed position
+optimistic updates
+svg based cached icons 
+webp image format provides lossless & lossy images with better compression
+Cropping and resizing of the images can be done via HTML5' <canvas>.
+
+Filter: CSS provides a filter property which allows applying filter functions like blur, contrast, hue, sepia to name a few. 
+accessibility: alt images,aria-label to prev next btn and icons, Add <div role="region" aria-label="Image Carousel" tabindex="0"> to make the carousel focusable and attach Left/Right keydown handlers to allow scrolling through the images with the keyboard.
+
+Images:
+Devices with good internet connectivity/on WiFi: Prefetch offscreen images that are not in the viewport yet but about to enter viewport.
+Poor internet connection: Render a low-resolution placeholder image and require users to explicitly click on them to load the high-resolution image.
+responsive images as per the device viewport and bandwidth by sending viewport dimension to be

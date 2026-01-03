@@ -1,0 +1,194 @@
+
+FrontEnd
+
+
+## FR:
+1. search and browse listings with date selection and number of people
+2. view hotels with filters like price, location, locale, amenities, rating. Each hotel to have a photo gallery and details and top amenties and info about how far it is from city center, map, rating, review and price, room variants.
+3. booking. While booking we need to lock the price and selection for the user. So that it cannot be booked by some one else. It could be say 10min. Add guest details and contact info.
+move to payment page. Provide multiple payment options.
+4. See the booked hotel in bookings section.
+5. Support for bookings and profile for details like name, number, email id.
+6. Login using gmail or userid and password.
+
+
+## NFR:
+1. Fast page load under 3 sec. 
+2. Show loading indicator and return paginated response for faster LCP
+3. SSR for faster FCP and lazy load modules for for faster js parsing and better INP
+4. SEO friendly to rank top in organic searches using ssr
+5. I18N and A11Y supported.
+6. All device to be supported.
+
+
+## Framework:
+1. **csr** vs **ssr**? SSR with hydration as fast initial load is important, seo is important. however subsequent searching and filtering are UI heavy and can be better served using csr. Next.js can be leveraged here with react rendering engine.
+
+## Data Model:
+1. Listing: Search params (amenties, date, city, price, people count ) and list of paginated hotels
+2. Detail: Detail about hotel and its variants, amenties, gallery, reviews, ratings, price per room type
+
+## API:
+1. Search api: List of hotels
+2. Detail api: info about the hotel itself.
+3. Reservation api: for booking hotel.
+[Note]: We can use graphql here to show smaller and larger detail about hotel based on the view we are on.
+
+## Search: 
+1. get
+2. /search
+3. queryParams: country=IN&city=4923&locale=en-us&currency=INR&checkIn=2025-11-10&checkOut=2025-11-11&adults=2&children=0&roomAmenities=37&productType=-1&sort=reviewCouples
+with help of city server can evaluate the default radius within which it can suggest the hotels
+Date range must be check_in & check_out separately as this will avoid encoding eg checkIn=2025-11-10&checkOut=2025-11-11.
+same for amenties eg breakfast=true&wifi=true.
+
+## Pagination:
+Offset based as the listing do not change too often and we get to know the total number of results and pages and improving navigation.
+
+## Fetch accommodation details:
+Strictly speaking, if the accommodation details page is always opened in a new tab, then the details data will only ever be needed to be fetched on the server to create the initial HTML; it will not be fetched from the client, so a standalone HTTP API is not needed.
+
+Path: /accommodation/{accommodationId}
+parameter: country, locale can be passed for showing the correct language, currency
+typical response:
+{
+  "id": 561602, // Accommodation ID.
+  "title": "Great view of Brannan Street, 15 mins by bus downtown. Bed and Breakfast provided!",
+  "images": [
+    "https://www.greathotels.com/img/1.jpg",
+    "https://www.greathotels.com/img/2.jpg",
+    "https://www.greathotels.com/img/3.jpg",
+    "https://www.greathotels.com/img/4.jpg"
+  ],
+  "rating": 4.82,
+  "coordinates": {
+    "latitude": 37.74403,
+    "longitude": -122.41755
+  },
+  "price": 200,
+  "currency": "USD",
+  "amenities": {
+    "breakfast_provided": true,
+    "internet": true,
+    "washer": true,
+    "dryer": false
+    // Any additional amenities details.
+  },
+  "house_rules": "...",
+  "contact_email": "..."
+  // Any additional details.
+}
+
+
+## Make reservation
+path: /reserve
+method: post
+parameters:  date, accomodationId, adult and children count, promo code
+sample response:
+{
+  "id": 456, // Reservation ID.
+  "total_price": 400,
+  "currency": "USD",
+  "dates": {
+    "check_in": "2022-12-24",
+    "check_out": "2022-12-27"
+  },
+  "accommodation": {
+    "id": 561602,
+    "address": {
+      "country": "US",
+      "street_address": "888 Brannan Street",
+      "city": "San Francisco",
+      "zip": "94103",
+      "state": "CA",
+      // ... Other address fields.
+    },
+  }
+  "payment_details": {
+    // Only show the last 4 digits.
+    // We shouldn't be storing the credit card number
+    // unencrypted anyway.
+    "card_last_four_digits": "1234"
+  }
+}
+
+
+## Optimisation:
+
+1. search and filter should reflect in the url. this facilitates bookmarking, deeplinking.
+2. To improve SEO by appearing relevant to what users are searching, travel sites generate tons of pages for the popular search terms that shows relevant listings for these terms. For example, Airbnb generated dedicated pages for "Vacation rental apartments in San Francisco" and "Vacation rental apartments in New York. To let search engines know about these dedicated pages, Airbnb has a sitemap page just for listing links to their dedicated listing pages. There are thousands or more listing pages.
+
+URLS are commonly implemented in one of the two ways:
+
+Readable URLs: https://www.airbnb.com/san-francisco-ca/stays
+"Ugly" URLs: https://www.airbnb.com/search?location=123 (where 123 is an internal ID mapping to San Francisco city)
+Airbnb uses readable URLs because having readable URLs helps with SEO rankings, especially if the URL contains the search term itself. Using this technique, search engines will think that travel sites have many different content pages when in reality they are all rendering the same results page but with different listings. It's great for SEO.
+
+3. Dynamic rendering – serve crawlers different pages
+Sites can also leverage dynamic rendering, Dynamic rendering involves using a web server to differentiate between requests made by crawlers and those made by users. When a request is made by a crawler, it is routed to a renderer that generates a version of the content that is optimized for the crawler, such as a static HTML version. Requests made by real users are handled as normal.
+
+Dynamic rendering can be done in a different manner as well. For Expedia Group's Vrbo, crawlers are served a full page while real users are served only a lightweight page and content above the fold, the rest of the content is loaded async on the client.
+
+4. Internationalization (i18n)
+Make the language and country selector very prominent (e.g. in the navbar).
+
+Set the lang attribute on the html tag (e.g. <html lang="zh-cn">) to tell browsers and search engines the language of the page which helps browsers offer a translation of the page. This is also important for SEO.
+
+Consider differences in the length of text in different languages.
+
+Enable locale-specific UI:
+Using the :lang() CSS pseudo-class to change display
+Right-to-left languages
+Using CSS Logical Properties
+HTML's dir attribute
+CSS direction: rtl
+
+Be mindful of how colors are perceived in different cultures.
+
+## Performance
+
+1. Image optimizations
+Image carousel
+
+Image preloading/lazy loading: Initially, only the first image is loaded (the remaining images will be lazily loaded).
+The second image is preloaded when the user shows possible intent of viewing more images:
+Cursor hovers over the image carousel.
+Focuses on the "Next" button via tabbing.
+Image carousel comes into view (on mobile devices).
+If the user does view the second image (which signals high intent to browse even more images), the next three images (3rd to 5th) are preloaded.
+As the user clicks "Next" again to browse more images, the (n + 3)th image is preloaded.
+
+Responsive images
+
+Image formats: Use webp format for photos and SVGs for icons where possible.
+
+
+2. Code splitting
+Page/route-level code splitting to prevent huge JavaScript bundles if using a single-page app architecture.
+Lazy load UI components that are not shown on initial render: (1) below the fold elements (e.g. footer), (2) elements that only appear after interaction (e.g. popover, modal).
+
+
+3. Performance monitoring
+Use tools like Lighthouse and Web Vitals to profile websites and measure performance.
+Set up performance budgets that run on CI.
+
+
+4. React-specific tips
+
+5. Bundling optimizations
+
+6. Virtual list/windowing for long lists with infinite scrolling
+
+7. Progressive web apps
+
+## Device Specific:
+Device-specific UI: Showing different UI for different devices, which can involve using a totally different information architecture.
+Dynamic number of result items in a row and per page depending on device width and height.
+Since maps are hard to use on smaller devices due to the smaller screen estate, consider not having a map UI at all. Without the map, clients can avoid loading map code and textures entirely on mobile devices.
+Airbnb's listings are more app-like on mobile with a floating bottom bar. The listing page also does not open listings on a new page, presumably because it is harder to manage many open tabs on mobile.
+Support swiping on image carousels on mobile.
+Less aggressive preloading strategy on mobile since mobile data can be more expensive.
+Interactive elements should be larger on mobile.
+
+
+Backend
