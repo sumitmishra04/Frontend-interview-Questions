@@ -1,0 +1,55 @@
+👉🏻 👉🏻 👉🏻 useCallback
+
+The useCallback hook in React memoizes a function definition between re-renders, ensuring that the function's referential identity remains stable as long as its dependencies don't change. 
+
+How It Works
+When a React component re-renders, every function defined inside it is normally re-created, meaning it gets a new memory address. useCallback prevents this by caching the function. 
+
+Initial Render: React stores the function you provide and returns it.
+Subsequent Renders: React compares the values in your dependency array (using Object.is).
+No changes: It ignores the new function you just defined and returns the cached one.
+Changes detected: It discards the old version, stores the new one, and returns it. 
+
+const memoizedCallback = useCallback(
+  () => {
+    doSomething(a, b);
+  },
+  [a, b], // Dependencies: function only changes if 'a' or 'b' change
+);
+
+When to Use It
+Using useCallback is not always necessary and can add overhead if overused. It is most beneficial in these specific scenarios: 
+
+Passing to React.memo components: If a child component is optimized with React.memo, it will only re-render if its props change. Without useCallback, a function prop would be "new" every time, breaking that optimization.
+Dependencies in other hooks: When a function is used as a dependency in a useEffect or another useCallback, you must stabilize its reference to avoid infinite loops or unnecessary executions.
+Custom Hooks: When returning functions from custom hooks, providing a stable reference allows users of your hook to use those functions in their own dependency arrays safely. 
+
+Key Differences
+vs. useMemo: useCallback caches the function itself, while useMemo caches the result of calling a function.
+vs. useEffect: useCallback is for definition/memoization; useEffect is for execution/side-effects
+
+👉🏻 👉🏻 👉🏻 useMemo
+
+In React, useMemo is a performance-optimizing Hook that caches the result of a calculation between re-renders. It allows your component to skip expensive work if the inputs haven't changed. 
+Core Mechanism
+useMemo follows a simple "cache and compare" logic: 
+Initial Render: React calls your calculation function and stores the result.
+Subsequent Renders: React compares the dependencies you provided with their previous values using Object.is (shallow equality).
+If dependencies are the same: React skips the function and returns the cached value.
+If any dependency changed: React re-runs the function, returns the new result, and updates the cache. 
+
+const memoizedValue = useMemo(() => {
+  return computeExpensiveValue(a, b); // The calculation
+}, [a, b]); // Dependency array
+
+When to Use It
+Expensive Recalculations: When processing large datasets (e.g., filtering 1,000+ items or complex sorting) 
+that would otherwise run on every render.
+Referential Equality: To prevent unnecessary re-renders of child components wrapped in React.memo. If you pass an object or array as a prop, useMemo ensures the reference stays the same.
+Hook Dependencies: When a value is used as a dependency in other hooks like useEffect or another useMemo, preventing them from firing too often. 
+Important Caveats
+Not a Guarantee: React may occasionally discard the cache to free up memory; your code should still work if the calculation runs again.
+Development vs. Production: In Strict Mode, React calls your calculation function twice during development to help you find bugs (impurities). 
+This does not happen in production.
+Overhead: Memoization isn't "free"—it uses memory to store values and CPU to compare dependencies. For simple tasks (like adding two numbers), it can actually be slower than just recalculating.
+React 19 & Compiler: With the new React Compiler, many manual useMemo calls are becoming unnecessary as React now optimizes most calculations automatically.

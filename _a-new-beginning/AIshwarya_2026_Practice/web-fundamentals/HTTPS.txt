@@ -1,0 +1,98 @@
+What is http?
+
+It allows web browsers and servers to communicate with each other by transmitting hypertext (text, images, videos, etc.). 
+HTTP operates at the application layer in the OSI model and uses a request-response model to transfer information 
+between a client (typically a web browser) and a server.
+
+How HTTP works:
+
+Client Request: The client sends an HTTP request (usually by typing a URL in a browser or clicking a link).
+Server Response: The server processes the request and sends back 
+the appropriate HTTP response containing the requested resources (e.g., HTML page, image, etc.).
+
+HTTPS (Hypertext Transfer Protocol Secure)
+HTTPS is the secure version of HTTP. 
+It adds a layer of encryption using SSL (Secure Sockets Layer) or TLS (Transport Layer Security) 
+to secure the data transmitted between the client and the server. 
+This encryption ensures that even if a third party intercepts the data, they will not be able to read it without the encryption key.
+
+How HTTPS works:
+
+👉🏻  Client-Server Handshake: Before any actual data is sent, 
+the client and server perform a “handshake” to agree on the encryption protocols and exchange keys.
+👉🏻  Data Encryption: After the handshake, the data transmitted between the client and the server is encrypted using SSL/TLS, 
+ensuring confidentiality and integrity.
+👉🏻  Certificate Verification: HTTPS also uses digital certificates (issued by a trusted Certificate Authority — CA) 
+to verify the server’s authenticity, preventing phishing attacks where users are tricked into communicating with a fake server.
+Example: When visiting https://www.example.com, your browser checks the server’s SSL certificate 
+and establishes a secure connection before transmitting any data.
+
+How HTTPS Makes Things Secure:
+
+👉🏻 Encryption: Encrypts data so it is not readable during transmission.
+👉🏻 Data Integrity: Ensures the data is not altered during transfer.
+👉🏻 Authentication: Verifies the identity of the website, preventing attacks like impersonation.
+
+
+Understanding SSL/TLS: How They Work
+
+SSL (Secure Sockets Layer) and TLS (Transport Layer Security)
+SSL and TLS are cryptographic protocols that provide secure communication over a network. 
+TLS is the successor to SSL, and it is more secure, but many people still use “SSL” as a shorthand when discussing HTTPS.
+
+How SSL/TLS Works:
+
+👉🏻 Handshake Process
+The client sends a request to the server to initiate a secure connection.
+The server responds with its SSL certificate containing its public key and other information.
+The client verifies the certificate with a trusted Certificate Authority (CA).
+The client generates a session key, encrypts it with the server’s public key, and sends it to the server.
+The server decrypts the session key using its private key, and now both parties use this session key to encrypt and decrypt messages.
+
+👉🏻 Data Transmission
+Once the handshake is completed, all subsequent data is encrypted using symmetric encryption, which is faster 
+than asymmetric encryption (used during the handshake).
+
+Encryption Techniques Used in SSL/TLS:
+
+Asymmetric Encryption: Involves two keys — public and private. Data encrypted with the public key
+can only be decrypted with the corresponding private key.
+Symmetric Encryption: Involves a shared secret key for both encryption and decryption, providing faster performance.
+Example of SSL/TLS in Action: When you access your bank’s website (https://www.yourbank.com), the following sequence occurs:
+
+Your browser connects to the server.
+A secure connection is established using SSL/TLS.
+Your credentials and sensitive data are encrypted and transmitted.
+
+HTTP Use Cases:
+Publicly accessible websites: For non-sensitive content, HTTP may still be used.
+For example, blog articles, general web pages, or other non-transactional sites.
+Intranets: Internal corporate networks where data security is not critical might still use HTTP.
+
+HTTPS Use Cases:
+E-commerce websites, Login Pages, Web-based Email, Banking and Financial Services, APIS
+
+Reasons to Use HTTPS Over HTTP:
+Security: Encrypting user data such as passwords, credit card details, and personal information.
+SEO Ranking: Google has announced that using HTTPS is a ranking factor, meaning secure sites will rank higher than non-secure ones.
+Trust & Credibility: Users are more likely to trust websites that show the secure padlock icon in the browser’s address bar.
+Avoid “Not Secure” Warning: Modern browsers like Chrome and Firefox display a “Not Secure” warning for sites not using HTTPS, which can drive visitors away.
+Compliance: For industries such as healthcare (HIPAA compliance) and finance, using HTTPS is often a legal requirement.
+
+Switching from HTTP to HTTPS
+Let’s say you run a small e-commerce website at http://www.myonlineshop.com and want to move to HTTPS for enhanced security.
+
+Obtain an SSL Certificate: Purchase an SSL certificate from a trusted Certificate Authority (e.g., Let’s Encrypt, DigiCert).
+Install the SSL Certificate: On your web server (Apache, Nginx, etc.), install the SSL certificate.
+Redirect HTTP to HTTPS: Configure your web server to redirect all HTTP traffic to HTTPS.
+Update Links: Update all internal links, scripts, and stylesheets to use https:// to avoid "mixed content" warnings.
+
+
+
+
+
+
+
+
+
+

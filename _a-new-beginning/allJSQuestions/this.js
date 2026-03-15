@@ -66,7 +66,6 @@ Neither of these has a name property equal to "Liam".
 fix: use arrow operator or closure to bind this to self and use self.name.
 ======================================================================================================*/
 
-
 /*
 const obj = {
     name: "Liam",
@@ -85,7 +84,6 @@ inner.bind(this)(); or use closure like const self = this;
 */
 //======================================================================================================
 
-
 /*
 
 function Person(name) {
@@ -102,7 +100,6 @@ Using an arrow function inside the constructor traps this to always refer to the
 
 */
 //======================================================================================================
-
 
 /*
 
@@ -125,7 +122,6 @@ Arrow functions capture this from their surrounding (lexical scope) when they ar
 Arrow functions have lexical this, not dynamic. Once they capture this when defined, no one (not even .bind()) can change it.
 */
 //======================================================================================================
-
 
 /*
 const obj = {
@@ -154,7 +150,6 @@ boundFn();
 */
 //======================================================================================================
 
-
 /*
 const obj = {
     name: "Liam",
@@ -179,7 +174,6 @@ solution:  setTimeout(this.show.bind(this), 1000);
 */
 //======================================================================================================
 
-
 /*
 const obj = {
     name: "Liam",
@@ -194,7 +188,6 @@ fn();
 
 */
 //======================================================================================================
-
 
 /*
 const obj = {
@@ -215,7 +208,6 @@ innerFn();
 
 */
 //======================================================================================================
-
 
 /*
 class Person {
@@ -247,7 +239,6 @@ fn();
 
 */
 //======================================================================================================
-
 
 /*
 const obj = {

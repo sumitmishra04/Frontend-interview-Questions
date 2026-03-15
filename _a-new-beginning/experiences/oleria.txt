@@ -5,3 +5,6 @@ search
 make use of context and ref to handle up and down
 
 r2: sd: autocomplete
+
+https://www.linkedin.com/posts/rudranil-banerjee-13040621b_my-hyresnap-interview-result-activity-7124793776069378048-grjF/
+https://leetcode.com/discuss/post/6076418/worst-interview-experience-ever-hyresnap-hqv0/

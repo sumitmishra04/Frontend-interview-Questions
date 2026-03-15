@@ -11,3 +11,30 @@ when useeffect render? liitle about ai chatbot tool and mf webpack versioning.
 
 
 
+How HTTPS works ✅
+Content Security Policy (CSP) ✅
+Polling ✅
+Authentication
+Browser Storage ✅
+Microtask and Macrotask Queue (with code snippet output) ✅
+Monitoring and Web Vitals
+Performance Optimization
+XSS Attack
+useMemo ✅
+useCallback ✅
+Same-Origin Policy (SOP)
+Cross-Origin Resource Sharing (CORS)
+Sandbox
+Virtual DOM (VDOM)
+React Fiber
+IndexedDB Usage
+WebSocket ✅
+Polling vs WebSocket (usage comparison) ✅
+Testing Strategy
+Web Worker ✅
+Event Loop
+DOM Manipulation
+Critical Rendering Path (CRP)
+State Management ✅
+Accessibility
+Internationaliztion & Globalization

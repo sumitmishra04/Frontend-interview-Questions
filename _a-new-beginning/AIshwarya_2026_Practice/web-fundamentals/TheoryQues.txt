@@ -1,0 +1,53 @@
+<---------------->
+
+web optimisations techniques. 
+Questions around useEffect how it works and how it will output on a given code snippet. 
+How react uses batching for updates.
+
+<---------------->
+
+1000 events optimize
+codegen TypeScript
+scaling architecture
+UI filtering
+
+<---------------->
+
+closures promises react in depth
+
+<---------------->
+
+
+
+
+<---------------->
+
+
+
+<---------------->
+
+
+
+
+<---------------->
+
+
+
+
+<---------------->
+
+
+
+
+
+<---------------->
+
+
+
+
+<---------------->
+<---------------->
+<---------------->
+<---------------->
+<---------------->
+<---------------->

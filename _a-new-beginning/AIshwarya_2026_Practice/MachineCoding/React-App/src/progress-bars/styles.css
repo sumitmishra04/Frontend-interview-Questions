@@ -1,0 +1,22 @@
+.add-btn {
+  border: 1px solid blue;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 100px;
+}
+
+.progress-bar-outer {
+  border: 1px solid grey;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 10px;
+  width: 500px;
+  margin: 20px;
+}
+
+.progress-bar-inner {
+  background-color: green;
+  width: 0%;
+  transform: width 10s linear;
+  height: 10px;
+}

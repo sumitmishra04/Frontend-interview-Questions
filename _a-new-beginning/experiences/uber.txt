@@ -14,4 +14,8 @@ intro.
 1. collaboration project: used adobe search, how i collaborated, approach, win, etc
 2. difference with manager: on navigation paypal and poor code Structure
 3. initiative other than usual work: worked on insightly
-4. manager's feedback: proactive and pick tasks.
+4. manager's feedback: proactive and pick tasks.  
+
+https://leetcode.com/discuss/post/7279221/uber-interview-experience-l4-frontend-ub-tcxu/
+https://enginebogie.com/interview/experience/uber-frontend-engineer/805
+https://enginebogie.com/interview/experience/uber-senior-software-engineer/668

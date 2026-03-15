@@ -1,0 +1,144 @@
+## **ACCESSIBILITY — Essentials (Compressed, Complete, Precise)**
+
+### **1. Keyboard + Semantics**
+
+* Everything interactive **must be keyboard accessible** (Tab, Enter, Space).
+* Use **native elements first**: `<button>`, `<a>`, `<input>`, `<select>`, `<details>`, etc.
+* Non-semantic elements (`div`, `span`) are **not focusable** unless you explicitly make them so.
+
+---
+
+### **2. Visual Requirements**
+
+* Text must **not be tiny** and must meet **WCAG contrast**:
+
+  * Normal text: **4.5:1**
+  * Large text (≥ 24px): **3:1**
+
+---
+
+### **3. ARIA Rules**
+
+* **Rule #1: Don’t use ARIA unless needed.** Prefer native HTML.
+* Use **role=""** only on non-semantic elements to state purpose.
+
+  * Example: `<div role="button">` only when `<button>` is impossible.
+* **aria-*** communicates **state**, not purpose:
+
+  * `aria-expanded`, `aria-checked`, `aria-disabled`, `aria-live`, etc.
+* **aria-label** or **aria-labelledby** gives accessible names to icon-only controls.
+* `aria-live="polite"` → announce dynamic updates *after* screen reader finishes current speech.
+
+---
+
+### **4. Tabindex Rules**
+
+* `tabindex="0"` → make non-native element focusable *in natural order*.
+  Use only when turning a `<div>` or `<span>` into an actual custom widget.
+* `tabindex="-1"` → not tabbable, but can be focused by JS.
+  Example: focus error message after form submit.
+* `tabindex="1+"` → **never**. Breaks logical tab order and confuses users.
+
+---
+
+### **5. Focus Indicator**
+
+* Never remove focus outline unless you replace it with a clear custom one.
+* Use `:focus-visible` for keyboard-only focus styling.
+
+---
+
+### **6. Focus Trap (Modals)**
+
+* When a modal opens, keyboard focus must:
+
+  * Move inside the modal.
+  * Loop within it.
+  * Return to trigger element after modal closes.
+
+---
+
+### **7. Testing A11y**
+
+* **Axe DevTools** automated scan.
+* **Manual keyboard testing** (Tab through everything).
+* **Screen reader testing**:
+
+  * VoiceOver (macOS)
+  * NVDA/JAWS (Windows)
+
+---
+
+### **8. Accessibility Tree**
+
+* Screen readers don’t parse HTML directly.
+* Browser creates **Accessibility Tree**:
+
+  * Contains *role*, *name*, *state*, *relationships*.
+  * ARIA + roles modify this tree.
+
+---
+
+### **9. Non-Focusable vs Focusable Elements**
+
+* **Focusable by default:** `button`, `a[href]`, `input`, `select`, `textarea`, `summary`, etc.
+* **Not focusable:** `div`, `span`, `section`, `article`, etc.
+
+  * Must be given `tabindex="0"` and proper **role** if made interactive.
+
+---
+
+### **10. Role vs ARIA**
+
+* **role → what it is**
+  Example: `role="button"`, `role="dialog"`, `role="alert"`.
+* **aria-* → what’s happening / current state**
+  Example: `aria-expanded="true"`, `aria-checked="false"`.
+
+They complement each other:
+
+* Role = identity
+* ARIA = status
+
+---
+
+## **Payment Form Accessibility (Compact)**
+
+### **11. inputmode**
+
+* `inputmode="numeric"` = mobile numeric keypad only.
+  Does **not** enforce numeric input.
+
+Use for:
+
+* OTP / PIN
+* Phone inputs without native tel formatting
+* Numeric IDs
+* Prices or quantities that aren’t strictly typed as digits
+
+---
+
+### **12. Payment Autocomplete**
+
+Use:
+
+* Name → `autocomplete="cc-name"`
+* Card number → `autocomplete="cc-number"`
+* Expiry → `autocomplete="cc-exp"`
+
+Enables browser autofill → reduces errors.
+
+---
+
+### **13. Card Number Input Pattern**
+
+* Allow digits + spaces:
+
+  ```
+  pattern="[0-9 ]+"
+  ```
+* Lets users type numbers like the card's physical spacing (`4242 4242 4242 4242`).
+
+---
+
+## **Done. Zero repetition. Maximum clarity. Full detail preserved.**

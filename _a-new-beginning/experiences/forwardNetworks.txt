@@ -1,0 +1,28 @@
+Given a list of strings and certain weights corresponding to each string. Come up with a random function that return strings in accordance to their weights. For eg
+A = ['hello', 'world']
+B = [0.7,0.3]
+If random_function is called 100 times, hello should be returned ~70% of the times.
+
+→ Implement Memorization to handle data types like strings, numbers, arrays, and objects.
+→ What if the object is something like {a:1, b:2} or {b:2, a:1}? It must give the same result.
+I answered using sorting, but I guess the interviewer was looking for a deep object check.
+ 
+
+→ Map Limit: Write a function that ensures a maximum of maxLimit concurrent asynchronous operations while processing an array of inputs and calling a final callback with all outputs.
+
+Uber Ques:
+𝗣𝗿𝗼𝗯𝗹𝗲𝗺-𝗦𝗼𝗹𝘃𝗶𝗻𝗴 𝗧𝗮𝘀𝗸: Implement a memoization function for an asynchronous function.
+
+async function getUserData(q, key, cb) {
+fetch(`localhost:3000/get/users?query=${q}&key=${key}`)
+.then(res => HTTPResponse(res, cb));
+}
+
+let memoFun = memoizeUserData(getUserData);
+memoFun('test', 100, callback);
+
+𝗙𝗼𝗹𝗹𝗼𝘄-𝘂𝗽 𝗤𝘂𝗲𝘀𝘁𝗶𝗼𝗻𝘀:
+• How would you handle JSON input as a parameter?
+• If two JSON objects have the same keys but in a different order, how would it work?
+• If the above four API calls are made in parallel, will there be a single API call or all four?
+

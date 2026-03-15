@@ -1,0 +1,34 @@
+1. Local Component State (useState, useReducer)
+
+Best for: UI-specific logic that doesn't need to be shared (e.g., "Is this dropdown open?", "What is currently typed in this input?").
+Pros: Low overhead, high performance (only the component re-renders), and keeps components encapsulated.
+Cons: Leads to "Prop Drilling" if the data is needed several layers deep in the component tree.
+Rule of Thumb: Start here. Only move state "up" or "out" when it becomes painful to manage.
+
+2. Context API
+Best for: "Global-ish" data that changes infrequently (e.g., Theme, Current User, Language/Locale).
+Pros: Built into React (no extra bundle size). Solves the prop-drilling problem perfectly.
+Cons: The Re-render Trap. If you put a complex object in Context and one property changes, every component consuming that context will re-render. It is difficult to optimize for high-frequency updates.
+Trade-off: Great for dependency injection, but poor for highly dynamic data or large-scale state.
+
+3. External Libraries (Zustand, Redux, Recoil)
+Best for: Large, complex applications with many moving parts and high-frequency updates.
+Pros: High performance (fine-grained subscriptions mean only the specific component using a value re-renders). Excellent DevTools for "time-travel" debugging.
+Cons: Adds to your bundle size and introduces a learning curve for new developers on the team.
+Library	Best Use Case	Complexity
+Zustand	Modern, minimalist apps. Replaces Redux for 90% of use cases.	Low (Hook-based)
+Redux Toolkit	Enterprise apps with strict debugging needs or massive teams.	High (Boilerplate)
+Recoil/Jotai	Apps with "Atomic" state (nodes on a canvas, complex spreadsheets).	Medium
+
+Comparison Summary
+Scale	Recommended Strategy	Reason
+Small / Simple	useState	Keeps logic close to the UI; zero overhead.
+Medium / Static	Context API	Avoids prop drilling for settings and user profiles.
+Large / Complex	Zustand / Redux	Manages high-frequency data and complex business logic outside the UI.
+Server Cache	TanStack Query	Crucial Note: Don't put API data in global state. Use a dedicated tool for caching and fetching.
+
+The "Signals" of Scaling Up
+You know it’s time to move from Local State to an External Library when:
+You find yourself passing the same prop through 5+ components just to reach a child.
+You are struggling to sync state between two completely different branches of your UI tree.
+

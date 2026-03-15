@@ -1,0 +1,28 @@
+
+LOCAL STORAGE VS SESSION STORGAE vs INDEX DB::
+localStorage: 
+Usage: Ideal for data that needs to persist across browser restarts, tabs, and sessions.
+Limitation: Since it is synchronous, reading or writing a large amount of data can temporarily freeze the UI, making it unsuitable for storing very large datasets (use IndexedDB for that).
+USE CASES: User preferences.
+
+
+sessionStorage:
+Usage: Ideal for temporary data related to the current user session. Session Storage is Tab-Scoped. Changes made in Tab A are not visible to Tab B, even though they share the same origin. 
+Limitation: If the user duplicates the tab, the session storage is copied to the new tab. If the user closes the tab and reopens it, the data is lost.
+USE CASES: Showing warning banners, storing intermediate form data.
+
+Both localStorage and sessionStorage are vulnerable to Cross-Site Scripting (XSS) attacks.
+If an attacker successfully injects malicious JavaScript onto your page, that script has full access to read and modify all data in both localStorage and sessionStorage.
+Never store sensitive information like unencrypted authentication tokens, passwords, or personal financial data here.
+
+IndexedDB:
+IndexedDB is a low-level API for client-side storage of significant amounts of structured data. It functions much like a NoSQL database.
+When to Use: When you need a high volume of structured data, need fast lookups (via indexes), and require non-blocking (asynchronous) access.
+Examples: Offline data storage for PWAs (syncing large datasets), storing user-generated content drafts, caching large amounts of media/images (Blobs) for offline viewing.
+Asynchronous Operations: All CRUD operations are non-blocking, ensuring the main UI thread remains responsive.
+Structured Data: Can store complex JavaScript objects, Arrays, and binary data (Blobs).
+IndexedDB is still vulnerable to XSS because any injected script can interact with the IndexedDB API.
+
+Crucial Takeaway: All three storage options are accessible via JavaScript running on the page, meaning none should be used for highly sensitive, unencrypted credentials due to the risk of XSS.
+
+ If App 2 tries to call localStorage.getItem(), it will only retrieve data associated with the app2.com origin. It is completely blind to the data stored by app1.com. This is fundamental browser security to prevent one website from spying on another.

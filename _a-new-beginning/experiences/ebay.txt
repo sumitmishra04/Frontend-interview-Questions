@@ -1,0 +1,7 @@
+Based on feedback shared by a colleague, the coding round involves JavaScript/React problems of medium to hard difficulty. 
+There will be questions regarding performance, browser rendering, and edge cases. 
+Additionally, there will be a round dedicated to frontend system design, covering topics such as structuring large applications, state management, and API flows. 
+You can also expect some behavioral questions concerning past projects and decision making processes.
+They value clean code, clear explanations, and an understanding of real world frontend trade offs. The focus will be on JavaScript fundamentals, React internals, and the ability to articulate your thought process. I hope this help !
+
+<----------------------------------->

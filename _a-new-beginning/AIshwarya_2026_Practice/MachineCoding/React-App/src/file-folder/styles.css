@@ -1,0 +1,22 @@
+.tree-list {
+  width: fit-content;
+  list-style-type: none;
+  text-align: left;
+}
+
+.tree-node-item {
+  border: none;
+  background-color: white;
+}
+
+.tree-node-btn {
+  cursor: pointer;
+  border: none;
+  background-color: white;
+}
+
+.node-style {
+  margin-right: 10px;
+  color: blue;
+  font-size: 1rem;
+}

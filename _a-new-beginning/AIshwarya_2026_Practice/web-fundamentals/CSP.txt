@@ -1,0 +1,54 @@
+What is Content Security Policy? 🧐
+Content Security Policy (CSP) is a security mechanism implemented by websites to protect against 
+cross-site scripting (XSS) attacks, clickjacking, and data injection vulnerabilities.
+ It allows website administrators to define a set of policies that dictate which sources of content — 
+ such as JavaScript, CSS, images, and plugins — are allowed to be loaded and executed on their web pages.
+
+By specifying a Content Security Policy, website owners can restrict the types of content that browsers will execute, 
+mitigating the risk of malicious code injection. CSP works by defining directives that specify 
+the allowed sources for different types of content, as well as inline code and eval() usage.
+It helps prevent the execution of unauthorized scripts and helps ensure that resources are loaded only from trusted sources.
+
+
+CSP evaluates and blocks requests for assets
+Why is a Content Security Policy Important? 🎯
+Mitigating Cross-Site Scripting (XSS)
+Protecting User Data
+Minimizing Data Injection Vulnerabilities
+Protection Against Clickjacking
+Compliance and Standards
+CSP Header/Directives Examples ✏️
+The web server can add an HTTP header called Content-Security-Policy to each response. You can set the following properties in the CSP header.
+
+On the client side, a Meta tag can also be added in a <head> tag.
+
+<meta http-equiv="Content-Security-Policy" content="policy">
+default-src — an optional method if no other attributes are defined. 
+In most cases, the value of this property self — meaning the browser can only upload resources from the current website.
+connect-src — controls the allowed sources for making network connections, 
+such as AJAX requests, WebSocket connections, or fetching resources via the Fetch API
+script-src — locations from which external scripts can be loaded. 
+If your website or application does not use client-side scripting, set the value to none.
+script-src-elem — It helps specify trusted sources for inline scripts.
+style-src — control the sources from which stylesheets (CSS) can be loaded and applied on a website. It specifies the allowed sources for external stylesheets included via <link> tags or inline styles within HTML elements.
+style-src-elem — This directive focuses specifically on inline styles defined within HTML elements using the style attribute. It controls the execution of inline styles within the webpage.
+img-src — locations from which images can be retrieved.
+font-src — locations from which fonts can be retrieved.
+media-src — locations from which rich media like video can be retrieved.
+object-src — locations from which plugins can be retrieved.
+manifest-src — locations from which application manifests can be retrieved.
+frame-ancestors — locations from which another web page can be loaded using a frame, iframe, object, embed, or applet element.
+form-action — URLs that can be used as part of an action in a <form> tag, meaning the browser restricts where form results can be sent. The form action does not revert to default-src, so this is a mandatory property if you are using form elements on your site.
+base-uri — allows URLs in the src attribute of any tag.
+Refer to the complete and up-to-date list of properties from Mozilla.
+
+Which Vulnerabilities Can CSP Prevent? 🙅🏻‍♂️
+You can use CSP to enforce the HTTPS protocol to any value defined in *-src attributes, 
+by adding the https:// prefix to any URL in your whitelist. 
+This way resources will never load over an unencrypted HTTP connection.
+In addition, CSP can prevent the following common vulnerabilities:
+
+Unsigned inline CSS statements in <style> tags
+Unsigned inline Javascript in <script> tags
+Dynamic CSS using CSSStyleSheet.insertRule()
+Dynamic Javascript code using eval()
