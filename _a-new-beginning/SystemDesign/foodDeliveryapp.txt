@@ -1,0 +1,31 @@
+RADIO
+
+1) Requirements
+
+stakeholders: Customers, vendors, admin, delivery team
+
+MVP: 
+1. signin/signup using mobile number and otp
+2. add address
+3. add payment methods
+4. food feed (location based) permission is required to know the current location
+5. show highly rated restaurants in the list
+6. search bar
+7. filters veg/non-veg or type of food 
+8. browse restaurants
+9. add to cart 
+10. checkout flow
+11. payment flow
+12. track order and order SELECTION
+13. support
+14. feedback system
+15. Notifications
+
+NFR:
+1. offline caching to show last viewed restaurants, orders, cart 
+2. accessible
+3. PWA with native app using flutter or swift or kotlin later
+4. we may need one middleware to serve data to client like mobile or web. graphql seems to be a good choice here
+5. support for multi-cities and multi-language
+
+
