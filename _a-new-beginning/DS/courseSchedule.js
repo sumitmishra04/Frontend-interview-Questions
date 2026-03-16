@@ -1,5 +1,4 @@
 // You should aim for a solution with O(V + E) time and O(V + E) space, where V is the number of courses (nodes) and E is the number of prerequisites (edges).
-
 class Solution {
   /**
    * @param {number} numCourses

@@ -1,0 +1,4 @@
+1. revise all sd on tuesday with missing info.
+2. revise all JS questions.
+3. revise all ds questions.
+4. start machine coding with promise and timer in focus.

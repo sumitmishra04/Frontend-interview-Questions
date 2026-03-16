@@ -1,0 +1,15 @@
+What are the core features to be supported?
+Browse news feed containing posts by the user and their friends.
+Liking and reacting to feed posts.
+Creating and publishing new posts.
+Commenting and sharing will be discussed further down below but is not included in the core scope.
+
+What kind of posts are supported?
+Primarily text and image-based posts. If time permits we can discuss more types of posts.
+
+What pagination UX should be used for the feed?
+Infinite scrolling, meaning more posts will be added when the user reaches the end of their feed.
+
+Will the application be used on mobile devices?
+Not a priority, but a good mobile experience would be nice.
+

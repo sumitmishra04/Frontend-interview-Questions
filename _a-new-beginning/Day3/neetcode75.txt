@@ -1,0 +1,19 @@
+2 Pointers
+Valid Pallindrome(use isAlphanumeric function and charCodeAt(0) to get ascii value)
+twoSum (poiners from 2 ends and they will move left or right based on current sum if greater than target or lesser than)
+3sum (sort numbers, loop on it, create left and right by skippin duplicate i. then check for sum ===0 and move left and right to aoid duplicate)
+maxArea (while i<j and calculate area and maxarea and moveon with i++ or j-- based on at which point height is lower)
+trappingRainWater (calculate leftMaxArray and rightMaxArray, then calculate totalWater sum by min of left and max at each index - current height)
+
+Sliding window
+maxProfit (track minPrice and maxProfit, minPrice will be updated anytime currentprice < minPrice else we will update profit by checking if the curent profit is higher than existing one)
+lengthOfLongestSubstring (use set to store substring which will be used for maxlen. use left and right. right will move and add to set. while we also ensure that if a matching right is found in set, we delete from set until the characters until matched item is removed and move left)
+Longest Repeating Character Replacement (Expand a sliding window while the number of characters to replace (window length - max frequency in window) ≤ k; if it exceeds k, shrink from the left. Keep updating the maximum window length seen)
+permutaionInString (isanagram with sliding window.)
+
+Stack
+Valid parenthesis (create a map of closing:opening bracket and then push all open ones and if close ones are found pop and compare with the map. at last return stack.length === 0)
+
+Binary Search
+Find lowest in rotated sorted array (if num[mid] > right lowest on the left side else on the right side. return nums[left])
+Find elememt in rotated sorted array (2 layer check. while(left<=right), check at mid, then check if left part sorted or not, in left check if target lies in the left to mid range or not)
