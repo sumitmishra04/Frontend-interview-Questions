@@ -1,0 +1,31 @@
+https://neetcode.io/problems/minimum-window-with-characters/question?list=neetcode150 👍 // minimum window substring
+https://neetcode.io/problems/permutation-string/question?list=neetcode150 👍
+https://neetcode.io/problems/trapping-rain-water/question?list=neetcode150
+https://neetcode.io/problems/kth-largest-element-in-an-array/question?list=neetcode150
+https://leetcode.com/problems/remove-duplicates-from-sorted-array/description/
+https://leetcode.com/problems/random-pick-with-weight/description/ 👍
+https://neetcode.io/problems/count-number-of-islands/question?list=neetcode150 👍
+https://algo.monster/liteproblems/305 - number of islands 2 ⭐
+https://neetcode.io/problems/merge-intervals/question?list=neetcode150 👍
+https://neetcode.io/problems/word-break/question?list=neetcode150 👍
+https://neetcode.io/problems/course-schedule/question?list=neetcode150 👍
+https://neetcode.io/problems/course-schedule-ii/solution 👍
+https://leetcode.com/problems/maximize-amount-after-two-days-of-conversions/solutions/6150013/easy-bfs-dijsktras-solution-beats-100-by-kosq/
+https://leetcode.com/problems/longest-continuous-subarray-with-absolute-diff-less-than-or-equal-to-limit/ 👍
+https://leetcode.com/problems/design-hit-counter/description/
+https://leetcode.com/problems/minimum-height-trees/description/
+https://leetcode.com/problems/cherry-pickup/description/
+https://leetcode.com/discuss/post/1031933/amazon-onsite-sde2-package-dependencies/
+https://leetcode.com/problems/find-the-closest-palindrome/description/ 👍
+https://www.1point3acres.com/interview/problems/9c798c1c-aa17-4f36-83b7-1493ec4806db
+https://algo.monster/liteproblems/977
+https://www.1point3acres.com/interview/problems/616b53c6-881d-4d93-8bf5-33c9a36425e3 -> word search 8 directions
+unique paths
+https://www.interviewtruth.fyi/recent-questions?company=Uber
+https://neetcode.io/problems/decode-ways/question
+LeetCode
+create a utility in JS to send data in batches with a timeout.
+So, as soon as a batch size is reached, send the data right away and start the timeout.
+If timeout happens before batch is filled, send the batch as it is and start the timer again.
+
+https://medium.com/codetodeploy/top-25-most-common-uber-interview-questions-you-should-prepare-for-2026-guide-5bb8ae3fc85f

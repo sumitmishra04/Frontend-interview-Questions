@@ -1,0 +1,8 @@
+was asked question on memoising function.
+what is memoising
+how can i handle {}
+how to handle garbage collection and memory leaks
+how to handle single argument funciton and multi argument function
+
+
+create useState polyfill

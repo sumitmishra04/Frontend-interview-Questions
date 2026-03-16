@@ -1,4 +1,25 @@
 /*================================================================================================
+
+A closure is created when a function remembers variables from its outer scope even after that outer function has finished executing.
+2️⃣ JS sees inner still needs count
+
+So JS keeps it alive in memory.
+
+This preserved environment = closure
+
+🔹 Why Closures Exist
+
+Closures enable:
+
+✅ Data persistence
+✅ Encapsulation
+✅ State management
+✅ Functional programming
+✅ Private variables
+
+================================================================================================*/
+
+/*================================================================================================
 implement a function called once which executes a function only once.
 
 const add = function (a, b, c) {

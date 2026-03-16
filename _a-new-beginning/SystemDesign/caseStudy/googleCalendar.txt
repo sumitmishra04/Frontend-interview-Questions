@@ -1,0 +1,59 @@
+https://viewer.diagrams.net/index.html?tags=%7B%7D&highlight=0000ff&edit=_blank&layers=1&nav=1&title=Calendar.drawio#Uhttps%3A%2F%2Fdrive.google.com%2Fuc%3Fid%3D19n3i6lMGn0HjDy8MRIAn4BTJNjBcd9vd%26export%3Ddownload#%7B%22pageId%22%3A%22gTcqfDEviwIKH90X0Z-c%22%7D
+requirements:
+1. support year, month, week, day view
+2. multiuser support(live update, search user and invites)
+3. event detail view, support conflicting event
+4. export and import events
+5. creating reminders that are pushed to user device
+6. search event
+
+
+nfr:
+mobile friendly
+accessible
+view switch should be quick
+
+
+Architecture and component layout:
+show year view , month and day view using block diagram
+show app tree: app with client store => [controls(switcher, create new), view(year(month cell (actual event)), month, day)]
+
+Data model:
+store:
+events_map: map<id, event>  [list]
+events: interval tree of eventid
+clientConfig: {viewEnum, locale}
+
+event:
+id,
+name,
+description,
+start, end,
+particpants,
+conflictingEvent: list of eventid
+
+handleconflict:
+1. create a binary tree based on start date. 
+2. earlier will go to the left and later to the right.
+3. the traverse each node and store the max end date at the node by comparing its children end date with its own's end date and store that.
+4. for each date search like what event is happening on that date, we will traverse based on if the event date is less than or greater than the max end date at each node.
+if less check the left tree and stop when we see the max end date is less that the event date.
+we then got to the right side and continue. at each node we also check if that date falls on the node date range. if yes we add it to the list.
+
+pupose:
+server events_map data => ui's events_map
+create events tree representation of events_map
+conflictingEvent in events_map will be populated based on events tree
+
+We can use SSE instead of web socket and long Polling
+
+API:
+getEventInfo
+createEvent
+
+we can use graphql instead of rest api
+
+
+Optimisation:
+we can pre render prev and next views with transalteX (100% or -100% or 200% ) etc
+we can virtualise as well if we have fetched too many views

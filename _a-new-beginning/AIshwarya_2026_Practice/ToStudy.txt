@@ -1,0 +1,33 @@
+how will I monitor if a webpage is slow? what metrics will I use
+scalability in paypal
+measure scale in paypal
+tdd
+what is clean architecture ---> bookmarked video
+what happens google.com
+garbage collection & memory leaks
+pipe & compose
+1️⃣ useMemo vs shouldComponentUpdate - from chatgpt
+codegen typescript
+Observables vs Promises
+ducktyping typescript
+memory leaks handling
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+👉 Round 1 - JS Fundamentals and Coding (60 minutes): 
+3 problems were asked in this round. 
+They were based on Prototype Chain, cyber security,
+ Cross-Site Request Forgery (CSRF), Inheritance, 
+ Cross-Origin Resource Sharing (CORS), Encryption, Security, 
+ Cross-site scripting (XSS), Scope, Frontend, HTTPs, Object Oriented Design (OOD),
+  Functional Programming, Javascript, Closures, Object-Oriented Programming
+
+👉 Round 2 - Machine Coding (60 minutes): 1 problem was asked in this round. 
+It was based on Frontend, Machine Coding Round,
+ Typescript, State Management, Infinite Scroll, Javascript, 
+ Clean Coding, React.Js, Error Handling, Component Design, Class Design
+
+👉 Round 3 - Frontend System Design 
+ They were based on Backend For Frontend (BFF), Frontend, Caching, 
+ Latency Optimization, Config-Driven Apps, 
+ Eventual Consistency, Data Consistency, System Design - Frontend

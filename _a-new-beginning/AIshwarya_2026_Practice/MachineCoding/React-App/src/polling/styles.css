@@ -1,0 +1,66 @@
+.polling-container {
+  width: 500px;
+  height: 600px;
+  border: 1px solid black;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+}
+.header {
+  width: fit-content;
+  max-width: 50%;
+  margin: 20px auto;
+  font-size: large;
+}
+.option-container {
+  height: fit-content;
+  justify-content: center;
+}
+
+.option-btn {
+  justify-content: center;
+  border: 1px solid lightblue;
+  border-radius: 10px;
+  width: 30%;
+  padding: 10px 0px;
+  margin: 10px auto;
+  cursor: pointer;
+}
+
+.progress-bar-container {
+  justify-content: center;
+  border: 1px solid #e7e7e7;
+  border-radius: 10px;
+  width: 70%;
+  height: 20px;
+  margin: 10px auto;
+  overflow: hidden;
+}
+
+.progress-bar {
+  justify-content: center;
+  height: 20px;
+  background-color: #ffffff;
+  width: 0%;
+  transition: width 2s linear;
+}
+
+.count-percent {
+  justify-content: space-around;
+  display: flex;
+}
+
+.total-votes {
+  height: fit-content;
+  justify-content: center;
+}
+
+.reset-btn {
+  justify-content: center;
+  border: 1px solid black;
+  border-radius: 10px;
+  width: 30%;
+  padding: 10px 0px;
+  margin: 10px auto;
+  cursor: pointer;
+}

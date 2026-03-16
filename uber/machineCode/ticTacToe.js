@@ -1,4 +1,4 @@
-import {useState, useRef} from 'react'
+import { useState, useRef } from 'react'
 const initialBoard = Array(9).fill(null)
 const WINNING_PATTERN = [
   [0, 1, 2],
@@ -10,6 +10,7 @@ const WINNING_PATTERN = [
   [0, 4, 8],
   [2, 4, 6],
 ]
+let winner = null
 
 const useTicTacToe = () => {
   const [board, setBoard] = useState([...initialBoard])
@@ -21,7 +22,7 @@ const useTicTacToe = () => {
       const [a, b, c] = WINNING_PATTERN[i]
       if (board[a] && board[a] === board[b] && board[b] === board[c]) {
         winningCombinationRef.current = WINNING_PATTERN[i]
-        return board[a]
+        winner = board[a]
       }
     }
   }
@@ -32,8 +33,9 @@ const useTicTacToe = () => {
   }
 
   const handleClick = (index) => {
-    const winner = calculateWinner()
-    if (winner) return
+    if (winner || board[index]) return
+    calculateWinner()
+
     setBoard((val) => {
       val[index] = isNextX ? 'X' : 'O'
       return val
@@ -42,11 +44,11 @@ const useTicTacToe = () => {
   }
 
   const getStatus = () => {
-    const winner = calculateWinner()
     if (winner) {
       return `Winner: ${winner}`
     }
     if (!board.includes(null)) return `Its a draw`
+    calculateWinner()
     return `Next Player: ${isNextX ? 'X' : 'O'}`
   }
 
@@ -74,7 +76,7 @@ export default useTicTacToe
 
 
 
-import React,  {useState, useRef} from 'react'
+import React, { useState, useRef } from 'react'
 import ReactDOM from 'react-dom'
 import useTicTacToe from './useTicTacToe'
 
@@ -98,7 +100,7 @@ function App() {
     useTicTacToe()
 
   return (
-    <div style={{fontFamily: 'sans-serif'}}>
+    <div style={{ fontFamily: 'sans-serif' }}>
       <button onClick={reset}>Restart</button>
       <p>{getStatus()}</p>
 

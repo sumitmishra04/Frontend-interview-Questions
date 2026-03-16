@@ -1,0 +1,56 @@
+--- Grid Light Box UI Component ---
+
+Implement a grid of lights where clicking toggles them, and they deactivate in reverse order of activation. (React/JS)
+
+--- Voting Poll UI Component ---
+
+The poll should display four voting options, each represented by a button.
+When a user clicks on a button, the corresponding option’s vote count increases, and the percentage distribution across all options updates dynamically.
+Each option should display a colored progress bar that visually represents its current percentage of total votes.
+The bars should update smoothly and in real time as users vote.
+You may also include additional features such as:
+
+Distinct colors for each option’s bar.
+Animations or transitions for visual appeal.
+A total votes counter or percentage labels.
+
+ --- Modal Component ---
+
+Build modal with:
+
+Primary and secondary action buttons (e.g., “Save” and “Cancel”).
+An optional close icon (X) for dismissing the modal.
+A configurable priority level to control modal stacking or importance.
+A mechanism to close all other open modals automatically when a new modal with higher priority is opened.
+
+  --- Memory Game / Interactive UI Game  ---
+
+UI game implementation (e.g., flip cards / memory game) with vanilla JavaScript and optimizations.
+
+ --- 2D Shape Interaction  ---
+
+Given a 2D grid, clicking cells fills/unfills boxes in specific order based on interaction pattern.
+
+ --- DOM Manipulation Task  ---
+
+Editor tasks with binding/unbinding sequential events or asynchronous UI behavior.
+
+--- Implement a Memoization Function ---
+
+similar to forward networks
+handle for async functions as well
+
+--- Map Async Limit ---
+
+https://learnersbucket.com/examples/interview/implement-maplimit-async-function/
+
+---  Task queue in TypeScript  ---
+Design and implement a task queue in TypeScript that supports controlled concurrency. The queue should allow executing up to K tasks in parallel, while additional tasks are queued until slots become available.
+
+Each task should have a unique task ID and support success and error callbacks.
+The design should also allow setting a custom executor to define how tasks are executed (for example, to add logging, retries, or rate limiting).
+
+
+---    ---
+
+---    ---

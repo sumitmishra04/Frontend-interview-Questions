@@ -1,6 +1,3 @@
-Server-Side Rendering (SSR) Process
-The process you described accurately captures the core mechanism of SSR, which is designed to improve initial page load performance and SEO.
-
 Server-Side Generation (Initial Render):
 
 The server receives a request for a page.

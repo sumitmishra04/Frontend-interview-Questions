@@ -1,0 +1,49 @@
+🔄 Server-Sent Events (SSE) vs WebSockets vs Long Polling: What’s Best in 2025?
+
+Feature     	         Long Polling	       Server-Sent Events (SSE)	  WebSockets
+Direction              Client ➡️ Server	      Server ➡️ Client	      Bi-directional 🔁
+Protocol      	        HTTP/1	                  HTTP/1	            WS (separate proto)
+Complexity      	      Simple	                 Moderate	              Advanced
+Reconnection Handling  	Manual	                 Automatic	              Manual
+Use For	               Legacy systems	         Live feeds,            Games, chats, collab
+                                               notifications	
+🧠 Which One Should I Use?
+If you’re building...	Use
+Live notifications / news ticker	✅ SSE
+Chat / multiplayer game	✅ WebSockets
+Legacy or low-budget integration	✅ Long Polling
+Live dashboards (1-way)	✅ SSE or WebSockets
+IoT control panels (2-way)	✅ WebSockets
+
+
+https://www.karanpratapsingh.com/courses/system-design/long-polling-websockets-server-sent-events
+
+Feature 	Polling (Short/Long)	WebSockets
+Communication	Client-initiated only (request/response)	Full-duplex (bidirectional)
+Connection	Repeated HTTP requests	Persistent single TCP connection
+Latency	Higher (wait for next poll or reconnect)	Ultra-low (instant delivery)
+Overhead	High (HTTP headers sent every time)	Low (minimal framing after handshake)
+Complexity	Low (easy to build and debug)	Moderate (requires connection management)
+
+1. Polling (Short & Long)
+Polling is like a client repeatedly asking the server, "Is there anything new yet?"
+Short Polling: The client requests data at fixed intervals (e.g., every 5 seconds). The server responds immediately, even if there is no new data, which can waste bandwidth and CPU.
+Long Polling: The server holds the request open until new data is available or a timeout occurs. This is more efficient than short polling because it reduces empty responses.
+When to use:
+Sporadic or infrequent updates (e.g., a "new email" alert or a job status check).
+When you need maximum compatibility with older browsers or restrictive firewalls.
+Prototypes or simple internal tools where ease of implementation is priority. 
+RxDB - JavaScript Database
+RxDB - JavaScript Database
+ +9
+2. WebSockets
+WebSockets leave a "dedicated door open" between the client and server. Once the connection is established via an HTTP handshake, either side can push data at any time. 
+Medium
+Medium
+ +2
+Pros: True real-time interaction, significantly less network traffic for frequent updates, and native support in modern browsers.
+Cons: Requires specialized server-side support (like Node.js or Go) and careful management of connection drops and heartbeats.
+When to use:
+High-frequency, interactive apps like live chat, multiplayer games, or collaborative editing (e.g., Figma).
+Financial dashboards or stock tickers where millisecond delays matter.
+Applications requiring heavy bidirectional communication. 

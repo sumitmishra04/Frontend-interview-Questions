@@ -1,0 +1,76 @@
+https://frontendmasters.com/courses/frontend-system-design/
+
+MICROQUEUE & MACROQUEUE:
+That is the final piece of the puzzle for the Event Loop! The introduction of Microtasks and Macrotasks organizes the Callback Queue into a priority system, making the execution order even more precise.
+When an asynchronous task completes, its callback function is not just thrown into a single queue anymore; it's sorted into one of two queues based on its type, which determines its priority.
+
+The Execution Order Summary
+The Event Loop cycle operates strictly in this order:
+
+Call Stack Execution: Run all synchronous JavaScript code until the Call Stack is empty.
+
+Microtask Check (Priority 1): The Event Loop pauses and drains the entire Microtask Queue. All promises and mutations run here.
+
+(If a new Microtask is created during this step, it is added and executed immediately before moving on.)
+
+Rendering: The browser can now choose to render any changes made during Step 1 or 2 (e.g., updating the DOM after a promise resolves).
+
+Macrotask Check (Priority 2): The Event Loop takes one single item from the Macrotask Queue (the next setTimeout or event callback) and moves it to the Call Stack (back to Step 1).
+
+Problems:
+console.log('A');
+
+setTimeout(() => {
+    console.log('B');
+}, 0);
+
+new Promise((resolve) => {
+    console.log('C');
+    resolve();
+}).then(() => {
+    console.log('D');
+});
+
+console.log('E');
+Output	Type	Reason
+A	Sync	Runs immediately.
+C	Sync	The code inside the new Promise() constructor (the "executor") runs synchronously, even before the promise resolves.
+E	Sync	Runs immediately after the Promise constructor finishes.
+D	Microtask	After sync code finishes, Microtasks (Promise .then()) are run.
+B	Macrotask	Macrotasks (setTimeout) run last.
+
+
+console.log('A'); // Sync 1
+setTimeout(() => { console.log('B'); }, 0); // Macrotask 1
+Promise.resolve().then(() => {
+    console.log('C'); // Microtask 1
+    new Promise(resolve => resolve()).then(() => {
+        console.log('D'); // Microtask 2
+    });
+});
+setTimeout(() => { console.log('E'); }, 0); // Macrotask 2
+console.log('F'); // Sync 2
+A, F: Synchronous code runs first.
+
+C: The Call Stack is empty. The Event Loop drains the Microtask Queue. C runs.
+
+D: When C runs, it schedules Microtask 2 (D). Since the Event Loop is currently draining the Microtask Queue, it must finish draining it completely before moving on. D executes immediately after C.
+
+B: The Microtask Queue is empty. The Event Loop checks the Macrotask Queue and runs one item (Macrotask 1, which happens to be B because it was queued first).
+
+E: The Call Stack is now empty again. The Event Loop ticks one final time, running Macrotask 2 (E).
+
+
+console.log('A'); // Sync 1
+setTimeout(() => { console.log('B'); }, 0); // Macrotask 1
+Promise.resolve().then(() => {
+    console.log('C'); // Microtask 1
+    new Promise(resolve => resolve()).then(() => {
+        console.log('D');
+        setTimeout(() => { console.log('G'); }, 0)// Microtask 2
+    });
+});
+setTimeout(() => { console.log('E'); }, 0); // Macrotask 2
+console.log('F'); // Sync 2
+
+G runs last because new macrotasks added during microtask execution go to the end of the macrotask queue.

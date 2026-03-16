@@ -1,0 +1,19 @@
+Graph
+Number of island (caluclate for element matching 1, dfs(grid, r, c) check for bounds and 0 as base case, and once passed update the element to 0 and run dfs in 4 direction and return 1)
+
+
+Greedy:
+maxSubArray (current sum must be max of current num or current num + currentsum and global max sum will be max of current sum or global max)
+canJump (loopover and check maxReach, if i exceeds maxReach out, if opp, return true else max reach is max of maxreach and nums[i] + i)
+
+Backtrack:
+combinationSum (we need dfs, with remainingTarget, combination array, startIndex. loop over items and push, dfs, pop. add base cases)
+Word Search (search in all 4 direction of the board using dfs. dfs accepts rowI, colI and currentLetterIndex. check for base cases and then change the letter to # and then dfs in all 4 direction with next index. if found return true.  )
+
+2DP
+uniquePaths (create a memo for the grid and fill with 1. then every memo of i, j is sum of memo[i-1][j] + memo[i][j-1]. finally last cell contains the value)
+
+tree ui mc "/tree.js"
+https://www.youtube.com/watch?v=5fU9yIivtY8&list=PL2HJG3tFqkg9ayMWnC8AgbvAadmVTgWHT&index=4
+
+

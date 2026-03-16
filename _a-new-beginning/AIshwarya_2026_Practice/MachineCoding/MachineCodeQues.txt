@@ -1,0 +1,21 @@
+<---------------->
+
+Create step form in react with different fields and validations like start date can't be after end date etc. 
+Every step has few fields and one save draft button.
+ Save Draft will save values entered till that step and one final submit button.
+Write Pollyfill of useEffect
+
+
+<---------------->
+
+
+<---------------->
+
+
+<---------------->
+
+
+<---------------->
+
+
+<---------------->

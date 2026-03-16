@@ -1,0 +1,211 @@
+Security focus area:
+CSRF
+click jacking - X-Frame-Options[deny, sameoriign] or csp[frame-ancestor: self, none] to not load page in a iframe
+CSP
+CORS
+XSS
+Cookie security
+options
+secure cookies
+mitigation
+
+
+You should also know how to use flex, header, footer, nav components... Basically build a layout of a page
+Then you should know how to manipulate the html elements using javascript... Create, delete, insert etc
+The other one is react code for jira task. You get a json which has tasks and sub tasks. You render then as tiles, with sub-tasks in an expandable section. This question should be straight forward.
+
+tree: https://www.youtube.com/watch?v=3OxMsnP78zg
+
+velocity chart: https://www.youtube.com/watch?v=-wow5ApdZ0Y
+
+feature flag: https://www.youtube.com/watch?v=pxPVsZyMcb4
+
+Look for 
+direct injection of message for XSS, of csp headers like unsafe-inline, unsafe-eval
+look for iframe related thinsg to think around csp, x-frame-options
+look for hidden clicks for click jacking and prevent it by 
+look for automatic cookie sending and prevent it by samesite:lax secure: true
+
+Karat:
+5 objective:
+determine this and object associated
+promise settimeout sequence of output
+generator question
+null instanceof object and typeof null
+inheritance and method override
+
+app1: deisgn a container with round image and title and subtitle to its right. responsive ui.
+app2: deisgn a todo list where items are appended every 5 seconds and highlight is shown for the new 5 items for 5 seconds
+app3: determine why the buttons here are not working?
+
+<div id="friend-requests">
+  <h2>Friend Requests</h2>
+  <ul id="request-list">
+    <li>
+      Douglas Alexander <button class="accept-btn">Accept</button> <button class="decline-btn">Decline</button>
+    </li>
+    <li>
+      Melissa McNeil <button class="accept-btn">Accept</button> <button class="decline-btn">Decline</button>
+    </li>
+    <li>
+      William young <button class="accept-btn">Accept</button> <button class="decline-btn">Decline</button>
+    </li>
+  </ul>
+</div>
+
+<div id="friends-list">
+  <h2>Friends List</h2>
+  <ul id="friends-list-container">
+    <li>
+      Maurice Foley <span class="friend-date">(since 2023-01-01)</span> <button class="remove-btn">Remove</button>
+    </li>
+    <li>
+      Robert Duncan <span class="friend-date">(since 2023-02-15)</span> <button class="remove-btn">Remove</button>
+    </li>
+    <li>
+      Olga Morris <span class="friend-date">(since 2023-03-20)</span> <button class="remove-btn">Remove</button>
+    </li>
+  </ul>
+</div>
+/*
+On our social media platform, we provide users with the ability to accept or decline friend requests and also to manage their friends list. 
+
+When we deployed these features a few issues arose:
+- Accepting a friend request adds an entry to the friends list, but it is empty. It should contain the name of the friend and the date you became friends, which is today's date.
+- Declining a friend request is not removing them from the Friend Requests section. 
+- Clicking remove gets rid of the Remove button, but does not remove the friend entry.
+
+Before fixing each issue, identify and explain the cause of the issue.
+*/
+document.querySelectorAll('.accept-btn').forEach(button => {
+  button.addEventListener('click', (event) => {
+    const listItem = event.target.closest('li');
+    const friendName = listItem.textContent.trim().split(' ')[0]
+
+    addFriend(friendName);
+    listItem.remove();
+  });
+});
+
+function addFriend(name) {
+  const friendsList = document.getElementById('friends-list-container');
+  const friendItem = document.createElement('li');
+  friendItem.textContent = name;
+
+  const dateSpan = document.createElement('span');
+  dateSpan.classList.add('friend-date');
+  const date = new Date().getDate()
+  const month = new Date().getMonth()
+  const year = new Date().getFullYear()
+  dateSpan.textContent = `(since ${year}-${month}-${date})`
+  const removeButton = document.createElement('button');
+  removeButton.textContent = 'Remove';
+  removeButton.classList.add('remove-btn');
+  removeButton.addEventListener('click', () => {
+    friendItem.remove();
+  });
+
+  friendItem.appendChild(dateSpan);
+  friendItem.appendChild(removeButton);
+  friendsList.appendChild(friendItem);
+}
+
+document.querySelectorAll('.remove-btn').forEach(button => {
+  button.addEventListener('click', (event) => {
+    const listItem = event.target.closest('li');
+    listItem.remove();
+  });
+});
+
+document.querySelectorAll('.decline-btn').forEach(button => {
+  button.addEventListener('click', (event) => {
+    const listItem = event.target.closest('li');
+// const requestList = document.getElementById('request-list');
+  listItem.remove()
+    // addFriend(friendName);
+    // listItem.remove();
+  });
+});
+
+R2: Browser coding
+Asked to create a music playlist with play pause button and a progress bar with time reduction.
+Asked to optimise the large list.
+
+R3:
+build performance metric feature
+const { MetaProperty } = require("coffeescript/lib/coffeescript/nodes");
+
+const TestFnOne = () =>
+    new Promise((resolve) => {
+        const output = [];
+        for (let i = 0; i < 30000; i++) {
+            output.push({ id: i, randomNumber: Math.round(Math.random() * 1000) });
+        }
+        resolve(output);
+    });
+const TestFnTwo = () => {
+    const output = new Array(50000).fill(null);
+    for (let i = 0; i < output.length; i++) {
+        output[i] = { id: i, randomNumber: Math.round(Math.random() * 1000) };
+    }
+    return output;
+};
+const TestFnThree = () =>
+    new Promise((resolve) => {
+        const output = [];
+        for (let i = 0; i < 100000; i++) {
+            output.push({ id: i, randomNumber: Math.round(Math.random() * 1000) });
+        }
+        resolve(output);
+    });
+/**
+ * Build a set of utilities that measure the performance of a given function
+ * example:
+ *  ```js
+ *  const duration = measurePerf(TestFnOne);
+ *  console.log(duration);
+ *  ```
+ */
+
+const SAMPLE_RUN_ATTEMPTS = 10
+const RANGE = 2
+
+const measurePerf = async (fn, runAttempts = SAMPLE_RUN_ATTEMPTS, range=RANGE) => {
+    const result = []
+    
+    if(runAttempts === null || runAttempts === undefined) {
+        runAttempts = SAMPLE_RUN_ATTEMPTS
+    }
+    if(range === null || range === undefined) {
+        range = RANGE
+    }
+    async function run() {
+        const start = Date.now()
+        await fn()
+        const end = Date.now()
+        result.push(end - start)
+    }
+    for(let i = 0; i< runAttempts;i++) {
+        await run()
+    }
+    result.sort((a,b) => a-b)
+    const threshold = result[Math.floor(runAttempts/2)] * range
+    console.log('before',result)
+    const filteredResult = result.filter(v => v<threshold)
+    console.log('after',filteredResult)
+    return {
+        totalResult: result,
+        filteredResult: filteredResult,
+        value: filteredResult.reduce((acc, curr) => acc + curr, 0)/runAttempts  
+    }  
+}
+// [2,3,5,6,2,5,90,3,4,5], 
+// [2,2,3,4,6,12,90], 2 90 threshold: 10, n < x
+// [2,2,3,4,6] 
+// y = mx+c
+// 50ms 500ms// 
+
+measurePerf(TestFnOne, 6, 1).then(value => console.log(value));
+// measurePerf(TestFnTwo, 6, 1).then(value => console.log(value));
+// measurePerf(TestFnThree, null, 2).then(value => console.log(value));
+// console.log(duration);

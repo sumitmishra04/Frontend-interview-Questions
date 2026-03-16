@@ -29,12 +29,25 @@ const people = [
   }
 ];
 
-const groupBy = {}
-people.forEach(user => {
-    user.tags.forEach(tag => {
-        groupBy[tag] = [...(groupBy[tag] || []), user]
-    })
-})
+
+function groupBy(array, key) {
+  const group = {};
+  array.forEach((item) => {
+      if(Array.isArray(item[key])) {
+          item[key].forEach(arrItem => {
+              group[arrItem] = [...(group[arrItem] || []),item]
+          })
+      } else{
+           if (group.hasOwnProperty(item[key])) {
+                group[item[key]] = [...group[item[key]], item];
+            } else {
+                group[item[key]] = [item];
+            }
+      }
+   
+  });
+  return group;
+}
 
 //==================================================================================================================================
 

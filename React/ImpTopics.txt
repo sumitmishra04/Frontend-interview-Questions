@@ -1,0 +1,47 @@
+Advanced React interview questions test a deep understanding of the library's internal workings, performance optimization techniques, and architectural patterns. Key topics often move beyond basic syntax to explore concepts like reconciliation, hooks behavior, performance trade-offs, and state management. [1, 2]  
+Core Concepts & Internals 
+
+• Reconciliation & React Fiber: 
+
+	• How does React's reconciliation algorithm work, and what is its role in performance? The process involves comparing the new virtual DOM tree with the previous one to determine the minimum number of changes needed to update the actual DOM efficiently. 
+	• Explain React Fiber and how it improves performance. React Fiber is a re-implementation of the core algorithm that enables incremental rendering, allowing React to pause, abort, or prioritize updates to keep the UI responsive, crucial for smooth user experiences, especially in complex applications. 
+
+• Virtual DOM vs. Real DOM vs. Shadow DOM: Clarify the differences. The Virtual DOM is a lightweight, in-memory representation used by React for efficient updates, while the Shadow DOM is a web standard for encapsulating DOM and styling within a component. 
+• Hydration: What is hydration in React, and how does it make server-rendered HTML interactive on the client side?. 
+• Event Handling: How does React handle events using a synthetic event system and event delegation?. [1, 3, 4, 5, 6]  
+
+Hooks & Advanced Patterns 
+
+•  vs.  vs. : Understand the timing differences.  runs after the browser paints,  runs synchronously after DOM mutations but before painting (useful for measurements), and  is used by CSS-in-JS libraries for injecting styles. 
+•  vs. : Explain the difference and when to use each for optimization.  memoizes an expensive calculation's result (a value), while  memoizes a function definition to prevent unnecessary re-renders of child components that depend on reference equality. 
+• : When is  a better choice than  for managing state? It is generally preferred for complex state logic involving multiple sub-values or when the next state depends on the previous one. 
+• Custom Hooks: Describe how to create and use custom hooks to share stateful logic across components effectively without prop drilling. 
+• Error Boundaries: What are they, where can they catch errors, and what are their limitations (e.g., they don't catch errors in event handlers or asynchronous code)?. [3, 4, 7, 8, 9]  
+
+Performance & Architecture 
+
+• Optimization Techniques: 
+
+	• Memoization: Using  for components,  for values, and  for functions to prevent unnecessary re-renders. 
+	• Code Splitting & Lazy Loading: Implementing dynamic imports with  and  to reduce initial load time. 
+	• List Virtualization: Techniques like  or  to render only visible items in large lists, improving performance. 
+
+• State Management Trade-offs: Discuss when to use local component state, the Context API, or external libraries like Redux or Zustand, considering application size and complexity. 
+• Server-Side Rendering (SSR) and Static Site Generation (SSG): Explain the benefits (SEO, performance) and how they differ from client-side rendering. 
+• Design Patterns: Be prepared to discuss Higher-Order Components (HOCs), Render Props, and the Composition pattern, including their respective pros and cons and how hooks have influenced their usage. [2, 3, 4, 5, 8, 10, 11, 12]  
+
+AI responses may include mistakes.
+
+[1] https://www.linkedin.com/posts/shubhmsng_reactjs-webdevelopment-interviewquestions-activity-7307642143936811008-mV1z
+[2] https://www.reddit.com/r/reactjs/comments/12vuood/can_senior_or_mid_level_react_developer_list_some/
+[3] https://www.greatfrontend.com/blog/top-30-reactjs-interview-questions-and-answers
+[4] https://www.greatfrontend.com/blog/100-react-interview-questions-straight-from-ex-interviewers
+[5] https://www.toptal.com/developers/react/interview-questions
+[6] https://www.acte.in/reactjs-interview-questions-and-answers
+[7] https://github.com/greatfrontend/top-reactjs-interview-questions
+[8] https://www.geeksforgeeks.org/reactjs/react-interview-questions/
+[9] https://www.curotec.com/interview-questions/125-react-interview-questions/
+[10] https://medium.com/@isabel.mgendi/react-lazy-loading-and-performance-optimization-interview-guide-ef3ec58b4d5b
+[11] https://www.reddit.com/r/reactjs/comments/16kutzb/preparing_for_react_js_interviews_need_advice/
+[12] https://www.scribd.com/document/915523617/Advanced-React-Interview-Question-1
+

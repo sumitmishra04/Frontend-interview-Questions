@@ -10,8 +10,8 @@ class Solution {
     const indegree = []
 
     for (let i = 0; i < numCourses; i++) {
-        adj.set(i, []);
-        indegree.push(0)
+        adj.set(i, []); // adj: outgoing edges (prereq → next courses)
+        indegree.push(0) // indegree[i]: how many prerequisites course i has
     }
 
     for(let [course, preReq] of prerequisites) {
@@ -22,14 +22,15 @@ class Solution {
     let queue = []
      for (let i = 0; i < numCourses; i++) {
         if(indegree[i] === 0) queue.push(i)
+        // Zero-indegree = no prerequisites.
+        // These are starting points for your topological order.
+        // Complexity: O(V)
      }
      let result = []
-     let count = 0 
 
      while(queue.length>0) {
         const current = queue.shift();
         result.push(current)
-        count++;
 
         for(let neighbor of adj.get(current)) {
             indegree[neighbor]--
@@ -38,6 +39,17 @@ class Solution {
             }
         }
     }
-    return count === indegree.length;
+    return result.length === indegree.length;
   }
 }
+
+// ⭐ Final Complexity Proof
+// Time
+// Build graph: O(V + E)
+// BFS topological sort: O(V + E)
+// Total → O(V + E)
+// Space
+// Adjacency list: O(V + E)
+// Indegree array: O(V)
+// Queue: O(V)
+// Total → O(V + E)

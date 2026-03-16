@@ -162,7 +162,6 @@ Step	Action/Mechanism	Explanation
 3. Local Cache	SW stores the new message data in a fast, local store (like IndexedDB).	The message is saved locally with its timestamp and channel ID.
 4. Online Sync	When you open the Slack tab, the main React application detects it has received the message data from the SW's local cache.	The new message is displayed immediately from the local database, providing an instant loading experience. Any missing history is fetched from the network.
 
-Export to Sheets
 2. Sending a Message While Offline (Background Sync)
 This scenario uses the Background Sync API to queue your outgoing message for guaranteed delivery later.
 
@@ -174,7 +173,6 @@ Step	Action/Mechanism	Explanation
 5. Transmission (SW)	The SW executes logic to retrieve all queued messages from IndexedDB and sends them via network fetch() to the Slack API.	Your outgoing message is now delivered.
 6. UI Update (Client)	The Slack API responds with a success status. The SW then uses the Post Message API to inform the main React app that the message was sent, or the main app fetches the newly delivered message.	The "Pending" status on your message changes to "Sent," and it receives the final server-side timestamp.
 
-Export to Sheets
 3. Synchronization Across Devices (Mobile/Desktop/Web)
 This synchronization is handled entirely by the Slack Backend Server acting as the single source of truth.
 
@@ -184,7 +182,6 @@ When you send a message from Device A (e.g., mobile), the server sends an acknow
 When you view a message on Device A, Device A immediately sends a "Read Receipt" API call to the server. The server then updates the last read pointer in its database.
 All active devices (Desktop/Web) maintain a persistent WebSocket connection to the server. When the server updates the read pointer (because you read on your mobile), it instantly broadcasts that change over the WebSocket to your desktop/web client, updating the unread count in real-time.
 
-Export to Sheets
 In short, the Service Worker handles the persistence and delivery guarantee on the web, while the Slack Backend handles the canonical state and distribution across all devices.
 
 

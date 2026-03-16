@@ -1,4 +1,4 @@
-import {useState, useRef} from 'react'
+import { useState, useRef } from 'react'
 const initialBoard = Array(9).fill(null)
 const WINNING_PATTERN = [
   [0, 1, 2],
@@ -74,7 +74,7 @@ export default useTicTacToe
 
 
 
-import React,  {useState, useRef} from 'react'
+import React, { useState, useRef } from 'react'
 import ReactDOM from 'react-dom'
 import useTicTacToe from './useTicTacToe'
 
@@ -98,7 +98,7 @@ function App() {
     useTicTacToe()
 
   return (
-    <div style={{fontFamily: 'sans-serif'}}>
+    <div style={{ fontFamily: 'sans-serif' }}>
       <button onClick={reset}>Restart</button>
       <p>{getStatus()}</p>
 
